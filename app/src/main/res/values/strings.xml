@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Vkurse</string>
+    <integer name="com_vk_sdk_AppId">6116804</integer>
+
+    <string name="item_title">Title</string>
+    <string name="item_desc">The Palais Garnier which locates in Paris was built from 1861 for
+        the Paris Opera.
+    </string>
+    <string name="item_subtitle">Subhead</string>
+    <string name="text_post_description">Post text</string>
+    <string name="show_more">Показать полностью...</string>
+</resources>
