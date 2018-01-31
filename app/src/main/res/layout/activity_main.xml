@@ -18,34 +18,25 @@
             android:id="@+id/myAppBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fitsSystemWindows="true"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-            <include
-                layout="@layout/toolbar"
-                app:layout_scrollFlags="scroll|enterAlways"
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                app:layout_scrollFlags="scroll|enterAlways"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
         </android.support.design.widget.AppBarLayout>
 
 
         <!-- Основной контентный view, куда загружаются фрагменты -->
         <FrameLayout
-            android:id="@+id/flContent"
+            android:id="@+id/fragmentContainer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
-            <ScrollView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-                <TextView
-                    android:id="@+id/textView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="40sp"/>
-            </ScrollView>
         </FrameLayout>
-<!--
         <android.support.design.widget.BottomNavigationView
             android:id="@+id/bottom_nav"
             android:layout_width="match_parent"
@@ -54,12 +45,9 @@
             app:itemBackground="@color/primary"
             app:itemIconTint="@color/bottom_navigation_item_background_colors"
             app:itemTextColor="@color/bottom_navigation_item_background_colors"
-            app:menu="@menu/bottom_navigation_menu" />-->
+            app:menu="@menu/bottom_navigation_menu" />
 
     </android.support.design.widget.CoordinatorLayout>
-
-    <!-- navigation drawer, который появляется слева -->
-    <!-- Обратите внимание, что `android:layout_gravity` нужно установить в 'start' -->
     <android.support.design.widget.NavigationView
         android:id="@+id/nvView"
         android:layout_width="wrap_content"
