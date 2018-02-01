@@ -37,15 +37,14 @@
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
         </FrameLayout>
-        <android.support.design.widget.BottomNavigationView
-            android:id="@+id/bottom_nav"
+
+        <com.roughike.bottombar.BottomBar
+            android:id="@+id/bottomBar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="60dp"
             android:layout_gravity="bottom"
-            app:itemBackground="@color/primary"
-            app:itemIconTint="@color/bottom_navigation_item_background_colors"
-            app:itemTextColor="@color/bottom_navigation_item_background_colors"
-            app:menu="@menu/bottom_navigation_menu" />
+            app:bb_behavior="shy"
+            app:bb_tabXmlResource="@xml/bottom_navigation" />
 
     </android.support.design.widget.CoordinatorLayout>
     <android.support.design.widget.NavigationView
