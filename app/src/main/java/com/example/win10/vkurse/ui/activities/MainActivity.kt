@@ -1,4 +1,4 @@
-package com.example.win10.vkurse
+package com.example.win10.vkurse.ui.activities
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
+import com.example.win10.vkurse.R
 import com.example.win10.vkurse.R.id.*
 import com.roughike.bottombar.OnTabReselectListener
 import com.roughike.bottombar.OnTabSelectListener

@@ -1,4 +1,4 @@
-package com.example.win10.vkurse
+package com.example.win10.vkurse.app
 
 import android.app.Application
 
@@ -11,7 +11,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 * Created by Win10 on 18.07.2017.
 */
 
-class MyApp : Application() {
+class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
@@ -19,11 +19,7 @@ class MyApp : Application() {
                 .baseUrl("https://api.vk.com/method/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
-        val vkApi = retrofit.create(VkApi::class.java)
+        val vkApi = retrofit.create(VkurseApi::class.java)
         VKSdk.initialize(this)
     }
-
-    /*companion object {
-        var vkApi: VkApi
-    }*/
 }
