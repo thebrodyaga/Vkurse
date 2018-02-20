@@ -29,8 +29,6 @@
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
         </android.support.design.widget.AppBarLayout>
 
-
-        <!-- Основной контентный view, куда загружаются фрагменты -->
         <FrameLayout
             android:id="@+id/fragmentContainer"
             android:layout_width="match_parent"
@@ -38,13 +36,13 @@
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
         </FrameLayout>
 
-        <com.roughike.bottombar.BottomBar
+        <android.support.design.widget.BottomNavigationView
             android:id="@+id/bottomBar"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            app:bb_behavior="shy"
-            app:bb_tabXmlResource="@xml/bottom_navigation" />
+            android:background="?android:attr/windowBackground"
+            app:menu="@menu/bottom_bar" />
 
     </android.support.design.widget.CoordinatorLayout>
     <android.support.design.widget.NavigationView
@@ -53,5 +51,5 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:background="@android:color/white"
-        app:menu="@menu/navigation_view_menu" />
+        app:menu="@menu/navigation_view" />
 </android.support.v4.widget.DrawerLayout>

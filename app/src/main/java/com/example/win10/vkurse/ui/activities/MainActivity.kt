@@ -1,39 +1,57 @@
 package com.example.win10.vkurse.ui.activities
 
-import android.annotation.SuppressLint
 import android.os.Bundle
+import android.support.design.widget.BottomNavigationView
 import android.support.design.widget.NavigationView
 import android.support.graphics.drawable.VectorDrawableCompat
 import android.support.v4.content.res.ResourcesCompat
 import android.support.v4.view.GravityCompat
-import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
+import com.arellomobile.mvp.MvpAppCompatActivity
+import com.arellomobile.mvp.MvpAppCompatFragment
+import com.arellomobile.mvp.presenter.InjectPresenter
+import com.arellomobile.mvp.presenter.PresenterType
 import com.example.win10.vkurse.R
 import com.example.win10.vkurse.R.id.*
-import com.roughike.bottombar.OnTabReselectListener
-import com.roughike.bottombar.OnTabSelectListener
+import com.example.win10.vkurse.mvp.presenters.MainPresenter
+import com.example.win10.vkurse.mvp.presenters.NavigationBarPresenter
+import com.example.win10.vkurse.mvp.presenters.ScrollToTopPresenter
+import com.example.win10.vkurse.mvp.presenters.ScrollToTopPresenter.Companion.ScrollToTopPresenterTAG
+import com.example.win10.vkurse.mvp.views.MainView
+import com.example.win10.vkurse.mvp.views.NavigationBarView
+import com.example.win10.vkurse.mvp.views.ScrollToTopView
+import com.example.win10.vkurse.ui.fragments.ChatFragment
+import com.example.win10.vkurse.ui.fragments.InstagramListFragment
+import com.example.win10.vkurse.ui.fragments.VkListFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
-        OnTabSelectListener, OnTabReselectListener {
+class MainActivity : MvpAppCompatActivity(), NavigationBarView, MainView,
+        NavigationView.OnNavigationItemSelectedListener,
+        BottomNavigationView.OnNavigationItemSelectedListener,
+        ScrollToTopView {
 
-    @SuppressLint("SetTextI18n")
+    @InjectPresenter
+    lateinit var navigationBarPresenter: NavigationBarPresenter
+    @InjectPresenter
+    lateinit var mainPresenter: MainPresenter
+    @InjectPresenter(type = PresenterType.GLOBAL, tag = ScrollToTopPresenterTAG)
+    lateinit var scrollToTopPresenter: ScrollToTopPresenter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
         nvView.setNavigationItemSelectedListener(this)
-        bottomBar.setOnTabSelectListener(this)
-        bottomBar.setOnTabReselectListener(this)
-        if (supportActionBar != null) {
-            val indicator = VectorDrawableCompat.create(resources, R.drawable.ic_menu, theme)
-            indicator?.setTint(ResourcesCompat.getColor(resources, R.color.white, theme))
-            supportActionBar?.setHomeAsUpIndicator(indicator)
-            supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        }
+        bottomBar.setOnNavigationItemSelectedListener { navigationBarPresenter.onBottomBarClick(menuItem = it) }
+        bottomBar.setOnNavigationItemReselectedListener { scrollToTopPresenter.onBottomBarReClick(menuItem = it) }
+        val indicator = VectorDrawableCompat.create(resources, R.drawable.ic_menu, theme)
+        indicator?.setTint(ResourcesCompat.getColor(resources, R.color.white, theme))
+        supportActionBar?.setHomeAsUpIndicator(indicator)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -49,7 +67,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_toolbar, menu)
+        menuInflater.inflate(R.menu.toolbar, menu)
         return true
     }
 
@@ -71,33 +89,32 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return true
     }
 
-    override fun onTabReSelected(tabId: Int) {
-        when (tabId) {
-            bottom_map -> {
-
-            }
-            bottom_dial -> {
-
-            }
-            bottom_mail -> {
-
-            }
-        }
+    override fun showVkFragment() {
+        Log.d("Debug", "showVkFragment")
+        replaceFragment(VkListFragment())
     }
 
-    override fun onTabSelected(tabId: Int) {
-        when (tabId) {
-            bottom_map -> {
-
-            }
-            bottom_dial -> {
-
-            }
-            bottom_mail -> {
-
-            }
-        }
+    override fun showInstagramFragment() {
+        Log.d("Debug", "showInstagramFragment")
+        replaceFragment(InstagramListFragment())
     }
 
+    override fun showChatFragment() {
+        Log.d("Debug", "showChatFragment")
+        replaceFragment(ChatFragment())
+    }
 
+    override fun showDefaultFragment(fragment: MvpAppCompatFragment) {
+        replaceFragment(fragment)
+    }
+
+    override fun scrollTop(menuItem: MenuItem) {    //реализация в фрагремнтах
+        Log.d("Debug", "scrollTop MainActivity")
+        return
+    }
+
+    private fun replaceFragment(fragment: MvpAppCompatFragment) {
+        supportFragmentManager.beginTransaction()
+                .replace(fragmentContainer.id, fragment).commit()
+    }
 }
