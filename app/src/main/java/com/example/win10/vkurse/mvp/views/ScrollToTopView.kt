@@ -1,6 +1,5 @@
 package com.example.win10.vkurse.mvp.views
 
-import android.view.MenuItem
 import com.arellomobile.mvp.MvpView
 import com.arellomobile.mvp.viewstate.strategy.OneExecutionStateStrategy
 import com.arellomobile.mvp.viewstate.strategy.StateStrategyType
@@ -10,5 +9,5 @@ import com.arellomobile.mvp.viewstate.strategy.StateStrategyType
  */
 @StateStrategyType(value = OneExecutionStateStrategy::class)
 interface ScrollToTopView : MvpView{
-    fun scrollTop(menuItem: MenuItem)
+    fun scrollTop(menuPosition: Int)
 }

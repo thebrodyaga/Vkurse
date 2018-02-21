@@ -67,7 +67,7 @@ dependencies {
     compile 'com.felipecsl.asymmetricgridview:library:2.0.1' //группировка изображений
     compile 'de.hdodenhof:circleimageview:2.1.0' //круглые иконки
     compile 'at.blogc:expandabletextview:1.0.3' //"Показать полностью..." TextView
-    compile 'com.roughike:bottom-bar:2.3.1' //bottom navigation
+    compile 'com.aurelhubert:ahbottomnavigation:2.1.0'  //bottom navigation
 
     testCompile 'junit:junit:4.12'
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"

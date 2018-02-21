@@ -1,25 +1,20 @@
 package com.example.win10.vkurse.ui.activities
 
+import android.content.Intent
 import android.os.Bundle
-import android.support.design.widget.BottomNavigationView
-import android.support.design.widget.NavigationView
-import android.support.graphics.drawable.VectorDrawableCompat
-import android.support.v4.content.res.ResourcesCompat
-import android.support.v4.view.GravityCompat
+import android.support.v4.content.ContextCompat
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
 import com.arellomobile.mvp.MvpAppCompatActivity
 import com.arellomobile.mvp.MvpAppCompatFragment
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.PresenterType
+import com.aurelhubert.ahbottomnavigation.AHBottomNavigationAdapter
 import com.example.win10.vkurse.R
-import com.example.win10.vkurse.R.id.*
 import com.example.win10.vkurse.mvp.presenters.MainPresenter
 import com.example.win10.vkurse.mvp.presenters.NavigationBarPresenter
 import com.example.win10.vkurse.mvp.presenters.ScrollToTopPresenter
-import com.example.win10.vkurse.mvp.presenters.ScrollToTopPresenter.Companion.ScrollToTopPresenterTAG
 import com.example.win10.vkurse.mvp.views.MainView
 import com.example.win10.vkurse.mvp.views.NavigationBarView
 import com.example.win10.vkurse.mvp.views.ScrollToTopView
@@ -29,63 +24,34 @@ import com.example.win10.vkurse.ui.fragments.VkListFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
 
-class MainActivity : MvpAppCompatActivity(), NavigationBarView, MainView,
-        NavigationView.OnNavigationItemSelectedListener,
-        BottomNavigationView.OnNavigationItemSelectedListener,
-        ScrollToTopView {
+class MainActivity : MvpAppCompatActivity(), NavigationBarView, MainView, ScrollToTopView {
 
     @InjectPresenter
     lateinit var navigationBarPresenter: NavigationBarPresenter
     @InjectPresenter
     lateinit var mainPresenter: MainPresenter
-    @InjectPresenter(type = PresenterType.GLOBAL, tag = ScrollToTopPresenterTAG)
+    @InjectPresenter(type = PresenterType.GLOBAL, tag = ScrollToTopPresenter.ScrollToTopPresenterTAG)
     lateinit var scrollToTopPresenter: ScrollToTopPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
-        nvView.setNavigationItemSelectedListener(this)
-        bottomBar.setOnNavigationItemSelectedListener { navigationBarPresenter.onBottomBarClick(menuItem = it) }
-        bottomBar.setOnNavigationItemReselectedListener { scrollToTopPresenter.onBottomBarReClick(menuItem = it) }
-        val indicator = VectorDrawableCompat.create(resources, R.drawable.ic_menu, theme)
-        indicator?.setTint(ResourcesCompat.getColor(resources, R.color.white, theme))
-        supportActionBar?.setHomeAsUpIndicator(indicator)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        AHBottomNavigationAdapter(this, R.menu.main_bottom_bar).setupWithBottomNavigation(bottomBar)
+        bottomBar.accentColor = ContextCompat.getColor(this, R.color.primary)
+        bottomBar.setOnTabSelectedListener { position, wasSelected ->
+            if (wasSelected) scrollToTopPresenter.onBottomBarReClick(position)
+            else navigationBarPresenter.onBottomBarClick(position)
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item?.itemId) {
-            android.R.id.home -> {
-                drawer_layout.openDrawer(GravityCompat.START)
-            }
-            toolbar_settings -> {
-                return true
-            }
-        }
+        mainPresenter.onToolbarItemSelected(item?.itemId)
         return super.onOptionsItemSelected(item)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.toolbar, menu)
-        return true
-    }
-
-    override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            nav_first_fragment -> {
-                Toast.makeText(this, "first", Toast.LENGTH_LONG).show()
-            }
-            nav_second_fragment -> {
-                Toast.makeText(this, "second", Toast.LENGTH_LONG).show()
-            }
-            nav_third_fragment -> {
-                Toast.makeText(this, "third", Toast.LENGTH_LONG).show()
-            }
-        }
-        item.isChecked = true
-        title = item.title
-        drawer_layout.closeDrawers()
+        menuInflater.inflate(R.menu.main_toolbar, menu)
         return true
     }
 
@@ -108,7 +74,12 @@ class MainActivity : MvpAppCompatActivity(), NavigationBarView, MainView,
         replaceFragment(fragment)
     }
 
-    override fun scrollTop(menuItem: MenuItem) {    //реализация в фрагремнтах
+    override fun startSettingActivity() {
+        startActivity(Intent(this, SettingActivity::class.java))
+    }
+
+
+    override fun scrollTop(menuPosition: Int) {    //реализация в фрагремнтах
         Log.d("Debug", "scrollTop MainActivity")
         return
     }

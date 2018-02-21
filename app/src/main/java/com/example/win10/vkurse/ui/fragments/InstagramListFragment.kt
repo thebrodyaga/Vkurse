@@ -4,13 +4,13 @@ package com.example.win10.vkurse.ui.fragments
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import com.arellomobile.mvp.MvpAppCompatFragment
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.PresenterType
 import com.example.win10.vkurse.R
+import com.example.win10.vkurse.mvp.presenters.NavigationBarPresenter.Companion.InstagramFragmentPosition
 import com.example.win10.vkurse.mvp.presenters.ScrollToTopPresenter
 import com.example.win10.vkurse.mvp.views.ScrollToTopView
 
@@ -25,8 +25,8 @@ class InstagramListFragment : MvpAppCompatFragment(), ScrollToTopView {
         return inflater.inflate(R.layout.fragment_instagram_list, container, false)
     }
 
-    override fun scrollTop(menuItem: MenuItem) {
-        if (menuItem.itemId == R.id.bottom_instagram)
+    override fun scrollTop(menuPosition: Int) {
+        if (menuPosition == InstagramFragmentPosition)
             Log.d("Debug", "scrollTop InstagramListFragment")
     }
 }

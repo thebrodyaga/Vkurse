@@ -12,4 +12,6 @@ import com.example.win10.vkurse.ui.fragments.VkListFragment
 @StateStrategyType(value = OneExecutionStateStrategy::class)
 interface MainView : MvpView {
     fun showDefaultFragment(fragment: MvpAppCompatFragment)
+
+    fun startSettingActivity()
 }

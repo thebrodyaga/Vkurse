@@ -1,6 +1,5 @@
 package com.example.win10.vkurse.mvp.presenters
 
-import android.view.MenuItem
 import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
 import com.example.win10.vkurse.mvp.views.ScrollToTopView
@@ -16,8 +15,8 @@ class ScrollToTopPresenter : MvpPresenter<ScrollToTopView>() {
     companion object {
         const val ScrollToTopPresenterTAG: String = "ScrollToTopPresenterTag"
     }
-    fun onBottomBarReClick(menuItem: MenuItem): Boolean {
-        viewState.scrollTop(menuItem)
+    fun onBottomBarReClick(menuPosition: Int): Boolean {
+        viewState.scrollTop(menuPosition)
         return true
     }
 }

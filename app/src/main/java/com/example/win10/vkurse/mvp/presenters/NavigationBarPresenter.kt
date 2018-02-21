@@ -1,6 +1,5 @@
 package com.example.win10.vkurse.mvp.presenters
 
-import android.view.MenuItem
 import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
 import com.example.win10.vkurse.R
@@ -12,18 +11,23 @@ import com.example.win10.vkurse.mvp.views.NavigationBarView
 
 @InjectViewState
 class NavigationBarPresenter : MvpPresenter<NavigationBarView>() {
-    fun onBottomBarClick(menuItem: MenuItem): Boolean {
-        when (menuItem.itemId) {
-            R.id.bottom_vk -> {
+    fun onBottomBarClick(menuPosition: Int): Boolean {
+        when (menuPosition) {
+            VkFragmentPosition -> {
                 viewState.showVkFragment()
             }
-            R.id.bottom_instagram -> {
+            InstagramFragmentPosition -> {
                 viewState.showInstagramFragment()
             }
-            R.id.bottom_chat -> {
+            ChatFragmentPosition -> {
                 viewState.showChatFragment()
             }
         }
         return true
+    }
+    companion object {
+        const val VkFragmentPosition = 0
+        const val InstagramFragmentPosition = 1
+        const val ChatFragmentPosition = 2
     }
 }
