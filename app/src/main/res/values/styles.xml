@@ -2,26 +2,27 @@
 <resources>
 
     <!-- inherit from the material theme -->
- <!--   <style name="AppTheme" parent="android:Theme.Material.Light">
-        &lt;!&ndash; Main theme colors &ndash;&gt;
-        &lt;!&ndash;   your app branding color for the app bar &ndash;&gt;
-        <item name="android:colorPrimary">@color/primary</item>
-        &lt;!&ndash;   darker variant for the status bar and contextual app bars &ndash;&gt;
-        <item name="android:colorPrimaryDark">@color/primary_dark</item>
-        &lt;!&ndash;   theme UI controls like checkboxes and text fields &ndash;&gt;
-        <item name="android:colorAccent">@color/accent</item>
-    </style>-->
+    <!--   <style name="AppTheme" parent="android:Theme.Material.Light">
+           &lt;!&ndash; Main theme colors &ndash;&gt;
+           &lt;!&ndash;   your app branding color for the app bar &ndash;&gt;
+           <item name="android:colorPrimary">@color/primary</item>
+           &lt;!&ndash;   darker variant for the status bar and contextual app bars &ndash;&gt;
+           <item name="android:colorPrimaryDark">@color/primary_dark</item>
+           &lt;!&ndash;   theme UI controls like checkboxes and text fields &ndash;&gt;
+           <item name="android:colorAccent">@color/accent</item>
+       </style>-->
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryDark">@color/primary_dark</item>
-            <item name="colorAccent">@color/accent</item>
+        <item name="colorAccent">@color/accent</item>
         <item name="colorControlNormal">@color/white</item>
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
+
     <style name="CircularProgress" parent="Theme.AppCompat.Light">
         <item name="colorAccent">@color/button_grey</item>
     </style>
