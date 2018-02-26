@@ -1,6 +1,7 @@
 package com.thebrodyaga.vkurse
 
 import android.app.Application
+import com.squareup.leakcanary.LeakCanary
 import com.thebrodyaga.vkurse.di.AppComponent
 import com.thebrodyaga.vkurse.di.DaggerAppComponent
 import com.thebrodyaga.vkurse.di.modules.ContextModule
@@ -16,8 +17,8 @@ class App : Application() {
                 .builder()
                 .contextModule(ContextModule(this))
                 .build()
+        LeakCanary.install(this)
     }
-
 
     companion object {
         lateinit var appComponent: AppComponent

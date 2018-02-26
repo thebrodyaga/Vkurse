@@ -29,6 +29,7 @@ ext {
     retrofit = '2.3.0'
     dagger = '2.14.1'
     moxy = "1.5.3"
+    leakcanary = "1.5.4"
 }
 
 dependencies {
@@ -46,7 +47,8 @@ dependencies {
     implementation "com.android.support:support-v4:$support"
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
 
-    //    implementation 'com.vk.api:sdk:0.5.11'
+    debugImplementation "com.squareup.leakcanary:leakcanary-android:$leakcanary"
+    releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$leakcanary"
     implementation 'io.reactivex.rxjava2:rxjava:2.1.9'
     implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
     implementation 'com.google.code.gson:gson:2.8.2'
