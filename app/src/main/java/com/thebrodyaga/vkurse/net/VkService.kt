@@ -1,7 +1,7 @@
 package com.thebrodyaga.vkurse.net
 
-import com.thebrodyaga.vkurse.mvp.models.gson.OwnerInfo
-import com.thebrodyaga.vkurse.mvp.models.gson.VkWall
+import com.thebrodyaga.vkurse.mvp.models.gson.VkWallBody
+import com.thebrodyaga.vkurse.mvp.models.gson.VkWallResponse
 import io.reactivex.Observable
 
 /**
@@ -9,7 +9,11 @@ import io.reactivex.Observable
  */
 class VkService(private var vkurseApi: VkurseApi) {
 
-    fun getFirstList(ownerInfoList: List<OwnerInfo>): Observable<VkWall> {
-        return vkurseApi.getWall(ownerInfoList)
+    fun getFirstList(vkWallBody: VkWallBody): Observable<VkWallResponse> {
+        return vkurseApi.getWall(vkWallBody)
+    }
+
+    companion object {
+        const val timeStep = 60 * 60 * 2 //2 часа
     }
 }

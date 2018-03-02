@@ -1,7 +1,7 @@
 package com.thebrodyaga.vkurse.net
 
-import com.thebrodyaga.vkurse.mvp.models.gson.OwnerInfo
-import com.thebrodyaga.vkurse.mvp.models.gson.VkWall
+import com.thebrodyaga.vkurse.mvp.models.gson.VkWallBody
+import com.thebrodyaga.vkurse.mvp.models.gson.VkWallResponse
 import io.reactivex.Observable
 import retrofit2.http.Body
 import retrofit2.http.POST
@@ -11,7 +11,7 @@ import retrofit2.http.POST
  */
 
 interface VkurseApi {
-    @POST("wallPostById")
-    fun getWall(@Body ownerInfoList: List<OwnerInfo>): Observable<VkWall>
+    @POST("vk/firstWall")
+    fun getWall(@Body vkWallBody: VkWallBody): Observable<VkWallResponse>
 
 }

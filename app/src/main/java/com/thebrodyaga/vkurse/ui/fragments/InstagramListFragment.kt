@@ -10,6 +10,7 @@ import com.arellomobile.mvp.MvpAppCompatFragment
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.PresenterType
 import com.thebrodyaga.vkurse.R
+import com.thebrodyaga.vkurse.common.DEBUG_TAG
 import com.thebrodyaga.vkurse.mvp.presenters.NavigationBarPresenter.Companion.InstagramFragmentPosition
 import com.thebrodyaga.vkurse.mvp.presenters.ScrollToTopPresenter
 import com.thebrodyaga.vkurse.mvp.views.ScrollToTopView
@@ -27,6 +28,6 @@ class InstagramListFragment : MvpAppCompatFragment(), ScrollToTopView {
 
     override fun scrollTop(menuPosition: Int) {
         if (menuPosition == InstagramFragmentPosition)
-            Log.d("Debug", "scrollTop InstagramListFragment")
+            Log.d(DEBUG_TAG,"scrollTop InstagramListFragment")
     }
 }

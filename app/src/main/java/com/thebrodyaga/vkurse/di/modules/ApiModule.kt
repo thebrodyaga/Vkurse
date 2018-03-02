@@ -26,7 +26,7 @@ class ApiModule {
     @Provides
     @Singleton
     fun provideRetrofit(builder: Retrofit.Builder): Retrofit {
-        return builder.baseUrl("https://api.github.com").build() //todo url править
+        return builder.baseUrl("http://10.100.19.152:8080/api/").build()
     }
 
     @Provides

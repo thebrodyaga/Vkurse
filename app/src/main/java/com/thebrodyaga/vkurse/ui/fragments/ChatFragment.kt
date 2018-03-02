@@ -10,6 +10,7 @@ import com.arellomobile.mvp.MvpAppCompatFragment
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.PresenterType
 import com.thebrodyaga.vkurse.R
+import com.thebrodyaga.vkurse.common.DEBUG_TAG
 import com.thebrodyaga.vkurse.mvp.presenters.NavigationBarPresenter.Companion.ChatFragmentPosition
 import com.thebrodyaga.vkurse.mvp.presenters.ScrollToTopPresenter
 import com.thebrodyaga.vkurse.mvp.views.ScrollToTopView
@@ -27,6 +28,6 @@ class ChatFragment : MvpAppCompatFragment(), ScrollToTopView {
 
     override fun scrollTop(menuPosition: Int) {
         if (menuPosition == ChatFragmentPosition)
-            Log.d("Debug", "scrollTop ChatFragment")
+            Log.d(DEBUG_TAG,"scrollTop ChatFragment")
     }
 }

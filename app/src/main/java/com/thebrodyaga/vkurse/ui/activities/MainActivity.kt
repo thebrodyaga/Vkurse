@@ -12,6 +12,7 @@ import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.PresenterType
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationAdapter
 import com.thebrodyaga.vkurse.R
+import com.thebrodyaga.vkurse.common.DEBUG_TAG
 import com.thebrodyaga.vkurse.mvp.presenters.MainPresenter
 import com.thebrodyaga.vkurse.mvp.presenters.NavigationBarPresenter
 import com.thebrodyaga.vkurse.mvp.presenters.ScrollToTopPresenter
@@ -56,21 +57,22 @@ class MainActivity : MvpAppCompatActivity(), NavigationBarView, MainView, Scroll
     }
 
     override fun showVkFragment() {
-        Log.d("Debug", "showVkFragment")
+        Log.d(DEBUG_TAG,"showVkFragment")
         replaceFragment(VkListFragment())
     }
 
     override fun showInstagramFragment() {
-        Log.d("Debug", "showInstagramFragment")
+        Log.d(DEBUG_TAG,"showInstagramFragment")
         replaceFragment(InstagramListFragment())
     }
 
     override fun showChatFragment() {
-        Log.d("Debug", "showChatFragment")
+        Log.d(DEBUG_TAG,"showChatFragment")
         replaceFragment(ChatFragment())
     }
 
     override fun showDefaultFragment(fragment: MvpAppCompatFragment) {
+        Log.d(DEBUG_TAG,"showDefaultFragment")
         replaceFragment(fragment)
     }
 
@@ -80,7 +82,7 @@ class MainActivity : MvpAppCompatActivity(), NavigationBarView, MainView, Scroll
 
 
     override fun scrollTop(menuPosition: Int) {    //реализация в фрагремнтах
-        Log.d("Debug", "scrollTop MainActivity")
+        Log.d(DEBUG_TAG,"scrollTop MainActivity")
         return
     }
 
