@@ -11,6 +11,7 @@ import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.PresenterType
 import com.thebrodyaga.vkobjects.wall.WallPostFull
 import com.thebrodyaga.vkurse.R
+import com.thebrodyaga.vkurse.common.DEBUG_TAG
 import com.thebrodyaga.vkurse.mvp.presenters.NavigationBarPresenter.Companion.VkFragmentPosition
 import com.thebrodyaga.vkurse.mvp.presenters.ScrollToTopPresenter
 import com.thebrodyaga.vkurse.mvp.presenters.VkListPresenter
@@ -18,7 +19,7 @@ import com.thebrodyaga.vkurse.mvp.views.ScrollToTopView
 import com.thebrodyaga.vkurse.mvp.views.VkListView
 
 
-class VkListFragment : MvpAppCompatFragment(), ScrollToTopView,VkListView {
+class VkListFragment : MvpAppCompatFragment(), ScrollToTopView, VkListView {
     @InjectPresenter(type = PresenterType.GLOBAL, tag = ScrollToTopPresenter.ScrollToTopPresenterTAG)
     lateinit var scrollToTopPresenter: ScrollToTopPresenter
     @InjectPresenter()
@@ -32,10 +33,10 @@ class VkListFragment : MvpAppCompatFragment(), ScrollToTopView,VkListView {
 
     override fun scrollTop(menuPosition: Int) {
         if (menuPosition == VkFragmentPosition)
-            Log.d("Debug", "scrollTop VkListFragment")
+            Log.d(DEBUG_TAG,"scrollTop VkListFragment")
     }
 
     override fun setData(wallPostList: List<WallPostFull>) {
-        Log.d("Debug", "setData VkListFragment")
+        Log.d(DEBUG_TAG,"setData VkListFragment")
     }
 }
