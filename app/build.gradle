@@ -63,21 +63,23 @@ dependencies {
     implementation "com.arello-mobile:moxy:$moxy"
     implementation "com.arello-mobile:moxy-app-compat:$moxy"
     kapt "com.arello-mobile:moxy-compiler:$moxy"
-
-    //группировка изображений
     implementation 'com.felipecsl.asymmetricgridview:library:2.0.1'
 
-    //круглые иконки
+    //группировка изображений
     implementation 'de.hdodenhof:circleimageview:2.1.0'
 
-    //"Показать полностью..." TextView
+    //круглые иконки
     implementation 'at.blogc:expandabletextview:1.0.3'
 
-    //bottom navigation
+    //"Показать полностью..." TextView
     implementation 'com.aurelhubert:ahbottomnavigation:2.1.0'
+
+    //bottom navigation
     testCompile 'junit:junit:4.12'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation project(':VkResponseObjects')
+    releaseImplementation 'net.danlew:android.joda:2.9.9.2'
+
 }
 
 kapt {

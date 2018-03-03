@@ -14,6 +14,6 @@ class VkService(private var vkurseApi: VkurseApi) {
     }
 
     companion object {
-        const val timeStep = 60 * 60 * 2 //2 часа
+        const val timeStep = 60 * 60 * 48 //2 часа
     }
 }

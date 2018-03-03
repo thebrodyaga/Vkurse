@@ -25,6 +25,13 @@ class VkListPresenter : BasePresenter<VkListView>() {
     @Inject
     lateinit var vkService: VkService
 
+    fun onErrorButtonClick() {
+
+    }
+
+    fun onSwipeRefresh() {
+
+    }
 
     private fun getFirstWall() {
         val disposable: Disposable =
@@ -35,7 +42,7 @@ class VkListPresenter : BasePresenter<VkListView>() {
                             Log.d(DEBUG_TAG, "getFirstWall successful")
                             viewState.setData(it.wallPostList)
                         }, {
-                            Log.d(DEBUG_TAG, "getFirstWall error: " + it.message)
+                            Log.e(DEBUG_TAG, "getFirstWall error: " + it.message)
                             throw RuntimeException(it)
                         })
         unsubscribeOnDestroy(disposable)
