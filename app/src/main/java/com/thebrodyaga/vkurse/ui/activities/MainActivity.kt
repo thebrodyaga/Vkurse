@@ -1,13 +1,15 @@
 package com.thebrodyaga.vkurse.ui.activities
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentTransaction
 import android.support.v4.content.ContextCompat
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import com.arellomobile.mvp.MvpAppCompatActivity
-import com.arellomobile.mvp.MvpAppCompatFragment
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.PresenterType
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationAdapter
@@ -57,23 +59,23 @@ class MainActivity : MvpAppCompatActivity(), NavigationBarView, MainView, Scroll
     }
 
     override fun showVkFragment() {
-        Log.d(DEBUG_TAG,"showVkFragment")
-        replaceFragment(VkListFragment())
+        Log.d(DEBUG_TAG, "showVkFragment")
+        managingFragment(VkListFragment.FragmentTAG)
     }
 
     override fun showInstagramFragment() {
-        Log.d(DEBUG_TAG,"showInstagramFragment")
-        replaceFragment(InstagramListFragment())
+        Log.d(DEBUG_TAG, "showInstagramFragment")
+        managingFragment(InstagramListFragment.FragmentTAG)
     }
 
     override fun showChatFragment() {
-        Log.d(DEBUG_TAG,"showChatFragment")
-        replaceFragment(ChatFragment())
+        Log.d(DEBUG_TAG, "showChatFragment")
+        managingFragment(ChatFragment.FragmentTAG)
     }
 
-    override fun showDefaultFragment(fragment: MvpAppCompatFragment) {
-        Log.d(DEBUG_TAG,"showDefaultFragment")
-        replaceFragment(fragment)
+    override fun showDefaultFragment(fragmentTag: String) {
+        Log.d(DEBUG_TAG, "showDefaultFragment")
+        managingFragment(fragmentTag)
     }
 
     override fun startSettingActivity() {
@@ -82,12 +84,40 @@ class MainActivity : MvpAppCompatActivity(), NavigationBarView, MainView, Scroll
 
 
     override fun scrollTop(menuPosition: Int) {    //реализация в фрагремнтах
-        Log.d(DEBUG_TAG,"scrollTop MainActivity")
+        Log.d(DEBUG_TAG, "scrollTop MainActivity")
         return
     }
 
-    private fun replaceFragment(fragment: MvpAppCompatFragment) {
-        supportFragmentManager.beginTransaction()
-                .replace(fragmentContainer.id, fragment).commit()
+    //<editor-fold desc="Тасовка фрагментов">
+    private fun managingFragment(fragmentTag: String) {
+        val fragment = supportFragmentManager.findFragmentByTag(fragmentTag)
+        when (fragmentTag) {
+            VkListFragment.FragmentTAG -> if (fragment != null) showFragment(fragment) else addFragment(VkListFragment(), fragmentTag)
+            InstagramListFragment.FragmentTAG -> if (fragment != null) showFragment(fragment) else addFragment(InstagramListFragment(), fragmentTag)
+            ChatFragment.FragmentTAG -> if (fragment != null) showFragment(fragment) else addFragment(ChatFragment(), fragmentTag)
+        }
     }
+
+    private fun addFragment(fragment: Fragment, fragmentTag: String) {
+        checkVisibleFragment()
+                .add(fragmentContainer.id, fragment, fragmentTag).commit()
+    }
+
+    private fun showFragment(fragment: Fragment) {
+        checkVisibleFragment()
+                .show(fragment).commit()
+    }
+
+    @SuppressLint("CommitTransaction")
+    private fun checkVisibleFragment(): FragmentTransaction {
+        val fragmentTransaction = supportFragmentManager.beginTransaction()
+        var fragment = supportFragmentManager.findFragmentByTag(VkListFragment.FragmentTAG)
+        if (fragment != null) fragmentTransaction.hide(fragment)
+        fragment = supportFragmentManager.findFragmentByTag(InstagramListFragment.FragmentTAG)
+        if (fragment != null) fragmentTransaction.hide(fragment)
+        fragment = supportFragmentManager.findFragmentByTag(ChatFragment.FragmentTAG)
+        if (fragment != null) fragmentTransaction.hide(fragment)
+        return fragmentTransaction
+    }
+    //</editor-fold>
 }

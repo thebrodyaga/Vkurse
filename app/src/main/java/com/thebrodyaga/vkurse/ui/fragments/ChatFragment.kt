@@ -30,4 +30,8 @@ class ChatFragment : MvpAppCompatFragment(), ScrollToTopView {
         if (menuPosition == ChatFragmentPosition)
             Log.d(DEBUG_TAG,"scrollTop ChatFragment")
     }
+
+    companion object {
+        const val FragmentTAG = "ChatFragmentTAG"
+    }
 }

@@ -28,6 +28,10 @@ class InstagramListFragment : MvpAppCompatFragment(), ScrollToTopView {
 
     override fun scrollTop(menuPosition: Int) {
         if (menuPosition == InstagramFragmentPosition)
-            Log.d(DEBUG_TAG,"scrollTop InstagramListFragment")
+            Log.d(DEBUG_TAG, "scrollTop InstagramListFragment")
+    }
+
+    companion object {
+        const val FragmentTAG = "InstagramListFragmentTAG"
     }
 }

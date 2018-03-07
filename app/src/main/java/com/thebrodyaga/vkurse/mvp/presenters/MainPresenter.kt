@@ -12,7 +12,7 @@ import com.thebrodyaga.vkurse.ui.fragments.VkListFragment
 @InjectViewState
 class MainPresenter : MvpPresenter<MainView>() {
     init {
-        viewState.showDefaultFragment(VkListFragment())
+        viewState.showDefaultFragment(VkListFragment.FragmentTAG)
     }
 
     fun onToolbarItemSelected(item: Int?) {

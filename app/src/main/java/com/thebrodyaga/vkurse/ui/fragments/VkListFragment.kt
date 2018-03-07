@@ -48,4 +48,8 @@ class VkListFragment : MvpAppCompatFragment(), ScrollToTopView, VkListView {
         Log.d(DEBUG_TAG, "setData VkListFragment")
         adapter.setPostToEnd(wallPostList)
     }
+
+    companion object {
+        const val FragmentTAG = "VkListFragmentTAG"
+    }
 }

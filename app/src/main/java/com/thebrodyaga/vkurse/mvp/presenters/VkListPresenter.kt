@@ -43,7 +43,6 @@ class VkListPresenter : BasePresenter<VkListView>() {
                             viewState.setData(it.wallPostList)
                         }, {
                             Log.e(DEBUG_TAG, "getFirstWall error: " + it.message)
-                            throw RuntimeException(it)
                         })
         unsubscribeOnDestroy(disposable)
     }
