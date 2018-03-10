@@ -10,10 +10,14 @@ import io.reactivex.Observable
 class VkService(private var vkurseApi: VkurseApi) {
 
     fun getFirstList(vkWallBody: VkWallBody): Observable<VkWallResponse> {
-        return vkurseApi.getWall(vkWallBody)
+        return vkurseApi.getFirstWall(vkWallBody)
+    }
+
+    fun getListAfterLast(vkWallBody: VkWallBody): Observable<VkWallResponse> {
+        return vkurseApi.getWallAfterLast(vkWallBody)
     }
 
     companion object {
-        const val timeStep = 60 * 60 * 48 //2 часа
+        const val timeStep = 60 * 60 * 2 //2 часа
     }
 }

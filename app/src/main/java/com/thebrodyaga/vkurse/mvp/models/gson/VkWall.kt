@@ -14,9 +14,9 @@ data class OwnerInfo(val ownerId: Int,
                      val offset: Int,
                      val count: Int? = null)
 
-data class VkWallBody(val timeStep: Int,
-                      val lastPostDate: Int? = null,
-                      val ownerInfoList: List<OwnerInfo>)
+data class VkWallBody(var timeStep: Int,
+                      var lastPostDate: Int? = null,
+                      var ownerInfoList: List<OwnerInfo>)
 
 val testOwnerInfoList = listOf(OwnerInfo(1, 0), OwnerInfo(-1, 0),
         OwnerInfo(-11, 0), OwnerInfo(-222, 0))

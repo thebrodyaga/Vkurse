@@ -25,7 +25,7 @@ android {
 }
 
 ext {
-    support = '27.0.2'
+    support = '27.1.0'
     retrofit = '2.3.0'
     dagger = '2.14.1'
     moxy = "1.5.3"
@@ -33,18 +33,15 @@ ext {
 }
 
 dependencies {
-    implementation 'com.android.support:support-v4:27.0.2'
-    implementation 'com.android.support:recyclerview-v7:27.0.2'
-    implementation 'com.android.support:design:27.0.2'
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
     implementation "com.android.support:appcompat-v7:$support"
     implementation "com.android.support:design:$support"
     implementation "com.android.support:cardview-v7:$support"
     implementation "com.android.support:recyclerview-v7:$support"
     implementation "com.android.support:support-v4:$support"
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     debugImplementation "com.squareup.leakcanary:leakcanary-android:$leakcanary"
     releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$leakcanary"
@@ -59,6 +56,7 @@ dependencies {
     implementation "com.squareup.retrofit2:retrofit:$retrofit"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit"
     implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit"
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.8.1'
     implementation 'com.squareup.picasso:picasso:2.5.2'
     implementation "com.arello-mobile:moxy:$moxy"
     implementation "com.arello-mobile:moxy-app-compat:$moxy"

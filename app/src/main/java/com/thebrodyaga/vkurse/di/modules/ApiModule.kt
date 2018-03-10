@@ -2,9 +2,13 @@ package com.thebrodyaga.vkurse.di.modules
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.thebrodyaga.vkurse.BuildConfig
 import com.thebrodyaga.vkurse.net.VkurseApi
 import dagger.Module
 import dagger.Provides
+import io.reactivex.schedulers.Schedulers
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Converter
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
@@ -25,22 +29,34 @@ class ApiModule {
 
     @Provides
     @Singleton
-    fun provideRetrofit(builder: Retrofit.Builder): Retrofit {
-        return builder.baseUrl("http://10.100.19.152:8080/api/").build()
-    }
-
-    @Provides
-    @Singleton
-    fun provideRetrofitBuilder(converterFactory: Converter.Factory): Retrofit.Builder {
+    fun provideRetrofit(converterFactory: Converter.Factory, okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
+                .client(okHttpClient)
+                .baseUrl("http://10.100.19.152:8080/api/")
                 .addConverterFactory(converterFactory)
+                .build()
     }
 
     @Provides
     @Singleton
     fun provideConverterFactory(gson: Gson): Converter.Factory {
         return GsonConverterFactory.create(gson)
+    }
+
+    @Provides
+    @Singleton
+    fun provideOkHttpClient(httpLoggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
+        return OkHttpClient.Builder()
+                .addInterceptor(httpLoggingInterceptor)
+                .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor {
+        return HttpLoggingInterceptor().setLevel(if (BuildConfig.DEBUG)
+            HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE)
     }
 
     @Provides

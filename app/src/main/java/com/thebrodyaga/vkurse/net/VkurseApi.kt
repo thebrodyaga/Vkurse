@@ -12,6 +12,10 @@ import retrofit2.http.POST
 
 interface VkurseApi {
     @POST("vk/firstWall")
-    fun getWall(@Body vkWallBody: VkWallBody): Observable<VkWallResponse>
+    fun getFirstWall(@Body vkWallBody: VkWallBody): Observable<VkWallResponse>
+
+    @POST("vk/wallAfterLast")
+    fun getWallAfterLast(@Body vkWallBody: VkWallBody): Observable<VkWallResponse>
+
 
 }
