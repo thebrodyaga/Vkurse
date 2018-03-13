@@ -3,7 +3,6 @@ package com.thebrodyaga.vkurse.ui.fragments
 
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -19,33 +18,28 @@ import com.thebrodyaga.vkurse.mvp.presenters.ScrollToTopPresenter
 import com.thebrodyaga.vkurse.mvp.presenters.VkListPresenter
 import com.thebrodyaga.vkurse.mvp.views.ScrollToTopView
 import com.thebrodyaga.vkurse.mvp.views.VkListView
-import com.thebrodyaga.vkurse.ui.adapters.EndlessRecyclerViewScrollListener
 import com.thebrodyaga.vkurse.ui.adapters.VkPostsAdapter
 import kotlinx.android.synthetic.main.fragment_vk_lists.*
 import kotlinx.android.synthetic.main.fragment_vk_lists.view.*
 
 
-class VkListFragment : MvpAppCompatFragment(), ScrollToTopView, VkListView {
+class VkListFragment : MvpAppCompatFragment(), ScrollToTopView, VkListView, VkPostsAdapter.OnLoadMoreListener {
 
     @InjectPresenter(type = PresenterType.GLOBAL, tag = ScrollToTopPresenter.ScrollToTopPresenterTAG)
     lateinit var scrollToTopPresenter: ScrollToTopPresenter
     @InjectPresenter()
     lateinit var vkListPresenter: VkListPresenter
-    private val adapter = VkPostsAdapter()
+    private lateinit var adapter: VkPostsAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_vk_lists, container, false)
         view.errorButton.setOnClickListener { vkListPresenter.onErrorButtonClick() }
         view.swipeRefresh.setOnRefreshListener { vkListPresenter.onSwipeRefresh() }
-        view.recyclerView.adapter = adapter
         val layoutManager = LinearLayoutManager(activity)
         view.recyclerView.layoutManager = layoutManager
-        view.recyclerView.addOnScrollListener(object : EndlessRecyclerViewScrollListener(layoutManager) {
-            override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView?) {
-                vkListPresenter.loadMore()
-            }
-        })
+        adapter = VkPostsAdapter(this, view.recyclerView)
+        view.recyclerView.adapter = adapter
         return view
     }
 
@@ -64,6 +58,14 @@ class VkListFragment : MvpAppCompatFragment(), ScrollToTopView, VkListView {
         errorButton.visibility = View.VISIBLE
         swipeRefresh.visibility = View.GONE
         progressBar.visibility = View.GONE
+    }
+
+    override fun hideProgressItem() {
+        adapter.removedProgressItem()
+    }
+
+    override fun onLoadMore() {
+        vkListPresenter.loadMore()
     }
 
     override fun onStartLoading() {

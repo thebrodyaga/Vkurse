@@ -11,7 +11,6 @@ import com.thebrodyaga.vkurse.mvp.views.VkListView
 import com.thebrodyaga.vkurse.net.VkService
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 /**
@@ -56,6 +55,7 @@ class VkListPresenter : BasePresenter<VkListView>() {
                             viewState.setData(it.wallPostList)
                         }, {
                             Log.e(DEBUG_TAG, "loadWallAfterLast error: " + it.message)
+                            viewState.hideProgressItem()
                         })
         unsubscribeOnDestroy(disposable)
     }

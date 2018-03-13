@@ -27,6 +27,8 @@ interface VkListView : MvpView {
 
     fun hideListProgress()
 
+    fun hideProgressItem()
+
     @StateStrategyType(AddToEndStrategy::class)
     fun setData(wallPostList: List<WallPostFull>)
 }
