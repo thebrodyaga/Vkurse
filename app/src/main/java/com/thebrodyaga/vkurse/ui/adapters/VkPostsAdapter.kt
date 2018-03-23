@@ -17,30 +17,27 @@ import kotlinx.android.synthetic.main.card_item.view.*
  */
 class VkPostsAdapter(private val onLoadMoreListener: OnLoadMoreListener,
                      recyclerView: RecyclerView) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-
     init {
         if (recyclerView.layoutManager is LinearLayoutManager) {
             val linearLayoutManager = recyclerView.layoutManager as LinearLayoutManager
             recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
                     super.onScrolled(recyclerView, dx, dy)
-                    totalItemCount = linearLayoutManager.itemCount
-                    lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition()
-                    if (!loading && totalItemCount <= lastVisibleItem + visibleThreshold) {
-                        setProgressItem()
+                    if (!isLoading &&
+                            linearLayoutManager.itemCount <= linearLayoutManager.findLastVisibleItemPosition() + visibleThreshold) {
+                        wallPostList.add(null)
+                        recyclerView?.post({ notifyItemInserted(wallPostList.size - 1) })
                         onLoadMoreListener.onLoadMore()
-                        loading = true
+                        isLoading = true
                     }
                 }
             })
         }
     }
 
-    private var wallPostList = arrayListOf<WallPostFull?>()
+    private val wallPostList = arrayListOf<WallPostFull?>()
     private val visibleThreshold = 2    //последний видимый перед загрузкой
-    private var lastVisibleItem: Int = 0
-    private var totalItemCount: Int = 0
-    private var loading: Boolean = false
+    private var isLoading: Boolean = false
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return if (viewType == VIEW_POST)
@@ -60,7 +57,7 @@ class VkPostsAdapter(private val onLoadMoreListener: OnLoadMoreListener,
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
-            is ProgressBar -> (holder as ProgressHolder).progressBar.isIndeterminate = true
+            is ProgressBar -> (holder as ProgressHolder)
             is PostHolder -> {
                 val wallPostFull = wallPostList[position]
                 if (wallPostFull != null) {
@@ -78,16 +75,16 @@ class VkPostsAdapter(private val onLoadMoreListener: OnLoadMoreListener,
         notifyDataSetChanged()
     }
 
-    fun removedProgressItem() {
-        if (!loading) return
-        wallPostList.removeAt(wallPostList.size - 1)
-        notifyItemRemoved(wallPostList.size)
-        loading = false
+    fun setPostToStart(wallPostList: List<WallPostFull>) {
+        this.wallPostList.addAll(0, wallPostList)
+        notifyDataSetChanged()
     }
 
-    private fun setProgressItem() {
-        wallPostList.add(null)
-        notifyItemInserted(wallPostList.size - 1)
+    fun removedProgressItem() {
+        if (!isLoading) return
+        wallPostList.removeAt(wallPostList.size - 1)
+        notifyItemRemoved(wallPostList.size)
+        isLoading = false
     }
 
     class PostHolder(containerView: View) : RecyclerView.ViewHolder(containerView) {
@@ -95,10 +92,7 @@ class VkPostsAdapter(private val onLoadMoreListener: OnLoadMoreListener,
         val postDate: TextView = itemView.subtitle_text
     }
 
-    class ProgressHolder(containerView: View) : RecyclerView.ViewHolder(containerView) {
-        val progressBar: ProgressBar = containerView as ProgressBar
-
-    }
+    class ProgressHolder(containerView: View) : RecyclerView.ViewHolder(containerView)
 
     companion object {
         const val VIEW_POST = 1

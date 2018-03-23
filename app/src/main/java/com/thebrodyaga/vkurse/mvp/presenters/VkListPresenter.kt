@@ -24,38 +24,49 @@ class VkListPresenter : BasePresenter<VkListView>() {
 
     @Inject
     lateinit var vkService: VkService
-    lateinit var currentState: VkWallBody
+    private lateinit var currentState: VkWallBody
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
         currentState = VkWallBody(timeStep = VkService.timeStep, ownerInfoList = testOwnerInfoList)
+        viewState.toggleFullScreenProgress(true)
         loadFirstWall()
     }
 
     fun onErrorButtonClick() {
-        viewState.showListProgress()
+        viewState.toggleFullScreenProgress(true)
         loadFirstWall()
     }
 
-    fun onSwipeRefresh() {
-
+    fun loadNewWall() {
+        val disposable: Disposable =
+                vkService.getNewWall(currentState)
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe({
+                            Log.d(DEBUG_TAG, "loadNewWall successful")
+                            setCurrentState(it, first = it.wallPostList.firstOrNull()?.date)
+                            viewState.setNewData(it.wallPostList)
+                        }, {
+                            Log.e(DEBUG_TAG, "loadFirstWall error: " + it.message)
+                            viewState.showErrorToast()
+                        }, {
+                            viewState.hideRefreshing()
+                        })
+        unsubscribeOnDestroy(disposable)
     }
 
-    fun loadMore() {
-        loadWallAfterLast()
-    }
-
-    private fun loadWallAfterLast() {
+    fun loadAfterLast() {
         val disposable: Disposable =
                 vkService.getListAfterLast(currentState)
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe({
                             Log.d(DEBUG_TAG, "loadWallAfterLast successful")
-                            setCurrentState(it)
-                            viewState.setData(it.wallPostList)
+                            setCurrentState(it, last = it.wallPostList.last().date)
+                            viewState.setAfterLastData(it.wallPostList)
                         }, {
                             Log.e(DEBUG_TAG, "loadWallAfterLast error: " + it.message)
                             viewState.hideProgressItem()
+                            viewState.showErrorToast()
                         })
         unsubscribeOnDestroy(disposable)
     }
@@ -66,18 +77,19 @@ class VkListPresenter : BasePresenter<VkListView>() {
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe({
                             Log.d(DEBUG_TAG, "loadFirstWall successful")
-                            setCurrentState(it)
-                            viewState.setData(it.wallPostList)
-                            viewState.hideListProgress()
+                            setCurrentState(it, first = it.wallPostList.first().date,
+                                    last = it.wallPostList.last().date)
+                            viewState.setFirstData(it.wallPostList)
                         }, {
                             Log.e(DEBUG_TAG, "loadFirstWall error: " + it.message)
-                            viewState.showError()
-                        })
+                            viewState.showErrorButton()
+                        }, { viewState.toggleFullScreenProgress(false) })
         unsubscribeOnDestroy(disposable)
     }
 
-    private fun setCurrentState(it: VkWallResponse) {
-        if (!it.wallPostList.isEmpty()) currentState.lastPostDate = it.wallPostList.last().date
+    private fun setCurrentState(it: VkWallResponse, last: Int? = null, first: Int? = null) {
+        if (last != null) currentState.lastPostDate = last
+        if (first != null) currentState.firstPostDate = first
         currentState.ownerInfoList = it.ownerInfoList
     }
 }

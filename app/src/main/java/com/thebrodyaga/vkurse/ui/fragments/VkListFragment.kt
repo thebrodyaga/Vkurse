@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.arellomobile.mvp.MvpAppCompatFragment
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.PresenterType
@@ -24,7 +25,6 @@ import kotlinx.android.synthetic.main.fragment_vk_lists.view.*
 
 
 class VkListFragment : MvpAppCompatFragment(), ScrollToTopView, VkListView, VkPostsAdapter.OnLoadMoreListener {
-
     @InjectPresenter(type = PresenterType.GLOBAL, tag = ScrollToTopPresenter.ScrollToTopPresenterTAG)
     lateinit var scrollToTopPresenter: ScrollToTopPresenter
     @InjectPresenter()
@@ -35,7 +35,7 @@ class VkListFragment : MvpAppCompatFragment(), ScrollToTopView, VkListView, VkPo
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_vk_lists, container, false)
         view.errorButton.setOnClickListener { vkListPresenter.onErrorButtonClick() }
-        view.swipeRefresh.setOnRefreshListener { vkListPresenter.onSwipeRefresh() }
+        view.swipeRefresh.setOnRefreshListener { vkListPresenter.loadNewWall() }
         val layoutManager = LinearLayoutManager(activity)
         view.recyclerView.layoutManager = layoutManager
         adapter = VkPostsAdapter(this, view.recyclerView)
@@ -48,39 +48,40 @@ class VkListFragment : MvpAppCompatFragment(), ScrollToTopView, VkListView, VkPo
             Log.d(DEBUG_TAG, "scrollTop VkListFragment")
     }
 
-    override fun setData(wallPostList: List<WallPostFull>) {
-        Log.d(DEBUG_TAG, "setData VkListFragment")
+    override fun setFirstData(wallPostList: List<WallPostFull>) {
+        Log.d(DEBUG_TAG, "setFirstData VkListFragment")
         adapter.setPostToEnd(wallPostList)
     }
 
-    override fun showError() {
-        Log.d(DEBUG_TAG, "showError VkListFragment")
+    override fun setNewData(wallPostList: List<WallPostFull>) {
+        Log.d(DEBUG_TAG, "setNewData VkListFragment")
+        adapter.setPostToStart(wallPostList)
+    }
+
+    override fun setAfterLastData(wallPostList: List<WallPostFull>) {
+        Log.d(DEBUG_TAG, "setAfterLastData VkListFragment")
+        adapter.setPostToEnd(wallPostList)
+    }
+
+    override fun showErrorButton() {
+        Log.d(DEBUG_TAG, "showErrorButton VkListFragment")
         errorButton.visibility = View.VISIBLE
         swipeRefresh.visibility = View.GONE
         progressBar.visibility = View.GONE
     }
 
     override fun hideProgressItem() {
+        Log.d(DEBUG_TAG, "hideProgressItem VkListFragment")
         adapter.removedProgressItem()
     }
 
     override fun onLoadMore() {
-        vkListPresenter.loadMore()
+        vkListPresenter.loadAfterLast()
     }
 
-    override fun onStartLoading() {
-        Log.d(DEBUG_TAG, "onStartLoading VkListFragment")
-        swipeRefresh.isEnabled = false
-    }
-
-    override fun onFinishLoading() {
-        Log.d(DEBUG_TAG, "onFinishLoading VkListFragment")
-        swipeRefresh.isEnabled = true
-    }
-
-    override fun showRefreshing() {
-        Log.d(DEBUG_TAG, "showRefreshing VkListFragment")
-        swipeRefresh.isRefreshing = true
+    override fun toggleSwipeRefresh(isEnable: Boolean) {
+        Log.d(DEBUG_TAG, "toggleSwipeRefresh VkListFragment $isEnable")
+        swipeRefresh.isEnabled = isEnable
     }
 
     override fun hideRefreshing() {
@@ -88,14 +89,13 @@ class VkListFragment : MvpAppCompatFragment(), ScrollToTopView, VkListView, VkPo
         swipeRefresh.isRefreshing = false
     }
 
-    override fun showListProgress() {
-        Log.d(DEBUG_TAG, "showListProgress VkListFragment")
-        toggleLoading(true)
+    override fun toggleFullScreenProgress(isVisible: Boolean) {
+        Log.d(DEBUG_TAG, "toggleFullScreenProgress VkListFragment $isVisible")
+        toggleLoading(isVisible)
     }
 
-    override fun hideListProgress() {
-        Log.d(DEBUG_TAG, "hideListProgress VkListFragment")
-        toggleLoading(false)
+    override fun showErrorToast() {
+        Toast.makeText(context, "Проблемы с сетью", Toast.LENGTH_SHORT).show()
     }
 
     private fun toggleLoading(isLoading: Boolean) {

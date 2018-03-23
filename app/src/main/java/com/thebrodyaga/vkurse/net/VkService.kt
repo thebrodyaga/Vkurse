@@ -17,6 +17,10 @@ class VkService(private var vkurseApi: VkurseApi) {
         return vkurseApi.getWallAfterLast(vkWallBody)
     }
 
+    fun getNewWall(vkWallBody: VkWallBody): Observable<VkWallResponse> {
+        return vkurseApi.getNewWall(vkWallBody)
+    }
+
     companion object {
         const val timeStep = 60 * 60 * 2 //2 часа
     }

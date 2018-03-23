@@ -16,6 +16,7 @@ data class OwnerInfo(val ownerId: Int,
 
 data class VkWallBody(var timeStep: Int,
                       var lastPostDate: Int? = null,
+                      var firstPostDate: Int? = null,
                       var ownerInfoList: List<OwnerInfo>)
 
 val testOwnerInfoList = listOf(OwnerInfo(1, 0), OwnerInfo(-1, 0),

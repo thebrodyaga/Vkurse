@@ -1,9 +1,7 @@
 package com.thebrodyaga.vkurse.mvp.views
 
 import com.arellomobile.mvp.MvpView
-import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy
-import com.arellomobile.mvp.viewstate.strategy.AddToEndStrategy
-import com.arellomobile.mvp.viewstate.strategy.StateStrategyType
+import com.arellomobile.mvp.viewstate.strategy.*
 import com.thebrodyaga.vkobjects.wall.WallPostFull
 
 
@@ -13,22 +11,27 @@ import com.thebrodyaga.vkobjects.wall.WallPostFull
 @StateStrategyType(AddToEndSingleStrategy::class)
 interface VkListView : MvpView {
 
-    fun showError()
+    fun showErrorButton()
 
-    fun onStartLoading()
+    fun toggleSwipeRefresh(isEnable: Boolean)
 
-    fun onFinishLoading()
-
-    fun showRefreshing()
-
+    @StateStrategyType(value = OneExecutionStateStrategy::class)
     fun hideRefreshing()
 
-    fun showListProgress()
+    fun toggleFullScreenProgress(isVisible: Boolean)
 
-    fun hideListProgress()
-
+    @StateStrategyType(value = OneExecutionStateStrategy::class)
     fun hideProgressItem()
 
+    @StateStrategyType(value = OneExecutionStateStrategy::class)
+    fun showErrorToast()
+
+    @StateStrategyType(SingleStateStrategy::class)
+    fun setFirstData(wallPostList: List<WallPostFull>)
+
     @StateStrategyType(AddToEndStrategy::class)
-    fun setData(wallPostList: List<WallPostFull>)
+    fun setNewData(wallPostList: List<WallPostFull>)
+
+    @StateStrategyType(AddToEndStrategy::class)
+    fun setAfterLastData(wallPostList: List<WallPostFull>)
 }

@@ -17,5 +17,6 @@ interface VkurseApi {
     @POST("vk/wallAfterLast")
     fun getWallAfterLast(@Body vkWallBody: VkWallBody): Observable<VkWallResponse>
 
-
+    @POST("vk/newWall")
+    fun getNewWall(@Body vkWallBody: VkWallBody): Observable<VkWallResponse>
 }
