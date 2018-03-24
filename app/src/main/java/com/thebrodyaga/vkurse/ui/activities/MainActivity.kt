@@ -85,6 +85,7 @@ class MainActivity : MvpAppCompatActivity(), NavigationBarView, MainView, Scroll
 
     override fun scrollTop(menuPosition: Int) {    //реализация в фрагремнтах
         Log.d(DEBUG_TAG, "scrollTop MainActivity")
+        myAppBar.setExpanded(true)
         return
     }
 
@@ -101,6 +102,7 @@ class MainActivity : MvpAppCompatActivity(), NavigationBarView, MainView, Scroll
     private fun addFragment(fragment: Fragment, fragmentTag: String) {
         checkVisibleFragment()
                 .add(fragmentContainer.id, fragment, fragmentTag).commit()
+        myAppBar.setExpanded(true, false)
     }
 
     private fun showFragment(fragment: Fragment) {

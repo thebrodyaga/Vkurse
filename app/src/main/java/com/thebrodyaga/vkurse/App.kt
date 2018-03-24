@@ -5,6 +5,7 @@ import android.app.Application
 import android.os.Bundle
 import android.util.Log
 import com.squareup.leakcanary.LeakCanary
+import com.thebrodyaga.vkurse.common.DEBUG_TAG
 import com.thebrodyaga.vkurse.di.AppComponent
 import com.thebrodyaga.vkurse.di.DaggerAppComponent
 import com.thebrodyaga.vkurse.di.modules.ContextModule
@@ -56,7 +57,7 @@ class App : Application(), Application.ActivityLifecycleCallbacks {
     companion object {
         lateinit var appComponent: AppComponent
         private fun activityLifecycleLog(activity: Activity, bundle: Bundle?) {
-            Log.d("ActivityLifecycle", "Activity: ${activity.javaClass.simpleName}, " +
+            Log.d(DEBUG_TAG, "Activity: ${activity.javaClass.simpleName}, " +
                     "Id: ${System.identityHashCode(activity)}, " +
                     "MethodName: ${trace(Thread.currentThread().stackTrace)}, " +
                     "Bundle: ${if (bundle != null) bundle.javaClass.simpleName +
@@ -64,7 +65,7 @@ class App : Application(), Application.ActivityLifecycleCallbacks {
         }
 
         private fun activityLifecycleLog(activity: Activity) {
-            Log.d("ActivityLifecycle", ("Activity: " + activity.javaClass.simpleName +
+            Log.d(DEBUG_TAG, ("Activity: " + activity.javaClass.simpleName +
                     ", Id: " + System.identityHashCode(activity) +
                     ", MethodName: " + trace(Thread.currentThread().stackTrace)))
         }

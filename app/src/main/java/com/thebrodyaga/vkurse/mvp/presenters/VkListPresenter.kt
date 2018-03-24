@@ -34,6 +34,7 @@ class VkListPresenter : BasePresenter<VkListView>() {
     }
 
     fun onErrorButtonClick() {
+        viewState.toggleErrorButton(false)
         viewState.toggleFullScreenProgress(true)
         loadFirstWall()
     }
@@ -82,7 +83,7 @@ class VkListPresenter : BasePresenter<VkListView>() {
                             viewState.setFirstData(it.wallPostList)
                         }, {
                             Log.e(DEBUG_TAG, "loadFirstWall error: " + it.message)
-                            viewState.showErrorButton()
+                            viewState.toggleErrorButton(true)
                         }, { viewState.toggleFullScreenProgress(false) })
         unsubscribeOnDestroy(disposable)
     }

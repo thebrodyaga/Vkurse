@@ -11,19 +11,17 @@ import com.thebrodyaga.vkobjects.wall.WallPostFull
 @StateStrategyType(AddToEndSingleStrategy::class)
 interface VkListView : MvpView {
 
-    fun showErrorButton()
-
-    fun toggleSwipeRefresh(isEnable: Boolean)
-
-    @StateStrategyType(value = OneExecutionStateStrategy::class)
-    fun hideRefreshing()
+    fun toggleErrorButton(isVisible: Boolean)
 
     fun toggleFullScreenProgress(isVisible: Boolean)
 
-    @StateStrategyType(value = OneExecutionStateStrategy::class)
+    @StateStrategyType(OneExecutionStateStrategy::class)
+    fun hideRefreshing()
+
+    @StateStrategyType(OneExecutionStateStrategy::class)
     fun hideProgressItem()
 
-    @StateStrategyType(value = OneExecutionStateStrategy::class)
+    @StateStrategyType(OneExecutionStateStrategy::class)
     fun showErrorToast()
 
     @StateStrategyType(SingleStateStrategy::class)

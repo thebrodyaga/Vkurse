@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="[Error Text]"
-        android:visibility="visible" />
+        android:visibility="invisible" />
 
     <ProgressBar
         android:id="@+id/progressBar"

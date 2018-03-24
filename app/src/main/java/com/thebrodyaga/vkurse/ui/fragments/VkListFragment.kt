@@ -3,6 +3,7 @@ package com.thebrodyaga.vkurse.ui.fragments
 
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -30,22 +31,25 @@ class VkListFragment : MvpAppCompatFragment(), ScrollToTopView, VkListView, VkPo
     @InjectPresenter()
     lateinit var vkListPresenter: VkListPresenter
     private lateinit var adapter: VkPostsAdapter
+    private lateinit var recyclerView: RecyclerView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_vk_lists, container, false)
         view.errorButton.setOnClickListener { vkListPresenter.onErrorButtonClick() }
         view.swipeRefresh.setOnRefreshListener { vkListPresenter.loadNewWall() }
-        val layoutManager = LinearLayoutManager(activity)
-        view.recyclerView.layoutManager = layoutManager
-        adapter = VkPostsAdapter(this, view.recyclerView)
-        view.recyclerView.adapter = adapter
+        recyclerView = view.recyclerView
+        recyclerView.layoutManager = LinearLayoutManager(this.context)
+        adapter = VkPostsAdapter(this, recyclerView)
+        recyclerView.adapter = adapter
         return view
     }
 
     override fun scrollTop(menuPosition: Int) {
-        if (menuPosition == VkFragmentPosition)
+        if (menuPosition == VkFragmentPosition) {
             Log.d(DEBUG_TAG, "scrollTop VkListFragment")
+            recyclerView.scrollToPosition(0)
+        }
     }
 
     override fun setFirstData(wallPostList: List<WallPostFull>) {
@@ -63,11 +67,9 @@ class VkListFragment : MvpAppCompatFragment(), ScrollToTopView, VkListView, VkPo
         adapter.setPostToEnd(wallPostList)
     }
 
-    override fun showErrorButton() {
-        Log.d(DEBUG_TAG, "showErrorButton VkListFragment")
-        errorButton.visibility = View.VISIBLE
-        swipeRefresh.visibility = View.GONE
-        progressBar.visibility = View.GONE
+    override fun toggleErrorButton(isVisible: Boolean) {
+        Log.d(DEBUG_TAG, "toggleErrorButton VkListFragment $isVisible")
+        errorButton.visibility = if (isVisible) View.VISIBLE else View.GONE
     }
 
     override fun hideProgressItem() {
@@ -79,11 +81,6 @@ class VkListFragment : MvpAppCompatFragment(), ScrollToTopView, VkListView, VkPo
         vkListPresenter.loadAfterLast()
     }
 
-    override fun toggleSwipeRefresh(isEnable: Boolean) {
-        Log.d(DEBUG_TAG, "toggleSwipeRefresh VkListFragment $isEnable")
-        swipeRefresh.isEnabled = isEnable
-    }
-
     override fun hideRefreshing() {
         Log.d(DEBUG_TAG, "hideRefreshing VkListFragment")
         swipeRefresh.isRefreshing = false
@@ -91,23 +88,17 @@ class VkListFragment : MvpAppCompatFragment(), ScrollToTopView, VkListView, VkPo
 
     override fun toggleFullScreenProgress(isVisible: Boolean) {
         Log.d(DEBUG_TAG, "toggleFullScreenProgress VkListFragment $isVisible")
-        toggleLoading(isVisible)
+        if (isVisible) {
+            swipeRefresh.visibility = View.GONE
+            progressBar.visibility = View.VISIBLE
+        } else {
+            swipeRefresh.visibility = View.VISIBLE
+            progressBar.visibility = View.GONE
+        }
     }
 
     override fun showErrorToast() {
         Toast.makeText(context, "Проблемы с сетью", Toast.LENGTH_SHORT).show()
-    }
-
-    private fun toggleLoading(isLoading: Boolean) {
-        if (isLoading) {
-            errorButton.visibility = View.GONE
-            swipeRefresh.visibility = View.GONE
-            progressBar.visibility = View.VISIBLE
-        } else {
-            errorButton.visibility = View.GONE
-            swipeRefresh.visibility = View.VISIBLE
-            progressBar.visibility = View.GONE
-        }
     }
 
     companion object {
