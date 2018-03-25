@@ -2,7 +2,6 @@ package com.thebrodyaga.vkurse.mvp.presenters
 
 import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
-import com.thebrodyaga.vkurse.R
 import com.thebrodyaga.vkurse.mvp.views.NavigationBarView
 
 /**
@@ -13,11 +12,11 @@ import com.thebrodyaga.vkurse.mvp.views.NavigationBarView
 class NavigationBarPresenter : MvpPresenter<NavigationBarView>() {
     fun onBottomBarClick(menuPosition: Int): Boolean {
         when (menuPosition) {
-            VkFragmentPosition -> {
-                viewState.showVkFragment()
+            ListPostsFragmentPosition -> {
+                viewState.showListPostsFragment()
             }
-            InstagramFragmentPosition -> {
-                viewState.showInstagramFragment()
+            ListGroupsFragmentPosition -> {
+                viewState.showListGroupsFragment()
             }
             ChatFragmentPosition -> {
                 viewState.showChatFragment()
@@ -26,8 +25,8 @@ class NavigationBarPresenter : MvpPresenter<NavigationBarView>() {
         return true
     }
     companion object {
-        const val VkFragmentPosition = 0
-        const val InstagramFragmentPosition = 1
+        const val ListPostsFragmentPosition = 0
+        const val ListGroupsFragmentPosition = 1
         const val ChatFragmentPosition = 2
     }
 }

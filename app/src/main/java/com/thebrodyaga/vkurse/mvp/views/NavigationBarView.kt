@@ -9,9 +9,9 @@ import com.arellomobile.mvp.viewstate.strategy.StateStrategyType
  */
 @StateStrategyType(value = OneExecutionStateStrategy::class)
 interface NavigationBarView : MvpView {
-    fun showVkFragment()
+    fun showListPostsFragment()
 
-    fun showInstagramFragment()
+    fun showListGroupsFragment()
 
     fun showChatFragment()
 }

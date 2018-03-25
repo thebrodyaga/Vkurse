@@ -18,16 +18,22 @@ import com.thebrodyaga.vkurse.common.DEBUG_TAG
 import com.thebrodyaga.vkurse.mvp.presenters.MainPresenter
 import com.thebrodyaga.vkurse.mvp.presenters.NavigationBarPresenter
 import com.thebrodyaga.vkurse.mvp.presenters.ScrollToTopPresenter
+import com.thebrodyaga.vkurse.mvp.presenters.SearchPresenter
 import com.thebrodyaga.vkurse.mvp.views.MainView
 import com.thebrodyaga.vkurse.mvp.views.NavigationBarView
 import com.thebrodyaga.vkurse.mvp.views.ScrollToTopView
+import com.thebrodyaga.vkurse.mvp.views.SearchView
+import android.support.v7.widget.SearchView as AndroidSearchView
 import com.thebrodyaga.vkurse.ui.fragments.ChatFragment
-import com.thebrodyaga.vkurse.ui.fragments.InstagramListFragment
-import com.thebrodyaga.vkurse.ui.fragments.VkListFragment
+import com.thebrodyaga.vkurse.ui.fragments.VkListGroupsFragment
+import com.thebrodyaga.vkurse.ui.fragments.VkListPostsFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
 
-class MainActivity : MvpAppCompatActivity(), NavigationBarView, MainView, ScrollToTopView {
+class MainActivity : MvpAppCompatActivity(), NavigationBarView, MainView, ScrollToTopView, SearchView {
+    override fun needSearch(query: String) {
+        Log.i("DebugTag", "needSearch")
+    }
 
     @InjectPresenter
     lateinit var navigationBarPresenter: NavigationBarPresenter
@@ -35,6 +41,10 @@ class MainActivity : MvpAppCompatActivity(), NavigationBarView, MainView, Scroll
     lateinit var mainPresenter: MainPresenter
     @InjectPresenter(type = PresenterType.GLOBAL, tag = ScrollToTopPresenter.ScrollToTopPresenterTAG)
     lateinit var scrollToTopPresenter: ScrollToTopPresenter
+    @InjectPresenter(type = PresenterType.GLOBAL, tag = SearchPresenter.SearchPresenterTAG)
+    lateinit var searchPresenter: SearchPresenter
+
+    private var searchItem: MenuItem? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,17 +65,21 @@ class MainActivity : MvpAppCompatActivity(), NavigationBarView, MainView, Scroll
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.main_toolbar, menu)
+        searchItem = menu?.findItem(R.id.toolbar_search)
+        searchItem?.isVisible = false
+        val searchView: AndroidSearchView? = searchItem?.actionView as AndroidSearchView?
+        searchView?.setOnQueryTextListener(searchPresenter)
         return true
     }
 
-    override fun showVkFragment() {
-        Log.d(DEBUG_TAG, "showVkFragment")
-        managingFragment(VkListFragment.FragmentTAG)
+    override fun showListPostsFragment() {
+        Log.d(DEBUG_TAG, "showListPostsFragment")
+        managingFragment(VkListPostsFragment.FragmentTAG)
     }
 
-    override fun showInstagramFragment() {
-        Log.d(DEBUG_TAG, "showInstagramFragment")
-        managingFragment(InstagramListFragment.FragmentTAG)
+    override fun showListGroupsFragment() {
+        Log.d(DEBUG_TAG, "showListGroupsFragment")
+        managingFragment(VkListGroupsFragment.FragmentTAG)
     }
 
     override fun showChatFragment() {
@@ -82,7 +96,6 @@ class MainActivity : MvpAppCompatActivity(), NavigationBarView, MainView, Scroll
         startActivity(Intent(this, SettingActivity::class.java))
     }
 
-
     override fun scrollTop(menuPosition: Int) {    //реализация в фрагремнтах
         Log.d(DEBUG_TAG, "scrollTop MainActivity")
         myAppBar.setExpanded(true)
@@ -93,10 +106,11 @@ class MainActivity : MvpAppCompatActivity(), NavigationBarView, MainView, Scroll
     private fun managingFragment(fragmentTag: String) {
         val fragment = supportFragmentManager.findFragmentByTag(fragmentTag)
         when (fragmentTag) {
-            VkListFragment.FragmentTAG -> if (fragment != null) showFragment(fragment) else addFragment(VkListFragment(), fragmentTag)
-            InstagramListFragment.FragmentTAG -> if (fragment != null) showFragment(fragment) else addFragment(InstagramListFragment(), fragmentTag)
+            VkListPostsFragment.FragmentTAG -> if (fragment != null) showFragment(fragment) else addFragment(VkListPostsFragment(), fragmentTag)
+            VkListGroupsFragment.FragmentTAG -> if (fragment != null) showFragment(fragment) else addFragment(VkListGroupsFragment(), fragmentTag)
             ChatFragment.FragmentTAG -> if (fragment != null) showFragment(fragment) else addFragment(ChatFragment(), fragmentTag)
         }
+        searchItem?.isVisible = fragmentTag == VkListGroupsFragment.FragmentTAG
     }
 
     private fun addFragment(fragment: Fragment, fragmentTag: String) {
@@ -113,9 +127,9 @@ class MainActivity : MvpAppCompatActivity(), NavigationBarView, MainView, Scroll
     @SuppressLint("CommitTransaction")
     private fun checkVisibleFragment(): FragmentTransaction {
         val fragmentTransaction = supportFragmentManager.beginTransaction()
-        var fragment = supportFragmentManager.findFragmentByTag(VkListFragment.FragmentTAG)
+        var fragment = supportFragmentManager.findFragmentByTag(VkListPostsFragment.FragmentTAG)
         if (fragment != null) fragmentTransaction.hide(fragment)
-        fragment = supportFragmentManager.findFragmentByTag(InstagramListFragment.FragmentTAG)
+        fragment = supportFragmentManager.findFragmentByTag(VkListGroupsFragment.FragmentTAG)
         if (fragment != null) fragmentTransaction.hide(fragment)
         fragment = supportFragmentManager.findFragmentByTag(ChatFragment.FragmentTAG)
         if (fragment != null) fragmentTransaction.hide(fragment)

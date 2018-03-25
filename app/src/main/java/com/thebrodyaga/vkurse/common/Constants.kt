@@ -5,3 +5,4 @@ package com.thebrodyaga.vkurse.common
  */
 
 const val DEBUG_TAG = "DebugTag"
+const val LIVECYCLE_CALLBACKS_TAG = "LifecycleCallbacksTag"

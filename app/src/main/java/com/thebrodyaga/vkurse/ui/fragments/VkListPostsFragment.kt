@@ -15,17 +15,17 @@ import com.arellomobile.mvp.presenter.PresenterType
 import com.thebrodyaga.vkobjects.wall.WallPostFull
 import com.thebrodyaga.vkurse.R
 import com.thebrodyaga.vkurse.common.DEBUG_TAG
-import com.thebrodyaga.vkurse.mvp.presenters.NavigationBarPresenter.Companion.VkFragmentPosition
+import com.thebrodyaga.vkurse.mvp.presenters.NavigationBarPresenter.Companion.ListPostsFragmentPosition
 import com.thebrodyaga.vkurse.mvp.presenters.ScrollToTopPresenter
 import com.thebrodyaga.vkurse.mvp.presenters.VkListPresenter
 import com.thebrodyaga.vkurse.mvp.views.ScrollToTopView
 import com.thebrodyaga.vkurse.mvp.views.VkListView
 import com.thebrodyaga.vkurse.ui.adapters.VkPostsAdapter
-import kotlinx.android.synthetic.main.fragment_vk_lists.*
-import kotlinx.android.synthetic.main.fragment_vk_lists.view.*
+import kotlinx.android.synthetic.main.fragment_vk_list_posts.*
+import kotlinx.android.synthetic.main.fragment_vk_list_posts.view.*
 
 
-class VkListFragment : MvpAppCompatFragment(), ScrollToTopView, VkListView, VkPostsAdapter.OnLoadMoreListener {
+class VkListPostsFragment : MvpAppCompatFragment(), ScrollToTopView, VkListView, VkPostsAdapter.OnLoadMoreListener {
     @InjectPresenter(type = PresenterType.GLOBAL, tag = ScrollToTopPresenter.ScrollToTopPresenterTAG)
     lateinit var scrollToTopPresenter: ScrollToTopPresenter
     @InjectPresenter()
@@ -35,7 +35,7 @@ class VkListFragment : MvpAppCompatFragment(), ScrollToTopView, VkListView, VkPo
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_vk_lists, container, false)
+        val view = inflater.inflate(R.layout.fragment_vk_list_posts, container, false)
         view.errorButton.setOnClickListener { vkListPresenter.onErrorButtonClick() }
         view.swipeRefresh.setOnRefreshListener { vkListPresenter.loadNewWall() }
         recyclerView = view.recyclerView
@@ -46,34 +46,34 @@ class VkListFragment : MvpAppCompatFragment(), ScrollToTopView, VkListView, VkPo
     }
 
     override fun scrollTop(menuPosition: Int) {
-        if (menuPosition == VkFragmentPosition) {
-            Log.d(DEBUG_TAG, "scrollTop VkListFragment")
+        if (menuPosition == ListPostsFragmentPosition) {
+            Log.d(DEBUG_TAG, "scrollTop VkListPostsFragment")
             recyclerView.scrollToPosition(0)
         }
     }
 
     override fun setFirstData(wallPostList: List<WallPostFull>) {
-        Log.d(DEBUG_TAG, "setFirstData VkListFragment")
+        Log.d(DEBUG_TAG, "setFirstData VkListPostsFragment")
         adapter.setPostToEnd(wallPostList)
     }
 
     override fun setNewData(wallPostList: List<WallPostFull>) {
-        Log.d(DEBUG_TAG, "setNewData VkListFragment")
+        Log.d(DEBUG_TAG, "setNewData VkListPostsFragment")
         adapter.setPostToStart(wallPostList)
     }
 
     override fun setAfterLastData(wallPostList: List<WallPostFull>) {
-        Log.d(DEBUG_TAG, "setAfterLastData VkListFragment")
+        Log.d(DEBUG_TAG, "setAfterLastData VkListPostsFragment")
         adapter.setPostToEnd(wallPostList)
     }
 
     override fun toggleErrorButton(isVisible: Boolean) {
-        Log.d(DEBUG_TAG, "toggleErrorButton VkListFragment $isVisible")
+        Log.d(DEBUG_TAG, "toggleErrorButton VkListPostsFragment $isVisible")
         errorButton.visibility = if (isVisible) View.VISIBLE else View.GONE
     }
 
     override fun hideProgressItem() {
-        Log.d(DEBUG_TAG, "hideProgressItem VkListFragment")
+        Log.d(DEBUG_TAG, "hideProgressItem VkListPostsFragment")
         adapter.removedProgressItem()
     }
 
@@ -82,12 +82,12 @@ class VkListFragment : MvpAppCompatFragment(), ScrollToTopView, VkListView, VkPo
     }
 
     override fun hideRefreshing() {
-        Log.d(DEBUG_TAG, "hideRefreshing VkListFragment")
+        Log.d(DEBUG_TAG, "hideRefreshing VkListPostsFragment")
         swipeRefresh.isRefreshing = false
     }
 
     override fun toggleFullScreenProgress(isVisible: Boolean) {
-        Log.d(DEBUG_TAG, "toggleFullScreenProgress VkListFragment $isVisible")
+        Log.d(DEBUG_TAG, "toggleFullScreenProgress VkListPostsFragment $isVisible")
         if (isVisible) {
             swipeRefresh.visibility = View.GONE
             progressBar.visibility = View.VISIBLE
@@ -102,6 +102,6 @@ class VkListFragment : MvpAppCompatFragment(), ScrollToTopView, VkListView, VkPo
     }
 
     companion object {
-        const val FragmentTAG = "VkListFragmentTAG"
+        const val FragmentTAG = "VkListPostsFragmentTAG"
     }
 }
