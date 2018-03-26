@@ -1,7 +1,6 @@
 package com.thebrodyaga.vkurse.common
 
 import android.text.format.DateUtils
-import android.text.format.Time
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -20,16 +19,16 @@ fun getDate(milli: Long): String {
 }
 
 fun isYesterday(milli: Long): Boolean {
-    val time = Time()
-    time.set(milli)
-    val thenYear = time.year
-    val thenMonth = time.month
-    val thenMonthDay = time.monthDay
+    val time = GregorianCalendar.getInstance()
+    time.timeInMillis = milli
+    val thenYear = time.get(GregorianCalendar.YEAR)
+    val thenMonth = time.get(GregorianCalendar.MONTH)
+    val thenMonthDay = time.get(GregorianCalendar.DAY_OF_MONTH)
 
-    time.set(System.currentTimeMillis() - DateUtils.DAY_IN_MILLIS)
-    return (thenYear == time.year
-            && thenMonth == time.month
-            && thenMonthDay == time.monthDay)
+    time.timeInMillis = (System.currentTimeMillis() - DateUtils.DAY_IN_MILLIS)
+    return (thenYear == time.get(GregorianCalendar.YEAR)
+            && thenMonth == time.get(GregorianCalendar.MONTH)
+            && thenMonthDay == time.get(GregorianCalendar.DAY_OF_MONTH))
 }
 
 /**
