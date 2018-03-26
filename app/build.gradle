@@ -64,10 +64,10 @@ dependencies {
     kapt "com.arello-mobile:moxy-compiler:$moxy"
     implementation 'com.felipecsl.asymmetricgridview:library:2.0.1'
 
-    //группировка изображений
-    implementation 'de.hdodenhof:circleimageview:2.1.0'
-
     //круглые иконки
+    implementation 'de.hdodenhof:circleimageview:2.2.0'
+
+    //группировка изображений
     implementation 'at.blogc:expandabletextview:1.0.3'
 
     //"Показать полностью..." TextView

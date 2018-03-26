@@ -7,7 +7,8 @@ import com.thebrodyaga.vkurse.mvp.views.MainView
 import com.thebrodyaga.vkurse.ui.fragments.VkListPostsFragment
 
 /**
- * Created by Emelyanov.N4 on 19.02.2018.
+ * Created by Emelyanov.N4
+ *         on 19.02.2018.
  */
 @InjectViewState
 class MainPresenter : MvpPresenter<MainView>() {

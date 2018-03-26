@@ -14,7 +14,8 @@ import io.reactivex.disposables.Disposable
 import javax.inject.Inject
 
 /**
- * Created by Emelyanov.N4 on 22.02.2018.
+ * Created by Emelyanov.N4
+ *         on 22.02.2018.
  */
 @InjectViewState
 class VkListPresenter : BasePresenter<VkListView>() {
@@ -50,9 +51,8 @@ class VkListPresenter : BasePresenter<VkListView>() {
                         }, {
                             Log.e(DEBUG_TAG, "loadFirstWall error: " + it.message)
                             viewState.showErrorToast()
-                        }, {
                             viewState.hideRefreshing()
-                        })
+                        }, { viewState.hideRefreshing() })
         unsubscribeOnDestroy(disposable)
     }
 
@@ -84,6 +84,7 @@ class VkListPresenter : BasePresenter<VkListView>() {
                         }, {
                             Log.e(DEBUG_TAG, "loadFirstWall error: " + it.message)
                             viewState.toggleErrorButton(true)
+                            viewState.toggleFullScreenProgress(false)
                         }, { viewState.toggleFullScreenProgress(false) })
         unsubscribeOnDestroy(disposable)
     }

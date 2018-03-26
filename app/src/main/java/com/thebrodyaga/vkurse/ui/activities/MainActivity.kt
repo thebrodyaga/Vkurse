@@ -18,11 +18,11 @@ import com.thebrodyaga.vkurse.common.DEBUG_TAG
 import com.thebrodyaga.vkurse.mvp.presenters.MainPresenter
 import com.thebrodyaga.vkurse.mvp.presenters.NavigationBarPresenter
 import com.thebrodyaga.vkurse.mvp.presenters.ScrollToTopPresenter
-import com.thebrodyaga.vkurse.mvp.presenters.SearchPresenter
+import com.thebrodyaga.vkurse.mvp.presenters.ToolbarSearchPresenter
 import com.thebrodyaga.vkurse.mvp.views.MainView
 import com.thebrodyaga.vkurse.mvp.views.NavigationBarView
 import com.thebrodyaga.vkurse.mvp.views.ScrollToTopView
-import com.thebrodyaga.vkurse.mvp.views.SearchView
+import com.thebrodyaga.vkurse.mvp.views.ToolbarSearchView
 import android.support.v7.widget.SearchView as AndroidSearchView
 import com.thebrodyaga.vkurse.ui.fragments.ChatFragment
 import com.thebrodyaga.vkurse.ui.fragments.VkListGroupsFragment
@@ -30,10 +30,7 @@ import com.thebrodyaga.vkurse.ui.fragments.VkListPostsFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
 
-class MainActivity : MvpAppCompatActivity(), NavigationBarView, MainView, ScrollToTopView, SearchView {
-    override fun needSearch(query: String) {
-        Log.i("DebugTag", "needSearch")
-    }
+class MainActivity : MvpAppCompatActivity(), NavigationBarView, MainView, ScrollToTopView, ToolbarSearchView {
 
     @InjectPresenter
     lateinit var navigationBarPresenter: NavigationBarPresenter
@@ -41,8 +38,8 @@ class MainActivity : MvpAppCompatActivity(), NavigationBarView, MainView, Scroll
     lateinit var mainPresenter: MainPresenter
     @InjectPresenter(type = PresenterType.GLOBAL, tag = ScrollToTopPresenter.ScrollToTopPresenterTAG)
     lateinit var scrollToTopPresenter: ScrollToTopPresenter
-    @InjectPresenter(type = PresenterType.GLOBAL, tag = SearchPresenter.SearchPresenterTAG)
-    lateinit var searchPresenter: SearchPresenter
+    @InjectPresenter(type = PresenterType.GLOBAL, tag = ToolbarSearchPresenter.SearchPresenterTAG)
+    lateinit var toolbarSearchPresenter: ToolbarSearchPresenter
 
     private var searchItem: MenuItem? = null
 
@@ -68,7 +65,7 @@ class MainActivity : MvpAppCompatActivity(), NavigationBarView, MainView, Scroll
         searchItem = menu?.findItem(R.id.toolbar_search)
         searchItem?.isVisible = false
         val searchView: AndroidSearchView? = searchItem?.actionView as AndroidSearchView?
-        searchView?.setOnQueryTextListener(searchPresenter)
+        searchView?.setOnQueryTextListener(toolbarSearchPresenter)
         return true
     }
 
@@ -100,6 +97,10 @@ class MainActivity : MvpAppCompatActivity(), NavigationBarView, MainView, Scroll
         Log.d(DEBUG_TAG, "scrollTop MainActivity")
         myAppBar.setExpanded(true)
         return
+    }
+
+    override fun needSearch(query: String) {
+        Log.i("DebugTag", "needSearch MainActivity")
     }
 
     //<editor-fold desc="Тасовка фрагментов">

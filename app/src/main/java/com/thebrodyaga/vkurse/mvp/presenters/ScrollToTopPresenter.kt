@@ -5,7 +5,8 @@ import com.arellomobile.mvp.MvpPresenter
 import com.thebrodyaga.vkurse.mvp.views.ScrollToTopView
 
 /**
- * Created by Emelyanov.N4 on 19.02.2018.
+ * Created by Emelyanov.N4
+ *         on 19.02.2018.
  */
 
 

@@ -12,7 +12,8 @@ import com.thebrodyaga.vkurse.di.DaggerAppComponent
 import com.thebrodyaga.vkurse.di.modules.ContextModule
 
 /**
- * Created by Win10 on 18.07.2017.
+ * Created by Win10
+ *         on 18.07.2017.
  */
 
 class App : Application(), Application.ActivityLifecycleCallbacks {
@@ -74,9 +75,7 @@ class App : Application(), Application.ActivityLifecycleCallbacks {
         private fun trace(e: Array<StackTraceElement>): String {
             var doNext = false
             for (s in e) {
-                if (doNext) {
-                    return s.methodName
-                }
+                if (doNext) return s.methodName
                 doNext = s.methodName.contains("access\$activityLifecycleLog")
             }
             return "null"

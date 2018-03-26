@@ -8,12 +8,13 @@
     </string>
     <string name="item_subtitle">Subhead</string>
     <string name="text_post_description">Post text</string>
-    <string name="show_more">Показать полностью...</string>
+    <string name="show_more">Показать полностью…</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_main2">Main2Activity</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+
+    <string name="list_subhead_text">Глобальный поиск</string>
+    <string name="itemGroupName">[GroupName]</string>
 </resources>

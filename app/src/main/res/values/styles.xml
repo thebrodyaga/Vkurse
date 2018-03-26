@@ -16,4 +16,16 @@
         <item name="colorAccent">@color/button_grey</item>
     </style>
 
+    <style name="SubHeadersText" parent="android:Widget.TextView">
+        <item name="android:textColor">#8C000000</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="ItemSingleLineText" parent="android:Widget.TextView">
+        <item name="android:textColor">#E6000000</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
 </resources>

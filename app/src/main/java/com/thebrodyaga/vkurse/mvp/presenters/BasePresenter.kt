@@ -6,7 +6,8 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 
 /**
- * Created by Emelyanov.N4 on 19.02.2018.
+ * Created by Emelyanov.N4
+ *         on 19.02.2018.
  */
 open class BasePresenter<View : MvpView> : MvpPresenter<View>() {
         private val compositeDisposable: CompositeDisposable = CompositeDisposable()

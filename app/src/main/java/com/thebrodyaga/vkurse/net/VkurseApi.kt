@@ -12,7 +12,8 @@ import retrofit2.http.POST
 import retrofit2.http.Query
 
 /**
- * Created by Emelyanov.N4 on 16.12.2017.
+ * Created by Emelyanov.N4
+ *         on 16.12.2017.
  */
 
 interface VkurseApi {

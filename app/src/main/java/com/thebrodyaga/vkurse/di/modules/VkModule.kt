@@ -7,7 +7,8 @@ import dagger.Provides
 import javax.inject.Singleton
 
 /**
- * Created by Emelyanov.N4 on 24.02.2018.
+ * Created by Emelyanov.N4
+ *         on 24.02.2018.
  */
 
 @Module(includes = [(ApiModule::class)])

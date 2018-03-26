@@ -13,7 +13,8 @@ import com.thebrodyaga.vkurse.common.getDate
 import kotlinx.android.synthetic.main.card_item.view.*
 
 /**
- * Created by Emelyanov.N4 on 03.03.2018.
+ * Created by Emelyanov.N4
+ *         on 03.03.2018.
  */
 class VkPostsAdapter(private val onLoadMoreListener: OnLoadMoreListener,
                      recyclerView: RecyclerView) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -42,7 +43,7 @@ class VkPostsAdapter(private val onLoadMoreListener: OnLoadMoreListener,
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return if (viewType == VIEW_POST)
             PostHolder(LayoutInflater.from(parent.context).inflate(R.layout.card_item, parent, false))
-        else ProgressHolder(ProgressBar(parent.context))
+        else ProgressHolder(LayoutInflater.from(parent.context).inflate(R.layout.middle_progress_bar, parent, false))
 
 
     }

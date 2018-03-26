@@ -9,7 +9,8 @@ import javax.inject.Singleton
 
 
 /**
- * Created by Emelyanov.N4 on 16.02.2018.
+ * Created by Emelyanov.N4
+ *         on 16.02.2018.
  */
 @Singleton
 @Component(modules = [(ContextModule::class), (VkModule::class)])

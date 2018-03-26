@@ -4,7 +4,8 @@ import com.thebrodyaga.vkobjects.wall.WallPostFull
 
 
 /**
- * Created by Emelyanov.N4 on 22.02.2018.
+ * Created by Emelyanov.N4
+ *         on 22.02.2018.
  */
 
 data class VkWallResponse(val wallPostList: List<WallPostFull>,
