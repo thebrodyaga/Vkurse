@@ -19,16 +19,7 @@ fun getDate(milli: Long): String {
 }
 
 fun isYesterday(milli: Long): Boolean {
-    val time = GregorianCalendar.getInstance()
-    time.timeInMillis = milli
-    val thenYear = time.get(GregorianCalendar.YEAR)
-    val thenMonth = time.get(GregorianCalendar.MONTH)
-    val thenMonthDay = time.get(GregorianCalendar.DAY_OF_MONTH)
-
-    time.timeInMillis = (System.currentTimeMillis() - DateUtils.DAY_IN_MILLIS)
-    return (thenYear == time.get(GregorianCalendar.YEAR)
-            && thenMonth == time.get(GregorianCalendar.MONTH)
-            && thenMonthDay == time.get(GregorianCalendar.DAY_OF_MONTH))
+    return DateUtils.isToday(milli + DateUtils.DAY_IN_MILLIS)
 }
 
 /**
