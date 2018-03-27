@@ -10,7 +10,7 @@ import com.thebrodyaga.vkobjects.wall.WallPostFull
  *         on 22.02.2018.
  */
 @StateStrategyType(AddToEndSingleStrategy::class)
-interface VkListView : MvpView {
+interface VkListPostsView : MvpView {
 
     fun toggleErrorButton(isVisible: Boolean)
 

@@ -58,7 +58,7 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-gson:$retrofit"
     implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit"
     implementation 'com.squareup.okhttp3:logging-interceptor:3.8.1'
-    implementation 'com.squareup.picasso:picasso:2.5.2'
+    implementation 'com.squareup.picasso:picasso:2.71828'
     implementation "com.arello-mobile:moxy:$moxy"
     implementation "com.arello-mobile:moxy-app-compat:$moxy"
     kapt "com.arello-mobile:moxy-compiler:$moxy"

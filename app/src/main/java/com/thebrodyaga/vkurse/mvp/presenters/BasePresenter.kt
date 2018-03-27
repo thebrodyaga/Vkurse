@@ -10,14 +10,18 @@ import io.reactivex.disposables.Disposable
  *         on 19.02.2018.
  */
 open class BasePresenter<View : MvpView> : MvpPresenter<View>() {
-        private val compositeDisposable: CompositeDisposable = CompositeDisposable()
+    private val compositeDisposable: CompositeDisposable = CompositeDisposable()
 
-        protected fun unsubscribeOnDestroy(disposable: Disposable) {
-            compositeDisposable.add(disposable)
-        }
+    protected fun unSubscribeOnDestroy(disposable: Disposable) {
+        compositeDisposable.add(disposable)
+    }
 
-        override fun onDestroy() {
-            super.onDestroy()
-            compositeDisposable.clear()
-        }
+    protected fun clearDisposable() {
+        compositeDisposable.clear()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        compositeDisposable.clear()
+    }
 }

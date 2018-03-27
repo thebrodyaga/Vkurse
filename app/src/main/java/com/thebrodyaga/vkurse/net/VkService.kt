@@ -24,7 +24,7 @@ class VkService(private var vkurseApi: VkurseApi) {
         return vkurseApi.getNewWall(vkWallBody)
     }
 
-    fun searchGroups(query: String, offset: Int?): Observable<SearchResponse> {
+    fun searchGroups(query: String, offset: Int = 0): Observable<SearchResponse> {
         return vkurseApi.searchGroups(query, offset)
     }
 

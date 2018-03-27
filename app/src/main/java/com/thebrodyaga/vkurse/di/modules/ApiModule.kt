@@ -21,7 +21,7 @@ import javax.inject.Singleton
  *         on 24.02.2018.
  */
 
-@Module
+@Module(includes = [OkHttpClientModule::class])
 class ApiModule {
     @Provides
     @Singleton
@@ -44,21 +44,6 @@ class ApiModule {
     @Singleton
     fun provideConverterFactory(gson: Gson): Converter.Factory {
         return GsonConverterFactory.create(gson)
-    }
-
-    @Provides
-    @Singleton
-    fun provideOkHttpClient(httpLoggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
-        return OkHttpClient.Builder()
-                .addInterceptor(httpLoggingInterceptor)
-                .build()
-    }
-
-    @Provides
-    @Singleton
-    fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor {
-        return HttpLoggingInterceptor().setLevel(if (BuildConfig.DEBUG)
-            HttpLoggingInterceptor.Level.BASIC else HttpLoggingInterceptor.Level.NONE)
     }
 
     @Provides

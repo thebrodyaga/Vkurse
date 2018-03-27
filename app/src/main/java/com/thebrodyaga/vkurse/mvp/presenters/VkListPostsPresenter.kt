@@ -7,7 +7,7 @@ import com.thebrodyaga.vkurse.common.DEBUG_TAG
 import com.thebrodyaga.vkurse.mvp.models.gson.VkWallBody
 import com.thebrodyaga.vkurse.mvp.models.gson.VkWallResponse
 import com.thebrodyaga.vkurse.mvp.models.gson.testOwnerInfoList
-import com.thebrodyaga.vkurse.mvp.views.VkListView
+import com.thebrodyaga.vkurse.mvp.views.VkListPostsView
 import com.thebrodyaga.vkurse.net.VkService
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -18,7 +18,7 @@ import javax.inject.Inject
  *         on 22.02.2018.
  */
 @InjectViewState
-class VkListPresenter : BasePresenter<VkListView>() {
+class VkListPostsPresenter : BasePresenter<VkListPostsView>() {
     init {
         App.appComponent.inject(this)
     }
@@ -53,7 +53,7 @@ class VkListPresenter : BasePresenter<VkListView>() {
                             viewState.showErrorToast()
                             viewState.hideRefreshing()
                         }, { viewState.hideRefreshing() })
-        unsubscribeOnDestroy(disposable)
+        unSubscribeOnDestroy(disposable)
     }
 
     fun loadAfterLast() {
@@ -69,7 +69,7 @@ class VkListPresenter : BasePresenter<VkListView>() {
                             viewState.hideProgressItem()
                             viewState.showErrorToast()
                         })
-        unsubscribeOnDestroy(disposable)
+        unSubscribeOnDestroy(disposable)
     }
 
     private fun loadFirstWall() {
@@ -86,7 +86,7 @@ class VkListPresenter : BasePresenter<VkListView>() {
                             viewState.toggleErrorButton(true)
                             viewState.toggleFullScreenProgress(false)
                         }, { viewState.toggleFullScreenProgress(false) })
-        unsubscribeOnDestroy(disposable)
+        unSubscribeOnDestroy(disposable)
     }
 
     private fun setCurrentState(it: VkWallResponse, last: Int? = null, first: Int? = null) {

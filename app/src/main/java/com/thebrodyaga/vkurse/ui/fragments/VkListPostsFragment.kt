@@ -17,27 +17,28 @@ import com.thebrodyaga.vkurse.R
 import com.thebrodyaga.vkurse.common.DEBUG_TAG
 import com.thebrodyaga.vkurse.mvp.presenters.NavigationBarPresenter.Companion.ListPostsFragmentPosition
 import com.thebrodyaga.vkurse.mvp.presenters.ScrollToTopPresenter
-import com.thebrodyaga.vkurse.mvp.presenters.VkListPresenter
+import com.thebrodyaga.vkurse.mvp.presenters.VkListPostsPresenter
 import com.thebrodyaga.vkurse.mvp.views.ScrollToTopView
-import com.thebrodyaga.vkurse.mvp.views.VkListView
+import com.thebrodyaga.vkurse.mvp.views.VkListPostsView
+import com.thebrodyaga.vkurse.ui.adapters.BaseAdapter
 import com.thebrodyaga.vkurse.ui.adapters.VkPostsAdapter
 import kotlinx.android.synthetic.main.fragment_vk_list_posts.*
 import kotlinx.android.synthetic.main.fragment_vk_list_posts.view.*
 
 
-class VkListPostsFragment : MvpAppCompatFragment(), ScrollToTopView, VkListView, VkPostsAdapter.OnLoadMoreListener {
+class VkListPostsFragment : MvpAppCompatFragment(), ScrollToTopView, VkListPostsView, BaseAdapter.OnLoadMoreListener {
     @InjectPresenter(type = PresenterType.GLOBAL, tag = ScrollToTopPresenter.ScrollToTopPresenterTAG)
     lateinit var scrollToTopPresenter: ScrollToTopPresenter
     @InjectPresenter()
-    lateinit var vkListPresenter: VkListPresenter
+    lateinit var vkListPostsPresenter: VkListPostsPresenter
     private lateinit var adapter: VkPostsAdapter
     private lateinit var recyclerView: RecyclerView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_vk_list_posts, container, false)
-        view.errorButton.setOnClickListener { vkListPresenter.onErrorButtonClick() }
-        view.swipeRefresh.setOnRefreshListener { vkListPresenter.loadNewWall() }
+        view.errorButton.setOnClickListener { vkListPostsPresenter.onErrorButtonClick() }
+        view.swipeRefresh.setOnRefreshListener { vkListPostsPresenter.loadNewWall() }
         recyclerView = view.recyclerView
         recyclerView.layoutManager = LinearLayoutManager(this.context)
         adapter = VkPostsAdapter(this, recyclerView)
@@ -78,7 +79,7 @@ class VkListPostsFragment : MvpAppCompatFragment(), ScrollToTopView, VkListView,
     }
 
     override fun onLoadMore() {
-        vkListPresenter.loadAfterLast()
+        vkListPostsPresenter.loadAfterLast()
     }
 
     override fun hideRefreshing() {

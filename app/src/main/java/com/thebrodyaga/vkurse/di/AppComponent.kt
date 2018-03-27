@@ -1,10 +1,14 @@
 package com.thebrodyaga.vkurse.di
 
-import android.content.Context
-import com.thebrodyaga.vkurse.di.modules.ContextModule
+import com.thebrodyaga.vkurse.di.modules.PicassoModule
 import com.thebrodyaga.vkurse.di.modules.VkModule
-import com.thebrodyaga.vkurse.mvp.presenters.VkListPresenter
+import com.thebrodyaga.vkurse.mvp.presenters.VkListPostsPresenter
+import com.thebrodyaga.vkurse.mvp.presenters.VkListSearchGroupsPresenter
+import com.thebrodyaga.vkurse.ui.adapters.BaseAdapter
+import com.thebrodyaga.vkurse.ui.adapters.VkGroupsAdapter
+import com.thebrodyaga.vkurse.ui.adapters.VkPostsAdapter
 import dagger.Component
+import java.util.*
 import javax.inject.Singleton
 
 
@@ -13,8 +17,10 @@ import javax.inject.Singleton
  *         on 16.02.2018.
  */
 @Singleton
-@Component(modules = [(ContextModule::class), (VkModule::class)])
+@Component(modules = [(PicassoModule::class), (VkModule::class)])
 interface AppComponent {
-    fun getContext(): Context
-    fun inject(vkListPresenter: VkListPresenter)
+    fun inject(vkListPostsPresenter: VkListPostsPresenter)
+    fun inject(vkListGroupsPresenter: VkListSearchGroupsPresenter)
+    fun inject(baseAdapter: VkPostsAdapter)
+    fun inject(baseAdapter: VkGroupsAdapter)
 }
