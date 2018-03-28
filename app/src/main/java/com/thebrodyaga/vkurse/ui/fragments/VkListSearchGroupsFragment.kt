@@ -53,8 +53,8 @@ class VkListSearchGroupsFragment : MvpAppCompatFragment(), ToolbarSearchView, Vk
 
     override fun notNeedSearch() {
         Log.i(DEBUG_TAG, "notNeedSearch VkListSearchGroupsFragment")
-        vkListSearchGroupsPresenter.stopSearch()
         adapter.clearList()
+        vkListSearchGroupsPresenter.stopSearch()
     }
     //</editor-fold>
 
@@ -97,5 +97,6 @@ class VkListSearchGroupsFragment : MvpAppCompatFragment(), ToolbarSearchView, Vk
 
     override fun onLoadMore() {
         Log.i(DEBUG_TAG, "onLoadMore VkListSearchGroupsFragment")
+        vkListSearchGroupsPresenter.offsetSearchGroups()
     }
 }

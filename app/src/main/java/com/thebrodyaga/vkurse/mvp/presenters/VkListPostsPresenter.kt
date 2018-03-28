@@ -48,11 +48,12 @@ class VkListPostsPresenter : BasePresenter<VkListPostsView>() {
                             Log.d(DEBUG_TAG, "loadNewWall successful")
                             setCurrentState(it, first = it.wallPostList.firstOrNull()?.date)
                             viewState.setNewData(it.wallPostList)
+                            viewState.hideRefreshing()
                         }, {
                             Log.e(DEBUG_TAG, "loadFirstWall error: " + it.message)
                             viewState.showErrorToast()
                             viewState.hideRefreshing()
-                        }, { viewState.hideRefreshing() })
+                        })
         unSubscribeOnDestroy(disposable)
     }
 
@@ -81,11 +82,12 @@ class VkListPostsPresenter : BasePresenter<VkListPostsView>() {
                             setCurrentState(it, first = it.wallPostList.first().date,
                                     last = it.wallPostList.last().date)
                             viewState.setFirstData(it.wallPostList)
+                            viewState.toggleFullScreenProgress(false)
                         }, {
                             Log.e(DEBUG_TAG, "loadFirstWall error: " + it.message)
                             viewState.toggleErrorButton(true)
                             viewState.toggleFullScreenProgress(false)
-                        }, { viewState.toggleFullScreenProgress(false) })
+                        })
         unSubscribeOnDestroy(disposable)
     }
 

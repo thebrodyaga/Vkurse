@@ -24,6 +24,8 @@ class VkListSearchGroupsPresenter : BasePresenter<VkListSearchGroupsView>() {
     @Inject
     lateinit var vkService: VkService
     private val searchHandler = Handler()
+    private var currentOffset = 0
+    private var currentQuery = ""
 
     override fun onFirstViewAttach() {
         viewState.toggleSearchFragment(false)
@@ -35,26 +37,32 @@ class VkListSearchGroupsPresenter : BasePresenter<VkListSearchGroupsView>() {
                 vkService.searchGroups(query)
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe({
-                            Log.d(DEBUG_TAG, "loadWallAfterLast successful")
+                            currentQuery = query
+                            currentOffset = it.items.size
+                            Log.d(DEBUG_TAG, "newSearchGroups successful")
                             viewState.setNewResult(it)
                             viewState.toggleProgress(false)
                         }, {
-                            Log.e(DEBUG_TAG, "loadFirstWall error: " + it.message)
+                            Log.e(DEBUG_TAG, "newSearchGroups error: " + it.message)
                             viewState.toggleProgress(false)
                             viewState.showErrorToast()
                         })
         unSubscribeOnDestroy(disposable)
     }
 
-    fun offsetSearchGroups(query: String, offset: Int) {
+    fun offsetSearchGroups() {
         Log.i(DEBUG_TAG, "offsetSearchGroups")
         val disposable: Disposable =
-                vkService.searchGroups(query, offset)
+                vkService.searchGroups(currentQuery, currentOffset)
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe({
-                            Log.d(DEBUG_TAG, "loadWallAfterLast successful")
+                            Log.d(DEBUG_TAG, "offsetSearchGroups successful")
+                            currentOffset += it.items.size
+                            viewState.setOffsetResult(it)
                         }, {
-                            Log.e(DEBUG_TAG, "loadFirstWall error: " + it.message)
+                            Log.e(DEBUG_TAG, "offsetSearchGroups error: " + it.message)
+                            viewState.hideProgressItem()
+                            viewState.showErrorToast()
                         })
         unSubscribeOnDestroy(disposable)
     }

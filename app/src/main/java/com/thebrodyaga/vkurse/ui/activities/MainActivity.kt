@@ -23,11 +23,11 @@ import com.thebrodyaga.vkurse.mvp.views.MainView
 import com.thebrodyaga.vkurse.mvp.views.NavigationBarView
 import com.thebrodyaga.vkurse.mvp.views.ScrollToTopView
 import com.thebrodyaga.vkurse.mvp.views.ToolbarSearchView
-import android.support.v7.widget.SearchView as AndroidSearchView
 import com.thebrodyaga.vkurse.ui.fragments.ChatFragment
 import com.thebrodyaga.vkurse.ui.fragments.VkListGroupsFragment
 import com.thebrodyaga.vkurse.ui.fragments.VkListPostsFragment
 import kotlinx.android.synthetic.main.activity_main.*
+import android.support.v7.widget.SearchView as AndroidSearchView
 
 
 class MainActivity : MvpAppCompatActivity(), NavigationBarView, MainView, ScrollToTopView, ToolbarSearchView {
@@ -71,6 +71,7 @@ class MainActivity : MvpAppCompatActivity(), NavigationBarView, MainView, Scroll
 
     override fun showListPostsFragment() {
         Log.d(DEBUG_TAG, "showListPostsFragment")
+        searchItem?.collapseActionView()
         managingFragment(VkListPostsFragment.FragmentTAG)
     }
 
@@ -81,6 +82,7 @@ class MainActivity : MvpAppCompatActivity(), NavigationBarView, MainView, Scroll
 
     override fun showChatFragment() {
         Log.d(DEBUG_TAG, "showChatFragment")
+        searchItem?.collapseActionView()
         managingFragment(ChatFragment.FragmentTAG)
     }
 
@@ -93,7 +95,7 @@ class MainActivity : MvpAppCompatActivity(), NavigationBarView, MainView, Scroll
         startActivity(Intent(this, SettingActivity::class.java))
     }
 
-    override fun scrollTop(menuPosition: Int) {    //реализация в фрагремнтах
+    override fun scrollTop(menuPosition: Int) {
         Log.d(DEBUG_TAG, "scrollTop MainActivity")
         myAppBar.setExpanded(true)
         return

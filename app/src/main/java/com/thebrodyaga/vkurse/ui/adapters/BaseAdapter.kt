@@ -22,14 +22,13 @@ abstract class BaseAdapter<T>(private val onLoadMoreListener: OnLoadMoreListener
         val linearLayoutManager = recyclerView.layoutManager as? LinearLayoutManager
         if (linearLayoutManager != null && onLoadMoreListener != null) recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-                if (isLoading) return
+                if (dy <= 0 || isLoading) return
                 if (linearLayoutManager.itemCount
-                        <= linearLayoutManager.findLastVisibleItemPosition() + visibleThreshold) {
-                    contentList.add(null)
-                    recyclerView?.post({ notifyItemInserted(contentList.size - 1) })
-                    onLoadMoreListener.onLoadMore()
+                        == linearLayoutManager.findLastVisibleItemPosition()+1 /*+ visibleThreshold*/) {
                     isLoading = true
+                    contentList.add(null)
+                    recyclerView?.post({ notifyDataSetChanged() })
+                    onLoadMoreListener.onLoadMore()
                 }
             }
         })
@@ -63,13 +62,14 @@ abstract class BaseAdapter<T>(private val onLoadMoreListener: OnLoadMoreListener
 
     fun clearList() {
         contentList.clear()
+        isLoading = false
         notifyDataSetChanged()
     }
 
     fun removedProgressItem() {
         if (!isLoading) return
         contentList.removeAt(contentList.size - 1)
-        notifyItemRemoved(contentList.size)
+        notifyDataSetChanged()
         isLoading = false
     }
 
