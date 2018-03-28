@@ -49,6 +49,30 @@ abstract class BaseAdapter<T>(private val onLoadMoreListener: OnLoadMoreListener
         return if (contentList[position] != null) VIEW_ITEM else VIEW_PROGRESS
     }
 
+
+    fun setToEnd(contentList: List<T>) {
+        if (!this.contentList.isEmpty()) removedProgressItem()
+        this.contentList.addAll(contentList)
+        notifyDataSetChanged()
+    }
+
+    fun setToStart(contentList: List<T>) {
+        this.contentList.addAll(0, contentList)
+        notifyDataSetChanged()
+    }
+
+    fun clearList() {
+        contentList.clear()
+        notifyDataSetChanged()
+    }
+
+    fun removedProgressItem() {
+        if (!isLoading) return
+        contentList.removeAt(contentList.size - 1)
+        notifyItemRemoved(contentList.size)
+        isLoading = false
+    }
+
     class ProgressHolder(containerView: View) : RecyclerView.ViewHolder(containerView)
 
     companion object {

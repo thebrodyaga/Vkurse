@@ -10,7 +10,8 @@ import com.arellomobile.mvp.viewstate.strategy.StateStrategyType
  *         on 25.03.2018.
  */
 
-@StateStrategyType(value = AddToEndSingleStrategy::class)
+@StateStrategyType(value = OneExecutionStateStrategy::class)
 interface ToolbarSearchView : MvpView {
     fun needSearch(query: String)
+    fun notNeedSearch()
 }

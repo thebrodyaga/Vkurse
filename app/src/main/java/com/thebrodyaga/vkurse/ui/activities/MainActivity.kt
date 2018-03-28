@@ -103,6 +103,10 @@ class MainActivity : MvpAppCompatActivity(), NavigationBarView, MainView, Scroll
         Log.i("DebugTag", "needSearch MainActivity")
     }
 
+    override fun notNeedSearch() {
+        Log.i(DEBUG_TAG, "notNeedSearch MainActivity")
+    }
+
     //<editor-fold desc="Тасовка фрагментов">
     private fun managingFragment(fragmentTag: String) {
         val fragment = supportFragmentManager.findFragmentByTag(fragmentTag)

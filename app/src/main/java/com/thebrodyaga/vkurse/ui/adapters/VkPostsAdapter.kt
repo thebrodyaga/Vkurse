@@ -39,24 +39,6 @@ class VkPostsAdapter(onLoadMoreListener: OnLoadMoreListener?,
         }
     }
 
-    fun setPostToEnd(contentList: List<WallPostFull>) {
-        if (!this.contentList.isEmpty()) removedProgressItem()
-        this.contentList.addAll(contentList)
-        notifyDataSetChanged()
-    }
-
-    fun setPostToStart(contentList: List<WallPostFull>) {
-        this.contentList.addAll(0, contentList)
-        notifyDataSetChanged()
-    }
-
-    fun removedProgressItem() {
-        if (!isLoading) return
-        contentList.removeAt(contentList.size - 1)
-        notifyItemRemoved(contentList.size)
-        isLoading = false
-    }
-
     class PostHolder(containerView: View) : RecyclerView.ViewHolder(containerView) {
         val postTitle: TextView = itemView.title_text
         val postDate: TextView = itemView.subtitle_text

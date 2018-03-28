@@ -31,6 +31,10 @@ class VkListGroupsFragment : MvpAppCompatFragment(), ScrollToTopView, ToolbarSea
         return inflater.inflate(R.layout.fragment_vk_list_groups, container, false)
     }
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+    }
+
     override fun scrollTop(menuPosition: Int) {
         if (menuPosition == NavigationBarPresenter.ListGroupsFragmentPosition)
             Log.d(DEBUG_TAG, "scrollTop VkListGroupsFragment")
@@ -38,6 +42,10 @@ class VkListGroupsFragment : MvpAppCompatFragment(), ScrollToTopView, ToolbarSea
 
     override fun needSearch(query: String) {
         Log.i(DEBUG_TAG, "needSearch VkListGroupsFragment")
+    }
+
+    override fun notNeedSearch() {
+        Log.i(DEBUG_TAG, "notNeedSearch VkListGroupsFragment")
     }
 
     companion object {

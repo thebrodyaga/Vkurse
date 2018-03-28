@@ -10,6 +10,9 @@ import com.thebrodyaga.vkobjects.groups.responses.SearchResponse
  */
 interface VkListSearchGroupsView : MvpView {
 
+    @StateStrategyType(OneExecutionStateStrategy::class)
+    fun toggleSearchFragment(isVisible: Boolean)
+
     @StateStrategyType(SingleStateStrategy::class)
     fun setNewResult(searchResponse: SearchResponse)
 

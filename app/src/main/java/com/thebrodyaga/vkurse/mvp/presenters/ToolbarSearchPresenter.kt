@@ -15,15 +15,18 @@ import android.support.v7.widget.SearchView as AndroidSearchView
 @InjectViewState
 class ToolbarSearchPresenter : MvpPresenter<ToolbarSearchView>(), AndroidSearchView.OnQueryTextListener {
     override fun onQueryTextSubmit(query: String?): Boolean {
-        Log.i(DEBUG_TAG, "onQueryTextSubmit")
-        if (query != null && !query.isBlank()) viewState.needSearch(query)
+        searchControl(query)
         return false
     }
 
     override fun onQueryTextChange(newText: String?): Boolean {
-        Log.i(DEBUG_TAG, "onQueryTextChange")
-        if (newText != null) viewState.needSearch(newText)
+        searchControl(newText)
         return false
+    }
+
+    private fun searchControl(query: String?) {
+        if (query != null && query.isNotBlank()) viewState.needSearch(query)
+        else viewState.notNeedSearch()
     }
 
     companion object {

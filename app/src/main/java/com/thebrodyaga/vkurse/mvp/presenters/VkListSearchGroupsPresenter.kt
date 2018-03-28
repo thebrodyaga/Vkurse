@@ -25,15 +25,21 @@ class VkListSearchGroupsPresenter : BasePresenter<VkListSearchGroupsView>() {
     lateinit var vkService: VkService
     private val searchHandler = Handler()
 
+    override fun onFirstViewAttach() {
+        viewState.toggleSearchFragment(false)
+    }
+
     private fun newSearchGroups(query: String) {
         Log.i(DEBUG_TAG, "newSearchGroups")
         val disposable: Disposable =
                 vkService.searchGroups(query)
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe({
+                            Log.d(DEBUG_TAG, "loadWallAfterLast successful")
                             viewState.setNewResult(it)
                             viewState.toggleProgress(false)
                         }, {
+                            Log.e(DEBUG_TAG, "loadFirstWall error: " + it.message)
                             viewState.toggleProgress(false)
                             viewState.showErrorToast()
                         })
@@ -45,15 +51,25 @@ class VkListSearchGroupsPresenter : BasePresenter<VkListSearchGroupsView>() {
         val disposable: Disposable =
                 vkService.searchGroups(query, offset)
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe({}, {})
+                        .subscribe({
+                            Log.d(DEBUG_TAG, "loadWallAfterLast successful")
+                        }, {
+                            Log.e(DEBUG_TAG, "loadFirstWall error: " + it.message)
+                        })
         unSubscribeOnDestroy(disposable)
     }
 
-    fun startHandler(query: String) {
-        Log.i(DEBUG_TAG, "startHandler")
+    fun startSearch(query: String) {
         clearDisposable()
+        viewState.toggleSearchFragment(true)
         viewState.toggleProgress(true)
         searchHandler.removeCallbacksAndMessages(null)
         searchHandler.postDelayed({ newSearchGroups(query) }, 1000)
+    }
+
+    fun stopSearch() {
+        clearDisposable()
+        viewState.toggleSearchFragment(false)
+        searchHandler.removeCallbacksAndMessages(null)
     }
 }

@@ -55,17 +55,17 @@ class VkListPostsFragment : MvpAppCompatFragment(), ScrollToTopView, VkListPosts
 
     override fun setFirstData(wallPostList: List<WallPostFull>) {
         Log.d(DEBUG_TAG, "setFirstData VkListPostsFragment")
-        adapter.setPostToEnd(wallPostList)
+        adapter.setToEnd(wallPostList)
     }
 
     override fun setNewData(wallPostList: List<WallPostFull>) {
         Log.d(DEBUG_TAG, "setNewData VkListPostsFragment")
-        adapter.setPostToStart(wallPostList)
+        adapter.setToStart(wallPostList)
     }
 
     override fun setAfterLastData(wallPostList: List<WallPostFull>) {
         Log.d(DEBUG_TAG, "setAfterLastData VkListPostsFragment")
-        adapter.setPostToEnd(wallPostList)
+        adapter.setToEnd(wallPostList)
     }
 
     override fun toggleErrorButton(isVisible: Boolean) {
@@ -99,7 +99,8 @@ class VkListPostsFragment : MvpAppCompatFragment(), ScrollToTopView, VkListPosts
     }
 
     override fun showErrorToast() {
-        Toast.makeText(context, "Проблемы с сетью", Toast.LENGTH_SHORT).show()
+        Log.i(DEBUG_TAG, "showErrorToast")
+        Toast.makeText(context, getString(R.string.error_toast), Toast.LENGTH_SHORT).show()
     }
 
     companion object {
