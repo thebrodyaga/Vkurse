@@ -68,11 +68,6 @@ class VkListPostsFragment : MvpAppCompatFragment(), ScrollToTopView, VkListPosts
         adapter.setToEnd(wallPostList)
     }
 
-    override fun toggleErrorButton(isVisible: Boolean) {
-        Log.d(DEBUG_TAG, "toggleErrorButton VkListPostsFragment $isVisible")
-        errorButton.visibility = if (isVisible) View.VISIBLE else View.GONE
-    }
-
     override fun hideProgressItem() {
         Log.d(DEBUG_TAG, "hideProgressItem VkListPostsFragment")
         adapter.removedProgressItem()
@@ -87,14 +82,15 @@ class VkListPostsFragment : MvpAppCompatFragment(), ScrollToTopView, VkListPosts
         swipeRefresh.isRefreshing = false
     }
 
-    override fun toggleFullScreenProgress(isVisible: Boolean) {
-        Log.d(DEBUG_TAG, "toggleFullScreenProgress VkListPostsFragment $isVisible")
-        if (isVisible) {
-            swipeRefresh.visibility = View.GONE
-            progressBar.visibility = View.VISIBLE
-        } else {
-            swipeRefresh.visibility = View.VISIBLE
-            progressBar.visibility = View.GONE
+    override fun choiceForegroundView(viewFlag: String) {
+        Log.d(DEBUG_TAG, "choiceForegroundView VkListPostsFragment $viewFlag")
+        swipeRefresh.visibility = View.GONE
+        progressBar.visibility = View.GONE
+        errorButton.visibility = View.GONE
+        when (viewFlag) {
+            VkListPostsPresenter.DATA_VIEW_FLAG -> swipeRefresh.visibility = View.VISIBLE
+            VkListPostsPresenter.PROGRESS_VIEW_FLAG -> progressBar.visibility = View.VISIBLE
+            VkListPostsPresenter.ERROR_VIEW_FLAG -> errorButton.visibility = View.VISIBLE
         }
     }
 

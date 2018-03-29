@@ -12,9 +12,7 @@ import com.thebrodyaga.vkobjects.wall.WallPostFull
 @StateStrategyType(AddToEndSingleStrategy::class)
 interface VkListPostsView : MvpView {
 
-    fun toggleErrorButton(isVisible: Boolean)
-
-    fun toggleFullScreenProgress(isVisible: Boolean)
+    fun choiceForegroundView(viewFlag: String)
 
     @StateStrategyType(OneExecutionStateStrategy::class)
     fun hideRefreshing()

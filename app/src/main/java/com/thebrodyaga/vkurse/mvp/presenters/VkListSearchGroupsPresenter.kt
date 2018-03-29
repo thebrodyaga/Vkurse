@@ -32,7 +32,6 @@ class VkListSearchGroupsPresenter : BasePresenter<VkListSearchGroupsView>() {
     }
 
     private fun newSearchGroups(query: String) {
-        Log.i(DEBUG_TAG, "newSearchGroups")
         val disposable: Disposable =
                 vkService.searchGroups(query)
                         .observeOn(AndroidSchedulers.mainThread())
@@ -51,7 +50,6 @@ class VkListSearchGroupsPresenter : BasePresenter<VkListSearchGroupsView>() {
     }
 
     fun offsetSearchGroups() {
-        Log.i(DEBUG_TAG, "offsetSearchGroups")
         val disposable: Disposable =
                 vkService.searchGroups(currentQuery, currentOffset)
                         .observeOn(AndroidSchedulers.mainThread())

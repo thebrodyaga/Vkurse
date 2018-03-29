@@ -69,6 +69,7 @@ class MainActivity : MvpAppCompatActivity(), NavigationBarView, MainView, Scroll
         return true
     }
 
+    //<editor-fold desc="NavigationBarView">
     override fun showListPostsFragment() {
         Log.d(DEBUG_TAG, "showListPostsFragment")
         searchItem?.collapseActionView()
@@ -85,7 +86,9 @@ class MainActivity : MvpAppCompatActivity(), NavigationBarView, MainView, Scroll
         searchItem?.collapseActionView()
         managingFragment(ChatFragment.FragmentTAG)
     }
+    //</editor-fold>
 
+    //<editor-fold desc="MainView">
     override fun showDefaultFragment(fragmentTag: String) {
         Log.d(DEBUG_TAG, "showDefaultFragment")
         managingFragment(fragmentTag)
@@ -94,6 +97,7 @@ class MainActivity : MvpAppCompatActivity(), NavigationBarView, MainView, Scroll
     override fun startSettingActivity() {
         startActivity(Intent(this, SettingActivity::class.java))
     }
+    //</editor-fold>
 
     override fun scrollTop(menuPosition: Int) {
         Log.d(DEBUG_TAG, "scrollTop MainActivity")
@@ -101,6 +105,7 @@ class MainActivity : MvpAppCompatActivity(), NavigationBarView, MainView, Scroll
         return
     }
 
+    //<editor-fold desc="ToolbarSearchView">
     override fun needSearch(query: String) {
         Log.i("DebugTag", "needSearch MainActivity")
     }
@@ -108,6 +113,7 @@ class MainActivity : MvpAppCompatActivity(), NavigationBarView, MainView, Scroll
     override fun notNeedSearch() {
         Log.i(DEBUG_TAG, "notNeedSearch MainActivity")
     }
+    //</editor-fold>
 
     //<editor-fold desc="Тасовка фрагментов">
     private fun managingFragment(fragmentTag: String) {
