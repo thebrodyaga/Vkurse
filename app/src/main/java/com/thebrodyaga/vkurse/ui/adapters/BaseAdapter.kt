@@ -21,13 +21,14 @@ abstract class BaseAdapter<T>(private val onLoadMoreListener: OnLoadMoreListener
     init {
         val linearLayoutManager = recyclerView.layoutManager as? LinearLayoutManager
         if (linearLayoutManager != null && onLoadMoreListener != null) recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            //TODO спамит подгрузку если сервак отвалился, поискать как сделать по-красоте
             override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
                 if (dy <= 0 || isLoading) return
                 if (linearLayoutManager.itemCount
-                        == linearLayoutManager.findLastVisibleItemPosition()+1 /*+ visibleThreshold*/) {
+                        == linearLayoutManager.findLastVisibleItemPosition() + visibleThreshold) {
                     isLoading = true
                     contentList.add(null)
-                    recyclerView?.post({ notifyDataSetChanged() })
+                    recyclerView?.post { notifyDataSetChanged() }
                     onLoadMoreListener.onLoadMore()
                 }
             }
@@ -37,7 +38,7 @@ abstract class BaseAdapter<T>(private val onLoadMoreListener: OnLoadMoreListener
     @Inject
     protected lateinit var picasso: Picasso
     protected val contentList = arrayListOf<T?>()
-    protected val visibleThreshold = 2    //последний видимый перед загрузкой
+    protected val visibleThreshold = 1    //последний видимый перед загрузкой
     protected var isLoading: Boolean = false
 
     override fun getItemCount(): Int {

@@ -47,10 +47,10 @@ class VkListPostsFragment : MvpAppCompatFragment(), ScrollToTopView, VkListPosts
     }
 
     override fun scrollTop(menuPosition: Int) {
-        if (menuPosition == ListPostsFragmentPosition) {
-            Log.d(DEBUG_TAG, "scrollTop VkListPostsFragment")
-            recyclerView.scrollToPosition(0)
-        }
+        if (menuPosition != ListPostsFragmentPosition) return
+        Log.d(DEBUG_TAG, "scrollTop VkListPostsFragment")
+        recyclerView.scrollToPosition(0)
+
     }
 
     override fun setFirstData(wallPostList: List<WallPostFull>) {

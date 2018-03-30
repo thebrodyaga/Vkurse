@@ -33,7 +33,7 @@ class VkGroupsAdapter(onLoadMoreListener: OnLoadMoreListener?,
             is ProgressBar -> (holder as ProgressHolder)
             is GroupHolder -> {
                 val group = contentList[position] ?: return
-                holder.groupName.text = group.name
+                holder.groupName.text = group.name ?: position.toString()
                 picasso.load(group.photo50).into(holder.groupIcon)
             }
         }

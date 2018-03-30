@@ -48,8 +48,9 @@ class VkListGroupsFragment : MvpAppCompatFragment(), ScrollToTopView, ToolbarSea
     }
 
     override fun scrollTop(menuPosition: Int) {
-        if (menuPosition == NavigationBarPresenter.ListGroupsFragmentPosition)
-            Log.d(DEBUG_TAG, "scrollTop VkListGroupsFragment")
+        if (menuPosition != NavigationBarPresenter.ListGroupsFragmentPosition) return
+        Log.d(DEBUG_TAG, "scrollTop VkListGroupsFragment")
+        recyclerView.scrollToPosition(0)
     }
 
     //<editor-fold desc="VkListGroupsView">
