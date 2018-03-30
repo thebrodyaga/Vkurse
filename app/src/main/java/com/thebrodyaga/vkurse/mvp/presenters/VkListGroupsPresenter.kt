@@ -2,6 +2,7 @@ package com.thebrodyaga.vkurse.mvp.presenters
 
 import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
+import com.thebrodyaga.vkobjects.groups.Group
 import com.thebrodyaga.vkurse.mvp.views.VkListGroupsView
 
 /**
@@ -14,4 +15,11 @@ class VkListGroupsPresenter : MvpPresenter<VkListGroupsView>() {
 
     }
 
+    override fun onFirstViewAttach() {
+        getFavoriteGroups()
+    }
+
+    private fun getFavoriteGroups() {
+        viewState.setFavoriteGroups(listOf(Group(), Group()))
+    }
 }
