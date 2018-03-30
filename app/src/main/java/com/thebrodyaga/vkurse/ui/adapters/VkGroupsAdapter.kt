@@ -23,19 +23,23 @@ class VkGroupsAdapter(onLoadMoreListener: OnLoadMoreListener?,
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return if (viewType == VIEW_ITEM)
-            GroupHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_group, parent, false))
-        else ProgressHolder(LayoutInflater.from(parent.context).inflate(R.layout.middle_progress_bar, parent, false))
+        return when (viewType) {
+            VIEW_ITEM -> {
+                GroupHolder(LayoutInflater.from(parent.context)
+                        .inflate(R.layout.item_group, parent, false))
+            }
+            else -> super.onCreateViewHolder(parent, viewType)
+        }
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
-            is ProgressBar -> (holder as ProgressHolder)
             is GroupHolder -> {
                 val group = contentList[position] ?: return
                 holder.groupName.text = group.name ?: position.toString()
                 picasso.load(group.photo50).into(holder.groupIcon)
             }
+            else -> super.onBindViewHolder(holder, position)
         }
     }
 

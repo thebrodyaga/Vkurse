@@ -2,8 +2,12 @@ package com.thebrodyaga.vkurse.ui.adapters
 
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import android.widget.ProgressBar
 import com.squareup.picasso.Picasso
+import com.thebrodyaga.vkurse.R
 import javax.inject.Inject
 
 /**
@@ -40,6 +44,17 @@ abstract class BaseAdapter<T>(private val onLoadMoreListener: OnLoadMoreListener
     protected val contentList = arrayListOf<T?>()
     protected val visibleThreshold = 1    //последний видимый перед загрузкой
     protected var isLoading: Boolean = false
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return ProgressHolder(LayoutInflater.from(parent.context)
+                .inflate(R.layout.middle_progress_bar, parent, false))
+    }
+
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        when (holder) {
+            is ProgressBar -> (holder as ProgressHolder)
+        }
+    }
 
     override fun getItemCount(): Int {
         return contentList.size

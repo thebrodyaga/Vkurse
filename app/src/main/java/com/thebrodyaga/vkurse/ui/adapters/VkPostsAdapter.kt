@@ -4,7 +4,6 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ProgressBar
 import android.widget.TextView
 import com.thebrodyaga.vkobjects.wall.WallPostFull
 import com.thebrodyaga.vkurse.App
@@ -23,19 +22,23 @@ class VkPostsAdapter(onLoadMoreListener: OnLoadMoreListener?,
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return if (viewType == VIEW_ITEM)
-            PostHolder(LayoutInflater.from(parent.context).inflate(R.layout.card_item, parent, false))
-        else ProgressHolder(LayoutInflater.from(parent.context).inflate(R.layout.middle_progress_bar, parent, false))
+        return when (viewType) {
+            VIEW_ITEM -> {
+                PostHolder(LayoutInflater.from(parent.context)
+                        .inflate(R.layout.card_item, parent, false))
+            }
+            else -> super.onCreateViewHolder(parent, viewType)
+        }
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
-            is ProgressBar -> (holder as ProgressHolder)
             is PostHolder -> {
                 val wallPostFull = contentList[position] ?: return
                 holder.postTitle.text = (wallPostFull.ownerId.toString() + "  " + wallPostFull.id.toString())
                 holder.postDate.text = getDate(wallPostFull.date.toLong() * 1000)
             }
+            else -> super.onBindViewHolder(holder, position)
         }
     }
 
