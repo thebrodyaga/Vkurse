@@ -35,7 +35,7 @@ class ApiModule {
         return Retrofit.Builder()
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
                 .client(okHttpClient)
-                .baseUrl("http://10.100.19.152:8080/api/")
+                .baseUrl("http://192.168.0.77:8080/api/")
                 .addConverterFactory(converterFactory)
                 .build()
     }

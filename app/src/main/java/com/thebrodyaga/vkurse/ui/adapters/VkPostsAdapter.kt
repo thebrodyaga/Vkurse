@@ -38,7 +38,6 @@ class VkPostsAdapter(onLoadMoreListener: OnLoadMoreListener?,
                 holder.postTitle.text = (wallPostFull.ownerId.toString() + "  " + wallPostFull.id.toString())
                 holder.postDate.text = getDate(wallPostFull.date.toLong() * 1000)
             }
-            else -> super.onBindViewHolder(holder, position)
         }
     }
 

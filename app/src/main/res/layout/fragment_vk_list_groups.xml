@@ -13,11 +13,11 @@
         android:paddingTop="8dp"
         tools:listitem="@layout/item_group" />
 
-    <fragment
+    <!--<fragment
         android:id="@+id/searchGroupsFragment"
         android:name="com.thebrodyaga.vkurse.ui.fragments.VkListSearchGroupsFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:layout="@layout/fragment_vk_list_search_groups" />
+        tools:layout="@layout/fragment_vk_list_search_groups" />-->
 </LinearLayout>
 

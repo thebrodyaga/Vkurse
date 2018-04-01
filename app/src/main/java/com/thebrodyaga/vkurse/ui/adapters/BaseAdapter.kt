@@ -27,12 +27,12 @@ abstract class BaseAdapter<T>(private val onLoadMoreListener: OnLoadMoreListener
         if (linearLayoutManager != null && onLoadMoreListener != null) recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             //TODO спамит подгрузку если сервак отвалился, поискать как сделать по-красоте
             override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
-                if (dy <= 0 || isLoading) return
+                if (dy <= 0 || isLoading||contentList.isEmpty()) return
                 if (linearLayoutManager.itemCount
                         == linearLayoutManager.findLastVisibleItemPosition() + visibleThreshold) {
                     isLoading = true
                     contentList.add(null)
-                    recyclerView?.post { notifyDataSetChanged() }
+                    recyclerView?.post({ notifyItemInserted(contentList.size) })
                     onLoadMoreListener.onLoadMore()
                 }
             }
@@ -50,12 +50,6 @@ abstract class BaseAdapter<T>(private val onLoadMoreListener: OnLoadMoreListener
                 .inflate(R.layout.middle_progress_bar, parent, false))
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        when (holder) {
-            is ProgressBar -> (holder as ProgressHolder)
-        }
-    }
-
     override fun getItemCount(): Int {
         return contentList.size
     }
@@ -65,27 +59,28 @@ abstract class BaseAdapter<T>(private val onLoadMoreListener: OnLoadMoreListener
     }
 
 
-    fun setToEnd(contentList: List<T>) {
+    open fun setToEnd(contentList: List<T>) {
         if (!this.contentList.isEmpty()) removedProgressItem()
+        val startPosition = this.contentList.size
         this.contentList.addAll(contentList)
-        notifyDataSetChanged()
+        notifyItemRangeInserted(startPosition, contentList.size)
     }
 
-    fun setToStart(contentList: List<T>) {
+    open fun setToStart(contentList: List<T>) {
         this.contentList.addAll(0, contentList)
-        notifyDataSetChanged()
+        notifyItemRangeInserted(0, contentList.size)
     }
 
-    fun clearList() {
+    open fun clearList() {
         contentList.clear()
         isLoading = false
         notifyDataSetChanged()
     }
 
-    fun removedProgressItem() {
+    open fun removedProgressItem() {
         if (!isLoading) return
         contentList.removeAt(contentList.size - 1)
-        notifyDataSetChanged()
+        notifyItemRemoved(contentList.size)
         isLoading = false
     }
 

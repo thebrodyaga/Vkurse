@@ -53,7 +53,7 @@ class VkListSearchGroupsFragment : MvpAppCompatFragment(), ToolbarSearchView, Vk
 
     override fun notNeedSearch() {
         Log.i(DEBUG_TAG, "notNeedSearch VkListSearchGroupsFragment")
-        adapter.clearList()
+        adapter.showFullList()
         vkListSearchGroupsPresenter.stopSearch()
     }
     //</editor-fold>
@@ -61,7 +61,7 @@ class VkListSearchGroupsFragment : MvpAppCompatFragment(), ToolbarSearchView, Vk
     //<editor-fold desc="VkListSearchGroupsView">
     override fun setNewResult(searchResponse: SearchResponse) {
         Log.i(DEBUG_TAG, "setNewResult")
-        adapter.clearList()
+        adapter.showFullList()
         adapter.setToEnd(searchResponse.items)
     }
 
@@ -77,11 +77,11 @@ class VkListSearchGroupsFragment : MvpAppCompatFragment(), ToolbarSearchView, Vk
     }
 
     override fun toggleSearchFragment(isVisible: Boolean) {
-        Log.i(DEBUG_TAG, "toggleSearchFragment isVisible = $isVisible")
+        /*Log.i(DEBUG_TAG, "toggleSearchFragment isVisible = $isVisible")
         val fragmentManager = parentFragment?.childFragmentManager ?: return
         val fragment = fragmentManager.findFragmentById(R.id.searchGroupsFragment) ?: return
         if (isVisible) fragmentManager.beginTransaction().show(fragment).commit()
-        else fragmentManager.beginTransaction().hide(fragment).commit()
+        else fragmentManager.beginTransaction().hide(fragment).commit()*/
     }
 
     override fun showErrorToast() {
