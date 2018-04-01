@@ -5,7 +5,7 @@ import android.util.Log
 import com.arellomobile.mvp.InjectViewState
 import com.thebrodyaga.vkurse.App
 import com.thebrodyaga.vkurse.common.DEBUG_TAG
-import com.thebrodyaga.vkurse.mvp.views.VkListSearchGroupsView
+import com.thebrodyaga.vkurse.mvp.views.SearchGroupsView
 import com.thebrodyaga.vkurse.net.VkService
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -16,7 +16,7 @@ import javax.inject.Inject
  *         on 27.03.2018
  */
 @InjectViewState
-class VkListSearchGroupsPresenter : BasePresenter<VkListSearchGroupsView>() {
+class SearchGroupsPresenter : BasePresenter<SearchGroupsView>() {
     init {
         App.appComponent.inject(this)
     }
@@ -27,10 +27,6 @@ class VkListSearchGroupsPresenter : BasePresenter<VkListSearchGroupsView>() {
     private var currentOffset = 0
     private var currentQuery = ""
 
-    override fun onFirstViewAttach() {
-        viewState.toggleSearchFragment(false)
-    }
-
     private fun newSearchGroups(query: String) {
         val disposable: Disposable =
                 vkService.searchGroups(query)
@@ -40,11 +36,9 @@ class VkListSearchGroupsPresenter : BasePresenter<VkListSearchGroupsView>() {
                             currentOffset = it.items.size
                             Log.d(DEBUG_TAG, "newSearchGroups successful")
                             viewState.setNewResult(it)
-                            viewState.toggleProgress(false)
                         }, {
                             Log.e(DEBUG_TAG, "newSearchGroups error: " + it.message)
-                            viewState.toggleProgress(false)
-                            viewState.showErrorToast()
+                            viewState.errorLoad()
                         })
         unSubscribeOnDestroy(disposable)
     }
@@ -59,23 +53,20 @@ class VkListSearchGroupsPresenter : BasePresenter<VkListSearchGroupsView>() {
                             viewState.setOffsetResult(it)
                         }, {
                             Log.e(DEBUG_TAG, "offsetSearchGroups error: " + it.message)
-                            viewState.hideProgressItem()
-                            viewState.showErrorToast()
+                            viewState.errorLoad()
                         })
         unSubscribeOnDestroy(disposable)
     }
 
     fun startSearch(query: String) {
         clearDisposable()
-        viewState.toggleSearchFragment(true)
-        viewState.toggleProgress(true)
         searchHandler.removeCallbacksAndMessages(null)
         searchHandler.postDelayed({ newSearchGroups(query) }, 1000)
     }
 
     fun stopSearch() {
         clearDisposable()
-        viewState.toggleSearchFragment(false)
+        viewState.closeSearch()
         searchHandler.removeCallbacksAndMessages(null)
     }
 }

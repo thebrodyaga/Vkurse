@@ -20,13 +20,13 @@ import com.thebrodyaga.vkurse.mvp.presenters.*
 import com.thebrodyaga.vkurse.mvp.views.ScrollToTopView
 import com.thebrodyaga.vkurse.mvp.views.ToolbarSearchView
 import com.thebrodyaga.vkurse.mvp.views.VkListGroupsView
-import com.thebrodyaga.vkurse.mvp.views.VkListSearchGroupsView
+import com.thebrodyaga.vkurse.mvp.views.SearchGroupsView
 import com.thebrodyaga.vkurse.ui.adapters.BaseAdapter
 import com.thebrodyaga.vkurse.ui.adapters.VkGroupsAdapter
 import kotlinx.android.synthetic.main.fragment_vk_list_groups.view.*
 
 
-class VkListGroupsFragment : MvpAppCompatFragment(), ScrollToTopView, ToolbarSearchView, VkListGroupsView, VkListSearchGroupsView, BaseAdapter.OnLoadMoreListener {
+class VkListGroupsFragment : MvpAppCompatFragment(), ScrollToTopView, ToolbarSearchView, VkListGroupsView, SearchGroupsView, BaseAdapter.OnLoadMoreListener {
 
     @InjectPresenter(type = PresenterType.GLOBAL, tag = ScrollToTopPresenter.ScrollToTopPresenterTAG)
     lateinit var scrollToTopPresenter: ScrollToTopPresenter
@@ -35,13 +35,12 @@ class VkListGroupsFragment : MvpAppCompatFragment(), ScrollToTopView, ToolbarSea
     @InjectPresenter()
     lateinit var vkListGroupsPresenter: VkListGroupsPresenter
     @InjectPresenter()
-    lateinit var vkListSearchGroupsPresenter: VkListSearchGroupsPresenter
+    lateinit var searchGroupsPresenter: SearchGroupsPresenter
     private lateinit var adapter: VkGroupsAdapter
     private lateinit var recyclerView: RecyclerView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_vk_list_groups, container, false)
         recyclerView = view.recyclerView
         recyclerView.layoutManager = LinearLayoutManager(this.context)
@@ -63,13 +62,10 @@ class VkListGroupsFragment : MvpAppCompatFragment(), ScrollToTopView, ToolbarSea
     }
     //</editor-fold>
 
+    //<editor-fold desc="SearchGroupsView">
     override fun onLoadMore() {
         Log.i("DebugTag", "onLoadMore")
-        vkListSearchGroupsPresenter.offsetSearchGroups()
-    }
-
-    override fun toggleSearchFragment(isVisible: Boolean) {
-        Log.i("DebugTag", "toggleSearchFragment")
+        searchGroupsPresenter.offsetSearchGroups()
     }
 
     override fun setNewResult(searchResponse: SearchResponse) {
@@ -82,31 +78,30 @@ class VkListGroupsFragment : MvpAppCompatFragment(), ScrollToTopView, ToolbarSea
         adapter.setToEnd(searchResponse.items)
     }
 
-    override fun toggleProgress(isVisible: Boolean) {
-        Log.i("DebugTag", "toggleProgress")
+    override fun closeSearch() {
+        Log.i("DebugTag", "closeSearch")
+        adapter.showFullList()
     }
 
-    override fun showErrorToast() {
-        Log.i(DEBUG_TAG, "showErrorToast")
-        Toast.makeText(context, getString(R.string.error_toast), Toast.LENGTH_SHORT).show()
-    }
-
-    override fun hideProgressItem() {
-        Log.i(DEBUG_TAG, "hideProgressItem")
+    override fun errorLoad() {
+        Log.i("DebugTag", "errorLoad")
+        adapter.setFirstSearchList(arrayListOf())
         adapter.removedProgressItem()
+        Toast.makeText(this.context, R.string.error_toast, Toast.LENGTH_SHORT).show()
     }
+    //</editor-fold>
 
     //<editor-fold desc="ToolbarSearchView">
     override fun needSearch(query: String) {
         Log.i(DEBUG_TAG, "needSearch VkListGroupsFragment")
         adapter.filteredList(query)
-        vkListSearchGroupsPresenter.startSearch(query)
+        searchGroupsPresenter.startSearch(query)
     }
 
     override fun notNeedSearch() {
         Log.i(DEBUG_TAG, "notNeedSearch VkListGroupsFragment")
         adapter.showFullList()
-        vkListSearchGroupsPresenter.stopSearch()
+        searchGroupsPresenter.stopSearch()
     }
     //</editor-fold>
 

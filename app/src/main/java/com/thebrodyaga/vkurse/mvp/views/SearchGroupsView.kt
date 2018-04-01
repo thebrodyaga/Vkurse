@@ -8,10 +8,7 @@ import com.thebrodyaga.vkobjects.groups.responses.SearchResponse
  * Created by Emelyanov.N4
  *         on 27.03.2018
  */
-interface VkListSearchGroupsView : MvpView {
-
-    @StateStrategyType(OneExecutionStateStrategy::class)
-    fun toggleSearchFragment(isVisible: Boolean)
+interface SearchGroupsView : MvpView {
 
     @StateStrategyType(SingleStateStrategy::class)
     fun setNewResult(searchResponse: SearchResponse)
@@ -19,12 +16,9 @@ interface VkListSearchGroupsView : MvpView {
     @StateStrategyType(AddToEndStrategy::class)
     fun setOffsetResult(searchResponse: SearchResponse)
 
-    @StateStrategyType(AddToEndSingleStrategy::class)
-    fun toggleProgress(isVisible: Boolean)
+    @StateStrategyType(SingleStateStrategy::class)
+    fun closeSearch()
 
     @StateStrategyType(OneExecutionStateStrategy::class)
-    fun showErrorToast()
-
-    @StateStrategyType(OneExecutionStateStrategy::class)
-    fun hideProgressItem()
+    fun errorLoad()
 }
