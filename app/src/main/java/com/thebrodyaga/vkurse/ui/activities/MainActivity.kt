@@ -40,8 +40,10 @@ class MainActivity : MvpAppCompatActivity(), NavigationBarView, MainView, Scroll
     lateinit var scrollToTopPresenter: ScrollToTopPresenter
     @InjectPresenter(type = PresenterType.GLOBAL, tag = ToolbarSearchPresenter.SearchPresenterTAG)
     lateinit var toolbarSearchPresenter: ToolbarSearchPresenter
-
     private var searchItem: MenuItem? = null
+    //  при смене конфигурации toggleSearchIcon() вызывается раньше чем onCreateOptionsMenu()
+    //TODO поискать как сделать по-красоте
+    private var isSearchItemVisible = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,7 +65,7 @@ class MainActivity : MvpAppCompatActivity(), NavigationBarView, MainView, Scroll
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.main_toolbar, menu)
         searchItem = menu?.findItem(R.id.toolbar_search)
-        searchItem?.isVisible = false
+        searchItem?.isVisible = isSearchItemVisible
         val searchView: AndroidSearchView? = searchItem?.actionView as AndroidSearchView?
         searchView?.setOnQueryTextListener(toolbarSearchPresenter)
         return true
@@ -97,6 +99,12 @@ class MainActivity : MvpAppCompatActivity(), NavigationBarView, MainView, Scroll
     override fun startSettingActivity() {
         startActivity(Intent(this, SettingActivity::class.java))
     }
+
+    override fun toggleSearchIcon(isVisible: Boolean) {
+        Log.i(DEBUG_TAG, "toggleSearchIcon isVisible = $isVisible")
+        searchItem?.isVisible = isVisible
+        isSearchItemVisible = isVisible
+    }
     //</editor-fold>
 
     override fun scrollTop(menuPosition: Int) {
@@ -123,7 +131,7 @@ class MainActivity : MvpAppCompatActivity(), NavigationBarView, MainView, Scroll
             VkListGroupsFragment.FragmentTAG -> if (fragment != null) showFragment(fragment) else addFragment(VkListGroupsFragment(), fragmentTag)
             ChatFragment.FragmentTAG -> if (fragment != null) showFragment(fragment) else addFragment(ChatFragment(), fragmentTag)
         }
-        searchItem?.isVisible = fragmentTag == VkListGroupsFragment.FragmentTAG
+        mainPresenter.toggleSearchIcon(fragmentTag == VkListGroupsFragment.FragmentTAG)
     }
 
     private fun addFragment(fragment: Fragment, fragmentTag: String) {

@@ -35,7 +35,7 @@ class SearchGroupsPresenter : BasePresenter<SearchGroupsView>() {
                             Log.d(DEBUG_TAG, "newSearchGroups successful")
                             currentQuery = query
                             currentOffset = it.items.size
-                            viewState.setNewResult(it)
+                            viewState.setNewSearchGroup(it)
                         }, {
                             Log.e(DEBUG_TAG, "newSearchGroups error: " + it.message)
                             viewState.showErrorToast()
@@ -52,7 +52,7 @@ class SearchGroupsPresenter : BasePresenter<SearchGroupsView>() {
                             Log.d(DEBUG_TAG, "offsetSearchGroups successful")
                             currentOffset += it.items.size
                             viewState.tootleProgressItem(false)
-                            viewState.setOffsetResult(it)
+                            viewState.setOffsetSearchGroup(it)
                         }, {
                             Log.e(DEBUG_TAG, "offsetSearchGroups error: " + it.message)
                             viewState.showErrorToast()

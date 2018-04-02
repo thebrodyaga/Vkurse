@@ -18,10 +18,10 @@ class VkListGroupsPresenter : MvpPresenter<VkListGroupsView>() {
     }
 
     fun getFullGroups() {
-        viewState.showFullList(fullList)
+        viewState.showFullGroupsList(fullList)
     }
 
     fun getFilteredList(query: String) {
-        viewState.showFilteredList(/*fullList.filter { it.name.startsWith(query) }*/fullList)
+        viewState.showFilteredGroupsList(/*fullList.filter { it.name.startsWith(query) }*/fullList)
     }
 }

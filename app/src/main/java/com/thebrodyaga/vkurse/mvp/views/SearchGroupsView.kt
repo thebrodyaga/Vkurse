@@ -12,10 +12,10 @@ import com.thebrodyaga.vkobjects.groups.responses.SearchResponse
 interface SearchGroupsView : MvpView {
 
     @StateStrategyType(SingleStateStrategy::class)
-    fun setNewResult(searchResponse: SearchResponse)
+    fun setNewSearchGroup(searchResponse: SearchResponse)
 
     @StateStrategyType(AddToEndStrategy::class)
-    fun setOffsetResult(searchResponse: SearchResponse)
+    fun setOffsetSearchGroup(searchResponse: SearchResponse)
 
     @StateStrategyType(AddToEndSingleStrategy::class)
     fun tootleProgressItem(isVisible: Boolean)

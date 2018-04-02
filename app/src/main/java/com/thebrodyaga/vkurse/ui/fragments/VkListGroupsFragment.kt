@@ -56,13 +56,13 @@ class VkListGroupsFragment : MvpAppCompatFragment(), ScrollToTopView, ToolbarSea
     }
 
     //<editor-fold desc="VkListGroupsView">
-    override fun showFilteredList(filteredList: List<Group>) {
-        Log.i(DEBUG_TAG, "showFilteredList")
+    override fun showFilteredGroupsList(filteredList: List<Group>) {
+        Log.i(DEBUG_TAG, "showFilteredGroupsList")
         adapter.showFilteredList(filteredList)
     }
 
-    override fun showFullList(fullList: List<Group>) {
-        Log.i(DEBUG_TAG, "showFullList")
+    override fun showFullGroupsList(fullList: List<Group>) {
+        Log.i(DEBUG_TAG, "showFullGroupsList")
         adapter.showFullList(fullList)
     }
     //</editor-fold>
@@ -73,13 +73,13 @@ class VkListGroupsFragment : MvpAppCompatFragment(), ScrollToTopView, ToolbarSea
         searchGroupsPresenter.offsetSearchGroups()
     }
 
-    override fun setNewResult(searchResponse: SearchResponse) {
-        Log.i("DebugTag", "setNewResult")
+    override fun setNewSearchGroup(searchResponse: SearchResponse) {
+        Log.i("DebugTag", "setNewSearchGroup")
         adapter.setFirstSearchList(searchResponse.items)
     }
 
-    override fun setOffsetResult(searchResponse: SearchResponse) {
-        Log.i("DebugTag", "setOffsetResult")
+    override fun setOffsetSearchGroup(searchResponse: SearchResponse) {
+        Log.i("DebugTag", "setOffsetSearchGroup")
         adapter.setToEnd(searchResponse.items)
     }
 
