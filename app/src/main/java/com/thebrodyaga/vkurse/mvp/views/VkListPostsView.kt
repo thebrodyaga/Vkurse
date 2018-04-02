@@ -12,13 +12,14 @@ import com.thebrodyaga.vkobjects.wall.WallPostFull
 @StateStrategyType(AddToEndSingleStrategy::class)
 interface VkListPostsView : MvpView {
 
+    @StateStrategyType(AddToEndSingleStrategy::class)
     fun choiceForegroundView(viewFlag: String)
 
     @StateStrategyType(OneExecutionStateStrategy::class)
     fun hideRefreshing()
 
-    @StateStrategyType(OneExecutionStateStrategy::class)
-    fun hideProgressItem()
+    @StateStrategyType(AddToEndSingleStrategy::class)
+    fun tootleProgressItem(isVisible: Boolean)
 
     @StateStrategyType(OneExecutionStateStrategy::class)
     fun showErrorToast()

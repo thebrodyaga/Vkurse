@@ -15,8 +15,7 @@ import kotlinx.android.synthetic.main.card_item.view.*
  * Created by Emelyanov.N4
  *         on 03.03.2018.
  */
-class VkPostsAdapter(onLoadMoreListener: OnLoadMoreListener?,
-                     recyclerView: RecyclerView) : BaseAdapter<WallPostFull>(onLoadMoreListener, recyclerView) {
+class VkPostsAdapter(onLoadMoreListener: OnLoadMoreListener?) : BaseAdapter<WallPostFull>(onLoadMoreListener) {
     init {
         App.appComponent.inject(this)
     }

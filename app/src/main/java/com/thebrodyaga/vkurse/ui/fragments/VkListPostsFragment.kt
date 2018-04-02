@@ -41,7 +41,7 @@ class VkListPostsFragment : MvpAppCompatFragment(), ScrollToTopView, VkListPosts
         view.swipeRefresh.setOnRefreshListener { vkListPostsPresenter.loadNewWall() }
         recyclerView = view.recyclerView
         recyclerView.layoutManager = LinearLayoutManager(this.context)
-        adapter = VkPostsAdapter(this, recyclerView)
+        adapter = VkPostsAdapter(this)
         recyclerView.adapter = adapter
         return view
     }
@@ -68,9 +68,10 @@ class VkListPostsFragment : MvpAppCompatFragment(), ScrollToTopView, VkListPosts
         adapter.setToEnd(wallPostList)
     }
 
-    override fun hideProgressItem() {
-        Log.d(DEBUG_TAG, "hideProgressItem VkListPostsFragment")
-        adapter.removedProgressItem()
+    override fun tootleProgressItem(isVisible: Boolean) {
+        Log.d(DEBUG_TAG, "tootleProgressItem VkListPostsFragment")
+        if (isVisible) adapter.insertProgressItem()
+        else adapter.removedProgressItem()
     }
 
     override fun onLoadMore() {

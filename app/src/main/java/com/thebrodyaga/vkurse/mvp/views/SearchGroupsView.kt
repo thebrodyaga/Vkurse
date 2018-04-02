@@ -2,6 +2,7 @@ package com.thebrodyaga.vkurse.mvp.views
 
 import com.arellomobile.mvp.MvpView
 import com.arellomobile.mvp.viewstate.strategy.*
+import com.thebrodyaga.vkobjects.groups.Group
 import com.thebrodyaga.vkobjects.groups.responses.SearchResponse
 
 /**
@@ -16,9 +17,12 @@ interface SearchGroupsView : MvpView {
     @StateStrategyType(AddToEndStrategy::class)
     fun setOffsetResult(searchResponse: SearchResponse)
 
-    @StateStrategyType(SingleStateStrategy::class)
-    fun closeSearch()
+    @StateStrategyType(AddToEndSingleStrategy::class)
+    fun tootleProgressItem(isVisible: Boolean)
 
     @StateStrategyType(OneExecutionStateStrategy::class)
-    fun errorLoad()
+    fun showErrorToast()
+
+    @StateStrategyType(SingleStateStrategy::class)
+    fun stopSearch()
 }

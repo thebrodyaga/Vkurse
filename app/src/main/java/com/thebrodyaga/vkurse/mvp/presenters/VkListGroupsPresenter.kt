@@ -11,15 +11,17 @@ import com.thebrodyaga.vkurse.mvp.views.VkListGroupsView
  */
 @InjectViewState
 class VkListGroupsPresenter : MvpPresenter<VkListGroupsView>() {
-    init {
 
-    }
-
+    private var fullList = listOf(Group(), Group())
     override fun onFirstViewAttach() {
-        getFavoriteGroups()
+        getFullGroups()
     }
 
-    private fun getFavoriteGroups() {
-        viewState.setFavoriteGroups(listOf(Group(), Group()))
+    fun getFullGroups() {
+        viewState.showFullList(fullList)
+    }
+
+    fun getFilteredList(query: String) {
+        viewState.showFilteredList(/*fullList.filter { it.name.startsWith(query) }*/fullList)
     }
 }

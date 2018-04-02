@@ -57,16 +57,18 @@ class VkListPostsPresenter : BasePresenter<VkListPostsView>() {
     }
 
     fun loadAfterLast() {
+        viewState.tootleProgressItem(true)
         val disposable: Disposable =
                 vkService.getListAfterLast(currentState)
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe({
                             Log.d(DEBUG_TAG, "loadWallAfterLast successful")
                             setCurrentState(it, last = it.wallPostList.last().date)
+                            viewState.tootleProgressItem(false)
                             viewState.setAfterLastData(it.wallPostList)
                         }, {
                             Log.e(DEBUG_TAG, "loadWallAfterLast error: " + it.message)
-                            viewState.hideProgressItem()
+                            viewState.tootleProgressItem(false)
                             viewState.showErrorToast()
                         })
         unSubscribeOnDestroy(disposable)

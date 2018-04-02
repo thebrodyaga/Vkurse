@@ -15,9 +15,7 @@ import kotlinx.android.synthetic.main.item_group.view.*
  * Created by Emelyanov.N4
  *         on 27.03.2018
  */
-class VkGroupsAdapter(onLoadMoreListener: OnLoadMoreListener?,
-                      recyclerView: RecyclerView) : SearchAdapter<Group>(onLoadMoreListener, recyclerView) {
-
+class VkGroupsAdapter(onLoadMoreListener: OnLoadMoreListener?) : SearchAdapter<Group>(onLoadMoreListener) {
     init {
         App.appComponent.inject(this)
     }
@@ -36,23 +34,13 @@ class VkGroupsAdapter(onLoadMoreListener: OnLoadMoreListener?,
         when (holder) {
             is GroupHolder -> {
                 val group =
-                        if (position in 0 until visibleList.size) visibleList[position]
-                        else contentList[position - visibleList.size - 1]
+                        if (position in 0 until mainList.size) mainList[position]
+                        else contentList[position - mainList.size - 1]
                                 ?: return
                 holder.groupName.text = group.name ?: position.toString()
                 picasso.load(group.photo50).into(holder.groupIcon)
             }
         }
-    }
-
-
-    override fun filteredList(query: String) {
-        super.filteredList(query)
-        val itemCount = visibleList.size
-        visibleList.clear()
-        if (itemCount != 0) notifyItemRangeRemoved(0, itemCount)
-        visibleList.addAll(/*fullList.filter { it.name.startsWith(query, true) }*/fullList)
-        notifyItemRangeInserted(0, visibleList.size)
     }
 
     class GroupHolder(containerView: View) : RecyclerView.ViewHolder(containerView) {

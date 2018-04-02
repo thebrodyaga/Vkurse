@@ -44,7 +44,7 @@ class VkListGroupsFragment : MvpAppCompatFragment(), ScrollToTopView, ToolbarSea
         val view = inflater.inflate(R.layout.fragment_vk_list_groups, container, false)
         recyclerView = view.recyclerView
         recyclerView.layoutManager = LinearLayoutManager(this.context)
-        adapter = VkGroupsAdapter(this, recyclerView)
+        adapter = VkGroupsAdapter(this)
         recyclerView.adapter = adapter
         return view
     }
@@ -56,9 +56,14 @@ class VkListGroupsFragment : MvpAppCompatFragment(), ScrollToTopView, ToolbarSea
     }
 
     //<editor-fold desc="VkListGroupsView">
-    override fun setFavoriteGroups(groups: List<Group>) {
-        Log.i(DEBUG_TAG, "setFavoriteGroups")
-        adapter.showFullList(groups)
+    override fun showFilteredList(filteredList: List<Group>) {
+        Log.i(DEBUG_TAG, "showFilteredList")
+        adapter.showFilteredList(filteredList)
+    }
+
+    override fun showFullList(fullList: List<Group>) {
+        Log.i(DEBUG_TAG, "showFullList")
+        adapter.showFullList(fullList)
     }
     //</editor-fold>
 
@@ -78,29 +83,32 @@ class VkListGroupsFragment : MvpAppCompatFragment(), ScrollToTopView, ToolbarSea
         adapter.setToEnd(searchResponse.items)
     }
 
-    override fun closeSearch() {
-        Log.i("DebugTag", "closeSearch")
-        adapter.showFullList()
+    override fun tootleProgressItem(isVisible: Boolean) {
+        Log.i(DEBUG_TAG, "tootleProgressItem")
+        if (isVisible) adapter.insertProgressItem()
+        else adapter.removedProgressItem()
     }
 
-    override fun errorLoad() {
-        Log.i("DebugTag", "errorLoad")
-        adapter.setFirstSearchList(arrayListOf())
-        adapter.removedProgressItem()
+    override fun showErrorToast() {
+        Log.i(DEBUG_TAG, "showErrorToast")
         Toast.makeText(this.context, R.string.error_toast, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun stopSearch() {
+        Log.i(DEBUG_TAG, "stopSearch")
+        vkListGroupsPresenter.getFullGroups()
     }
     //</editor-fold>
 
     //<editor-fold desc="ToolbarSearchView">
     override fun needSearch(query: String) {
         Log.i(DEBUG_TAG, "needSearch VkListGroupsFragment")
-        adapter.filteredList(query)
+        vkListGroupsPresenter.getFilteredList(query)
         searchGroupsPresenter.startSearch(query)
     }
 
     override fun notNeedSearch() {
         Log.i(DEBUG_TAG, "notNeedSearch VkListGroupsFragment")
-        adapter.showFullList()
         searchGroupsPresenter.stopSearch()
     }
     //</editor-fold>

@@ -12,5 +12,8 @@ import com.thebrodyaga.vkobjects.groups.Group
 
 interface VkListGroupsView : MvpView {
     @StateStrategyType(SingleStateStrategy::class)
-    fun setFavoriteGroups(groups: List<Group>)
+    fun showFilteredList(filteredList: List<Group>)
+
+    @StateStrategyType(SingleStateStrategy::class)
+    fun showFullList(fullList: List<Group>)
 }

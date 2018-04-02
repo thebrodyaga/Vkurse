@@ -32,28 +32,31 @@ class SearchGroupsPresenter : BasePresenter<SearchGroupsView>() {
                 vkService.searchGroups(query)
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe({
+                            Log.d(DEBUG_TAG, "newSearchGroups successful")
                             currentQuery = query
                             currentOffset = it.items.size
-                            Log.d(DEBUG_TAG, "newSearchGroups successful")
                             viewState.setNewResult(it)
                         }, {
                             Log.e(DEBUG_TAG, "newSearchGroups error: " + it.message)
-                            viewState.errorLoad()
+                            viewState.showErrorToast()
                         })
         unSubscribeOnDestroy(disposable)
     }
 
     fun offsetSearchGroups() {
+        viewState.tootleProgressItem(true)
         val disposable: Disposable =
                 vkService.searchGroups(currentQuery, currentOffset)
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe({
                             Log.d(DEBUG_TAG, "offsetSearchGroups successful")
                             currentOffset += it.items.size
+                            viewState.tootleProgressItem(false)
                             viewState.setOffsetResult(it)
                         }, {
                             Log.e(DEBUG_TAG, "offsetSearchGroups error: " + it.message)
-                            viewState.errorLoad()
+                            viewState.showErrorToast()
+                            viewState.tootleProgressItem(false)
                         })
         unSubscribeOnDestroy(disposable)
     }
@@ -66,7 +69,7 @@ class SearchGroupsPresenter : BasePresenter<SearchGroupsView>() {
 
     fun stopSearch() {
         clearDisposable()
-        viewState.closeSearch()
+        viewState.stopSearch()
         searchHandler.removeCallbacksAndMessages(null)
     }
 }
