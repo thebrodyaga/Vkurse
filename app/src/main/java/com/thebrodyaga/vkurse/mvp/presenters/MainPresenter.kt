@@ -23,4 +23,8 @@ class MainPresenter : MvpPresenter<MainView>() {
             }
         }
     }
+
+    fun toggleSearchIcon(isVisible: Boolean) {
+        viewState.toggleSearchIcon(isVisible)
+    }
 }

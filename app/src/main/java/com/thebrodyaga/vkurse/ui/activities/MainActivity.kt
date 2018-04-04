@@ -40,8 +40,10 @@ class MainActivity : MvpAppCompatActivity(), NavigationBarView, MainView, Scroll
     lateinit var scrollToTopPresenter: ScrollToTopPresenter
     @InjectPresenter(type = PresenterType.GLOBAL, tag = ToolbarSearchPresenter.SearchPresenterTAG)
     lateinit var toolbarSearchPresenter: ToolbarSearchPresenter
-
     private var searchItem: MenuItem? = null
+    //  при смене конфигурации toggleSearchIcon() вызывается раньше чем onCreateOptionsMenu()
+    //TODO поискать как сделать по-красоте
+    private var isSearchItemVisible = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,12 +65,13 @@ class MainActivity : MvpAppCompatActivity(), NavigationBarView, MainView, Scroll
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.main_toolbar, menu)
         searchItem = menu?.findItem(R.id.toolbar_search)
-        searchItem?.isVisible = false
+        searchItem?.isVisible = isSearchItemVisible
         val searchView: AndroidSearchView? = searchItem?.actionView as AndroidSearchView?
         searchView?.setOnQueryTextListener(toolbarSearchPresenter)
         return true
     }
 
+    //<editor-fold desc="NavigationBarView">
     override fun showListPostsFragment() {
         Log.d(DEBUG_TAG, "showListPostsFragment")
         searchItem?.collapseActionView()
@@ -85,7 +88,9 @@ class MainActivity : MvpAppCompatActivity(), NavigationBarView, MainView, Scroll
         searchItem?.collapseActionView()
         managingFragment(ChatFragment.FragmentTAG)
     }
+    //</editor-fold>
 
+    //<editor-fold desc="MainView">
     override fun showDefaultFragment(fragmentTag: String) {
         Log.d(DEBUG_TAG, "showDefaultFragment")
         managingFragment(fragmentTag)
@@ -95,12 +100,20 @@ class MainActivity : MvpAppCompatActivity(), NavigationBarView, MainView, Scroll
         startActivity(Intent(this, SettingActivity::class.java))
     }
 
+    override fun toggleSearchIcon(isVisible: Boolean) {
+        Log.i(DEBUG_TAG, "toggleSearchIcon isVisible = $isVisible")
+        searchItem?.isVisible = isVisible
+        isSearchItemVisible = isVisible
+    }
+    //</editor-fold>
+
     override fun scrollTop(menuPosition: Int) {
         Log.d(DEBUG_TAG, "scrollTop MainActivity")
         myAppBar.setExpanded(true)
         return
     }
 
+    //<editor-fold desc="ToolbarSearchView">
     override fun needSearch(query: String) {
         Log.i("DebugTag", "needSearch MainActivity")
     }
@@ -108,6 +121,7 @@ class MainActivity : MvpAppCompatActivity(), NavigationBarView, MainView, Scroll
     override fun notNeedSearch() {
         Log.i(DEBUG_TAG, "notNeedSearch MainActivity")
     }
+    //</editor-fold>
 
     //<editor-fold desc="Тасовка фрагментов">
     private fun managingFragment(fragmentTag: String) {
@@ -117,7 +131,7 @@ class MainActivity : MvpAppCompatActivity(), NavigationBarView, MainView, Scroll
             VkListGroupsFragment.FragmentTAG -> if (fragment != null) showFragment(fragment) else addFragment(VkListGroupsFragment(), fragmentTag)
             ChatFragment.FragmentTAG -> if (fragment != null) showFragment(fragment) else addFragment(ChatFragment(), fragmentTag)
         }
-        searchItem?.isVisible = fragmentTag == VkListGroupsFragment.FragmentTAG
+        mainPresenter.toggleSearchIcon(fragmentTag == VkListGroupsFragment.FragmentTAG)
     }
 
     private fun addFragment(fragment: Fragment, fragmentTag: String) {

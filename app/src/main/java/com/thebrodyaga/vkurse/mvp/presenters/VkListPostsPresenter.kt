@@ -30,13 +30,12 @@ class VkListPostsPresenter : BasePresenter<VkListPostsView>() {
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
         currentState = VkWallBody(timeStep = VkService.timeStep, ownerInfoList = testOwnerInfoList)
-        viewState.toggleFullScreenProgress(true)
+        viewState.choiceForegroundView(PROGRESS_VIEW_FLAG)
         loadFirstWall()
     }
 
     fun onErrorButtonClick() {
-        viewState.toggleErrorButton(false)
-        viewState.toggleFullScreenProgress(true)
+        viewState.choiceForegroundView(PROGRESS_VIEW_FLAG)
         loadFirstWall()
     }
 
@@ -58,16 +57,18 @@ class VkListPostsPresenter : BasePresenter<VkListPostsView>() {
     }
 
     fun loadAfterLast() {
+        viewState.tootleProgressItem(true)
         val disposable: Disposable =
                 vkService.getListAfterLast(currentState)
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe({
                             Log.d(DEBUG_TAG, "loadWallAfterLast successful")
                             setCurrentState(it, last = it.wallPostList.last().date)
+                            viewState.tootleProgressItem(false)
                             viewState.setAfterLastData(it.wallPostList)
                         }, {
                             Log.e(DEBUG_TAG, "loadWallAfterLast error: " + it.message)
-                            viewState.hideProgressItem()
+                            viewState.tootleProgressItem(false)
                             viewState.showErrorToast()
                         })
         unSubscribeOnDestroy(disposable)
@@ -82,11 +83,10 @@ class VkListPostsPresenter : BasePresenter<VkListPostsView>() {
                             setCurrentState(it, first = it.wallPostList.first().date,
                                     last = it.wallPostList.last().date)
                             viewState.setFirstData(it.wallPostList)
-                            viewState.toggleFullScreenProgress(false)
+                            viewState.choiceForegroundView(DATA_VIEW_FLAG)
                         }, {
                             Log.e(DEBUG_TAG, "loadFirstWall error: " + it.message)
-                            viewState.toggleErrorButton(true)
-                            viewState.toggleFullScreenProgress(false)
+                            viewState.choiceForegroundView(ERROR_VIEW_FLAG)
                         })
         unSubscribeOnDestroy(disposable)
     }
@@ -95,5 +95,12 @@ class VkListPostsPresenter : BasePresenter<VkListPostsView>() {
         if (last != null) currentState.lastPostDate = last
         if (first != null) currentState.firstPostDate = first
         currentState.ownerInfoList = it.ownerInfoList
+    }
+
+    companion object {
+        const val ERROR_VIEW_FLAG = "errorViewFlag"
+        const val DATA_VIEW_FLAG = "dataViewFlag"
+        const val PROGRESS_VIEW_FLAG = "progressViewFlag"
+        const val EMPTY_VIEW_FLAG = "emptyViewFlag"
     }
 }

@@ -2,8 +2,11 @@ package com.thebrodyaga.vkurse.ui.adapters
 
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import com.squareup.picasso.Picasso
+import com.thebrodyaga.vkurse.R
 import javax.inject.Inject
 
 /**
@@ -12,33 +15,19 @@ import javax.inject.Inject
  */
 
 
-abstract class BaseAdapter<T>(private val onLoadMoreListener: OnLoadMoreListener?,
-                              recyclerView: RecyclerView) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-
-    /**
-     * если onLoadMoreListener = null для новые данный не грузит
-     */
-    init {
-        val linearLayoutManager = recyclerView.layoutManager as? LinearLayoutManager
-        if (linearLayoutManager != null && onLoadMoreListener != null) recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
-                if (dy <= 0 || isLoading) return
-                if (linearLayoutManager.itemCount
-                        == linearLayoutManager.findLastVisibleItemPosition()+1 /*+ visibleThreshold*/) {
-                    isLoading = true
-                    contentList.add(null)
-                    recyclerView?.post({ notifyDataSetChanged() })
-                    onLoadMoreListener.onLoadMore()
-                }
-            }
-        })
-    }
+abstract class BaseAdapter<T>(private val onLoadMoreListener: OnLoadMoreListener?) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     @Inject
     protected lateinit var picasso: Picasso
     protected val contentList = arrayListOf<T?>()
-    protected val visibleThreshold = 2    //последний видимый перед загрузкой
-    protected var isLoading: Boolean = false
+    protected val visibleThreshold = 1    //последний видимый перед загрузкой
+    private var isLoading: Boolean = false
+    private var recyclerView: RecyclerView? = null
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return ProgressHolder(LayoutInflater.from(parent.context)
+                .inflate(R.layout.middle_progress_bar, parent, false))
+    }
 
     override fun getItemCount(): Int {
         return contentList.size
@@ -50,14 +39,15 @@ abstract class BaseAdapter<T>(private val onLoadMoreListener: OnLoadMoreListener
 
 
     fun setToEnd(contentList: List<T>) {
-        if (!this.contentList.isEmpty()) removedProgressItem()
+        val startPosition = itemCount
         this.contentList.addAll(contentList)
-        notifyDataSetChanged()
+        //сдвиг positionStart на 1, тк progressItem удаляется и view обновляется
+        notifyItemRangeInserted(startPosition, contentList.size)
     }
 
     fun setToStart(contentList: List<T>) {
         this.contentList.addAll(0, contentList)
-        notifyDataSetChanged()
+        notifyItemRangeInserted(0, contentList.size)
     }
 
     fun clearList() {
@@ -66,11 +56,38 @@ abstract class BaseAdapter<T>(private val onLoadMoreListener: OnLoadMoreListener
         notifyDataSetChanged()
     }
 
+    fun insertProgressItem() {
+        if (isLoading) return
+        contentList.add(null)
+        recyclerView?.post { notifyItemInserted(itemCount - 1) }  // прилетает из onScrolled -> presenter
+        isLoading = true
+    }
+
     fun removedProgressItem() {
-        if (!isLoading) return
+        if (!isLoading || contentList.isEmpty()) return
         contentList.removeAt(contentList.size - 1)
-        notifyDataSetChanged()
+        notifyItemRemoved(itemCount)
         isLoading = false
+    }
+
+
+    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
+        if (onLoadMoreListener == null) return
+        val linearLayoutManager = recyclerView.layoutManager as? LinearLayoutManager ?: return
+        this.recyclerView = recyclerView
+        (this.recyclerView)?.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            //TODO спамит подгрузку если сервак отвалился, поискать как сделать по-красоте
+            override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
+                if (dy <= 0 || isLoading || contentList.isEmpty()) return
+                if (linearLayoutManager.itemCount
+                        == linearLayoutManager.findLastVisibleItemPosition() + visibleThreshold)
+                    onLoadMoreListener.onLoadMore()
+            }
+        })
+    }
+
+    override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
+        this.recyclerView = null
     }
 
     class ProgressHolder(containerView: View) : RecyclerView.ViewHolder(containerView)

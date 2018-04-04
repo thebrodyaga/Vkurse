@@ -2,29 +2,27 @@ package com.thebrodyaga.vkurse.mvp.views
 
 import com.arellomobile.mvp.MvpView
 import com.arellomobile.mvp.viewstate.strategy.*
+import com.thebrodyaga.vkobjects.groups.Group
 import com.thebrodyaga.vkobjects.groups.responses.SearchResponse
 
 /**
  * Created by Emelyanov.N4
  *         on 27.03.2018
  */
-interface VkListSearchGroupsView : MvpView {
-
-    @StateStrategyType(OneExecutionStateStrategy::class)
-    fun toggleSearchFragment(isVisible: Boolean)
+interface SearchGroupsView : MvpView {
 
     @StateStrategyType(SingleStateStrategy::class)
-    fun setNewResult(searchResponse: SearchResponse)
+    fun setNewSearchGroup(searchResponse: SearchResponse)
 
     @StateStrategyType(AddToEndStrategy::class)
-    fun setOffsetResult(searchResponse: SearchResponse)
+    fun setOffsetSearchGroup(searchResponse: SearchResponse)
 
     @StateStrategyType(AddToEndSingleStrategy::class)
-    fun toggleProgress(isVisible: Boolean)
+    fun tootleProgressItem(isVisible: Boolean)
 
     @StateStrategyType(OneExecutionStateStrategy::class)
     fun showErrorToast()
 
-    @StateStrategyType(OneExecutionStateStrategy::class)
-    fun hideProgressItem()
+    @StateStrategyType(SingleStateStrategy::class)
+    fun stopSearch()
 }

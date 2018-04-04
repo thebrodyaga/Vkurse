@@ -18,4 +18,5 @@
     <string name="list_subhead_text">Глобальный поиск</string>
     <string name="itemGroupName">[GroupName]</string>
     <string name="error_toast">Проблемы с сетью</string>
+    <string name="error_button_text">Запусти сервак</string>
 </resources>
