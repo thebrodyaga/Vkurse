@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.thebrodyaga.vkurse.ui.fragments.VkListGroupsFragment">
+    tools:context="com.thebrodyaga.vkurse.ui.list.groups.VkListGroupsFragment">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"

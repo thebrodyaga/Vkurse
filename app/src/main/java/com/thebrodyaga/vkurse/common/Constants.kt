@@ -7,3 +7,6 @@ package com.thebrodyaga.vkurse.common
 
 const val DEBUG_TAG = "DebugTag"
 const val LIVECYCLE_CALLBACKS_TAG = "LifecycleCallbacksTag"
+
+const val DATABASE_VERSION = 1
+const val DATABASE_NAME = "VkurseAppDatabase"
