@@ -18,8 +18,8 @@ import com.thebrodyaga.vkurse.ui.base.DaggerAppCompatActivity
 import com.thebrodyaga.vkurse.ui.chat.ChatFragment
 import com.thebrodyaga.vkurse.ui.list.groups.VkListGroupsFragment
 import com.thebrodyaga.vkurse.ui.list.posts.VkListPostsFragment
-import com.thebrodyaga.vkurse.ui.main.mvp.presenters.MainPresenter
-import com.thebrodyaga.vkurse.ui.main.mvp.views.MainView
+import com.thebrodyaga.vkurse.ui.main.mvp.MainPresenter
+import com.thebrodyaga.vkurse.ui.main.mvp.MainView
 import com.thebrodyaga.vkurse.ui.setting.SettingActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject

@@ -1,4 +1,4 @@
-package com.thebrodyaga.vkurse.ui.main.mvp.views
+package com.thebrodyaga.vkurse.ui.main.mvp
 
 import com.arellomobile.mvp.MvpView
 import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy

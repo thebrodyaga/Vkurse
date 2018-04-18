@@ -3,8 +3,8 @@ package com.thebrodyaga.vkurse.ui.main.dagger
 import com.thebrodyaga.vkurse.application.di.scopes.PerActivity
 import com.thebrodyaga.vkurse.data.db.RoomDatabase
 import com.thebrodyaga.vkurse.data.net.VkService
-import com.thebrodyaga.vkurse.ui.main.mvp.models.MainActivityModel
-import com.thebrodyaga.vkurse.ui.main.mvp.presenters.MainPresenter
+import com.thebrodyaga.vkurse.ui.main.mvp.MainActivityModel
+import com.thebrodyaga.vkurse.ui.main.mvp.MainPresenter
 import dagger.Module
 import dagger.Provides
 

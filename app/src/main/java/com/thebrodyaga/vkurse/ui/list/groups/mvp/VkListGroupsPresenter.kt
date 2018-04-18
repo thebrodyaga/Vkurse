@@ -3,8 +3,8 @@ package com.thebrodyaga.vkurse.ui.list.groups.mvp
 import com.arellomobile.mvp.InjectViewState
 import com.thebrodyaga.vkobjects.groups.Group
 import com.thebrodyaga.vkurse.ui.base.BasePresenter
-import com.thebrodyaga.vkurse.ui.main.mvp.models.MainActivityModel
-import com.thebrodyaga.vkurse.ui.main.mvp.presenters.MainPresenter.Companion.ListGroupsFragmentPosition
+import com.thebrodyaga.vkurse.ui.main.mvp.MainActivityModel
+import com.thebrodyaga.vkurse.ui.main.mvp.MainPresenter.Companion.ListGroupsFragmentPosition
 
 /**
  * Created by Emelyanov.N4

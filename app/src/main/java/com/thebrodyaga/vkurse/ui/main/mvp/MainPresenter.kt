@@ -1,11 +1,9 @@
-package com.thebrodyaga.vkurse.ui.main.mvp.presenters
+package com.thebrodyaga.vkurse.ui.main.mvp
 
 import android.support.v7.widget.SearchView
 import com.arellomobile.mvp.InjectViewState
 import com.thebrodyaga.vkurse.R
 import com.thebrodyaga.vkurse.ui.base.BasePresenter
-import com.thebrodyaga.vkurse.ui.main.mvp.models.MainActivityModel
-import com.thebrodyaga.vkurse.ui.main.mvp.views.MainView
 
 /**
  * Created by Emelyanov.N4

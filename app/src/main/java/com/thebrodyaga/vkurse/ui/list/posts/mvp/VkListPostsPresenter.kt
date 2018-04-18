@@ -9,10 +9,9 @@ import com.thebrodyaga.vkurse.models.gson.VkWallResponse
 import com.thebrodyaga.vkurse.models.gson.testOwnerInfoList
 import com.thebrodyaga.vkurse.data.net.VkService
 import com.thebrodyaga.vkurse.ui.base.BasePresenter
-import com.thebrodyaga.vkurse.ui.main.mvp.models.MainActivityModel
-import com.thebrodyaga.vkurse.ui.main.mvp.presenters.MainPresenter.Companion.ListPostsFragmentPosition
+import com.thebrodyaga.vkurse.ui.main.mvp.MainActivityModel
+import com.thebrodyaga.vkurse.ui.main.mvp.MainPresenter.Companion.ListPostsFragmentPosition
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
 
 /**
  * Created by Emelyanov.N4

@@ -1,4 +1,4 @@
-package com.thebrodyaga.vkurse.ui.main.mvp.models
+package com.thebrodyaga.vkurse.ui.main.mvp
 
 import android.arch.persistence.room.RoomDatabase
 import com.thebrodyaga.vkurse.application.di.scopes.PerActivity

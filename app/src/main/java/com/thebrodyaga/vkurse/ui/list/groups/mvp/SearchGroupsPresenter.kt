@@ -6,10 +6,9 @@ import com.arellomobile.mvp.InjectViewState
 import com.thebrodyaga.vkurse.application.App
 import com.thebrodyaga.vkurse.common.DEBUG_TAG
 import com.thebrodyaga.vkurse.ui.base.BasePresenter
-import com.thebrodyaga.vkurse.ui.main.mvp.models.MainActivityModel
+import com.thebrodyaga.vkurse.ui.main.mvp.MainActivityModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.disposables.Disposable
 
 /**
  * Created by Emelyanov.N4
