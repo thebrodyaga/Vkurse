@@ -57,28 +57,34 @@ abstract class SearchAdapter<T>(onLoadMoreListener: OnLoadMoreListener?) : BaseA
 
     fun showFullList(list: List<T>) {
         clearSearchList()
-        currentState = DEVICE_LIST_STEP
-        notifyItemRemoved(itemCount)
+        removeHeader()
         refreshMainList(list)
     }
 
     fun showFilteredList(list: List<T>) {
-        currentState = NEW_SEARCH_STEP
         clearSearchList()
-        notifyItemChanged(itemCount)
         refreshMainList(list)
     }
 
     fun setFirstSearchList(contentList: List<T>) {
-        currentState = DEVICE_AND_SEARCH_LIST_STEP
-        notifyItemChanged(itemCount)
+        showTextHeader()
         this.contentList.addAll(contentList)
         notifyItemRangeInserted(mainList.size + 1, contentList.size)
     }
 
-    fun emptySearchList() {
+    fun showTextHeader() {
         currentState = DEVICE_AND_SEARCH_LIST_STEP
-        notifyItemChanged(itemCount)
+        notifyItemChanged(mainList.size)
+    }
+
+    fun showProgressHeader() {
+        currentState = NEW_SEARCH_STEP
+        notifyItemChanged(mainList.size)
+    }
+
+    fun removeHeader() {
+        currentState = DEVICE_LIST_STEP
+        notifyItemRemoved(itemCount)
     }
 
     private fun refreshMainList(list: List<T>) {

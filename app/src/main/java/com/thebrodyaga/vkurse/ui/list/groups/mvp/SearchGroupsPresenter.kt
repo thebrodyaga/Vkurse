@@ -45,8 +45,8 @@ class SearchGroupsPresenter(private val mainActivityModel: MainActivityModel) : 
                     viewState.setNewSearchGroup(it)
                 }, {
                     Log.e(DEBUG_TAG, "newSearchGroups error: " + it.message)
+                    viewState.showTextHeader()
                     viewState.showErrorToast()
-                    viewState.setNewSearchGroup(null)
                 }))
     }
 
@@ -69,6 +69,7 @@ class SearchGroupsPresenter(private val mainActivityModel: MainActivityModel) : 
     private fun startSearch(query: String) {
         clearDisposable()
         searchHandler.removeCallbacksAndMessages(null)
+        viewState.showProgressHeader()
         searchHandler.postDelayed({ newSearchGroups(query) }, 1000)
     }
 

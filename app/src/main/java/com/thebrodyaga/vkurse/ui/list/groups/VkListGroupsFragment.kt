@@ -76,10 +76,9 @@ class VkListGroupsFragment : DaggerSupportFragment(), VkListGroupsView,
         searchGroupsPresenter.offsetSearchGroups()
     }
 
-    override fun setNewSearchGroup(searchResponse: SearchResponse?) {
+    override fun setNewSearchGroup(searchResponse: SearchResponse) {
         Log.i("DebugTag", "setNewSearchGroup")
-        if (searchResponse != null) adapter.setFirstSearchList(searchResponse.items)
-        else adapter.emptySearchList()
+        adapter.setFirstSearchList(searchResponse.items)
     }
 
     override fun setOffsetSearchGroup(searchResponse: SearchResponse) {
@@ -91,6 +90,16 @@ class VkListGroupsFragment : DaggerSupportFragment(), VkListGroupsView,
         Log.i(DEBUG_TAG, "tootleProgressItem")
         if (isVisible) adapter.insertProgressItem()
         else adapter.removedProgressItem()
+    }
+
+    override fun showTextHeader() {
+        Log.i("DebugTag", "showTextHeader")
+        adapter.showTextHeader()
+    }
+
+    override fun showProgressHeader() {
+        Log.i("DebugTag", "showProgressHeader")
+        adapter.showProgressHeader()
     }
 
     override fun showErrorToast() {

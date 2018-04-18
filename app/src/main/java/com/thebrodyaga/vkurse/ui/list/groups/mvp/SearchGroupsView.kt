@@ -8,10 +8,14 @@ import com.thebrodyaga.vkobjects.groups.responses.SearchResponse
  * Created by Emelyanov.N4
  *         on 27.03.2018
  */
+@StateStrategyType(SingleStateStrategy::class)
 interface SearchGroupsView : MvpView {
 
-    @StateStrategyType(SingleStateStrategy::class)
-    fun setNewSearchGroup(searchResponse: SearchResponse?)
+    fun showTextHeader()
+
+    fun showProgressHeader()
+
+    fun setNewSearchGroup(searchResponse: SearchResponse)
 
     @StateStrategyType(AddToEndStrategy::class)
     fun setOffsetSearchGroup(searchResponse: SearchResponse)
