@@ -60,6 +60,7 @@ class MainActivity : DaggerAppCompatActivity(), MainView {
         searchItem = menu?.findItem(R.id.toolbar_search)
         searchItem?.isVisible = isSearchItemVisible
         val searchView: AndroidSearchView? = searchItem?.actionView as AndroidSearchView?
+        searchView?.setQuery("",false)
         searchView?.setOnQueryTextListener(mainPresenter)
         return true
     }
