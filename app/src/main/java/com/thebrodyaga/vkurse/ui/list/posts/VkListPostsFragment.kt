@@ -12,6 +12,7 @@ import android.widget.Toast
 import com.arellomobile.mvp.MvpAppCompatFragment
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.PresenterType
+import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.thebrodyaga.vkobjects.wall.WallPostFull
 import com.thebrodyaga.vkurse.R
 import com.thebrodyaga.vkurse.common.DEBUG_TAG
@@ -21,17 +22,23 @@ import com.thebrodyaga.vkurse.ui.list.posts.mvp.VkListPostsPresenter
 import com.thebrodyaga.vkurse.ui.main.mvp.views.ScrollToTopView
 import com.thebrodyaga.vkurse.ui.list.posts.mvp.VkListPostsView
 import com.thebrodyaga.vkurse.ui.base.BaseAdapter
+import com.thebrodyaga.vkurse.ui.base.DaggerSupportFragment
 import kotlinx.android.synthetic.main.fragment_vk_list_posts.*
 import kotlinx.android.synthetic.main.fragment_vk_list_posts.view.*
+import javax.inject.Inject
 
 
-class VkListPostsFragment : MvpAppCompatFragment(), ScrollToTopView, VkListPostsView, BaseAdapter.OnLoadMoreListener {
+class VkListPostsFragment : DaggerSupportFragment(), ScrollToTopView, VkListPostsView, BaseAdapter.OnLoadMoreListener {
     @InjectPresenter(type = PresenterType.GLOBAL, tag = ScrollToTopPresenter.ScrollToTopPresenterTAG)
     lateinit var scrollToTopPresenter: ScrollToTopPresenter
+    @Inject
     @InjectPresenter()
     lateinit var vkListPostsPresenter: VkListPostsPresenter
     private lateinit var adapter: VkPostsAdapter
     private lateinit var recyclerView: RecyclerView
+
+    @ProvidePresenter
+    fun providePresenter(): VkListPostsPresenter = vkListPostsPresenter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {

@@ -16,6 +16,10 @@ import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationAdapter
 import com.thebrodyaga.vkurse.R
 import com.thebrodyaga.vkurse.common.DEBUG_TAG
+import com.thebrodyaga.vkurse.ui.base.DaggerAppCompatActivity
+import com.thebrodyaga.vkurse.ui.chat.ChatFragment
+import com.thebrodyaga.vkurse.ui.list.groups.VkListGroupsFragment
+import com.thebrodyaga.vkurse.ui.list.posts.VkListPostsFragment
 import com.thebrodyaga.vkurse.ui.main.mvp.presenters.MainPresenter
 import com.thebrodyaga.vkurse.ui.main.mvp.presenters.NavigationBarPresenter
 import com.thebrodyaga.vkurse.ui.main.mvp.presenters.ScrollToTopPresenter
@@ -24,21 +28,14 @@ import com.thebrodyaga.vkurse.ui.main.mvp.views.MainView
 import com.thebrodyaga.vkurse.ui.main.mvp.views.NavigationBarView
 import com.thebrodyaga.vkurse.ui.main.mvp.views.ScrollToTopView
 import com.thebrodyaga.vkurse.ui.main.mvp.views.ToolbarSearchView
-import com.thebrodyaga.vkurse.ui.chat.ChatFragment
-import com.thebrodyaga.vkurse.ui.list.groups.VkListGroupsFragment
-import com.thebrodyaga.vkurse.ui.list.posts.VkListPostsFragment
 import com.thebrodyaga.vkurse.ui.setting.SettingActivity
-import dagger.android.AndroidInjection
-import dagger.android.AndroidInjector
-import dagger.android.DispatchingAndroidInjector
-import dagger.android.support.HasSupportFragmentInjector
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 import android.support.v7.widget.SearchView as AndroidSearchView
 
 
-class MainActivity : MvpAppCompatActivity(), NavigationBarView, MainView,
-        ScrollToTopView, ToolbarSearchView, HasSupportFragmentInjector {
+class MainActivity : DaggerAppCompatActivity(), NavigationBarView, MainView,
+        ScrollToTopView, ToolbarSearchView {
 
     @InjectPresenter
     lateinit var navigationBarPresenter: NavigationBarPresenter
@@ -47,8 +44,6 @@ class MainActivity : MvpAppCompatActivity(), NavigationBarView, MainView,
     lateinit var mainPresenter: MainPresenter
     @InjectPresenter(type = PresenterType.GLOBAL, tag = ScrollToTopPresenter.ScrollToTopPresenterTAG)
     lateinit var scrollToTopPresenter: ScrollToTopPresenter
-    @Inject
-    lateinit var fragmentDispatchingAndroidInjector: DispatchingAndroidInjector<Fragment>
     @InjectPresenter(type = PresenterType.GLOBAL, tag = ToolbarSearchPresenter.SearchPresenterTAG)
     lateinit var toolbarSearchPresenter: ToolbarSearchPresenter
     private var searchItem: MenuItem? = null
@@ -60,7 +55,6 @@ class MainActivity : MvpAppCompatActivity(), NavigationBarView, MainView,
     fun providePresenter(): MainPresenter = mainPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
@@ -172,6 +166,4 @@ class MainActivity : MvpAppCompatActivity(), NavigationBarView, MainView,
         return fragmentTransaction
     }
     //</editor-fold>
-
-    override fun supportFragmentInjector(): AndroidInjector<Fragment> = fragmentDispatchingAndroidInjector
 }

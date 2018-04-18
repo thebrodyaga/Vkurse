@@ -12,6 +12,7 @@ import android.widget.Toast
 import com.arellomobile.mvp.MvpAppCompatFragment
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.PresenterType
+import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.thebrodyaga.vkobjects.groups.Group
 import com.thebrodyaga.vkobjects.groups.responses.SearchResponse
 import com.thebrodyaga.vkurse.R
@@ -21,26 +22,32 @@ import com.thebrodyaga.vkurse.ui.main.mvp.views.ToolbarSearchView
 import com.thebrodyaga.vkurse.ui.list.groups.mvp.VkListGroupsView
 import com.thebrodyaga.vkurse.ui.list.groups.mvp.SearchGroupsView
 import com.thebrodyaga.vkurse.ui.base.BaseAdapter
+import com.thebrodyaga.vkurse.ui.base.DaggerSupportFragment
 import com.thebrodyaga.vkurse.ui.list.groups.mvp.SearchGroupsPresenter
 import com.thebrodyaga.vkurse.ui.list.groups.mvp.VkListGroupsPresenter
 import com.thebrodyaga.vkurse.ui.main.mvp.presenters.NavigationBarPresenter
 import com.thebrodyaga.vkurse.ui.main.mvp.presenters.ScrollToTopPresenter
 import com.thebrodyaga.vkurse.ui.main.mvp.presenters.ToolbarSearchPresenter
 import kotlinx.android.synthetic.main.fragment_vk_list_groups.view.*
+import javax.inject.Inject
 
 
-class VkListGroupsFragment : MvpAppCompatFragment(), ScrollToTopView, ToolbarSearchView, VkListGroupsView, SearchGroupsView, BaseAdapter.OnLoadMoreListener {
+class VkListGroupsFragment : DaggerSupportFragment(), ScrollToTopView, ToolbarSearchView, VkListGroupsView, SearchGroupsView, BaseAdapter.OnLoadMoreListener {
 
     @InjectPresenter(type = PresenterType.GLOBAL, tag = ScrollToTopPresenter.ScrollToTopPresenterTAG)
     lateinit var scrollToTopPresenter: ScrollToTopPresenter
     @InjectPresenter(type = PresenterType.GLOBAL, tag = ToolbarSearchPresenter.SearchPresenterTAG)
     lateinit var toolbarSearchPresenter: ToolbarSearchPresenter
+    @Inject
     @InjectPresenter()
     lateinit var vkListGroupsPresenter: VkListGroupsPresenter
     @InjectPresenter()
     lateinit var searchGroupsPresenter: SearchGroupsPresenter
     private lateinit var adapter: VkGroupsAdapter
     private lateinit var recyclerView: RecyclerView
+
+    @ProvidePresenter
+    fun providePresenter(): VkListGroupsPresenter = vkListGroupsPresenter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {

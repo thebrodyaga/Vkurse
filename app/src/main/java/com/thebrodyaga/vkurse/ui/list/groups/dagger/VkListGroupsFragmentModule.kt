@@ -1,7 +1,7 @@
-package com.thebrodyaga.vkurse.ui.list.posts.dagger
+package com.thebrodyaga.vkurse.ui.list.groups.dagger
 
 import com.thebrodyaga.vkurse.application.di.scopes.PerFragment
-import com.thebrodyaga.vkurse.ui.list.posts.mvp.VkListPostsPresenter
+import com.thebrodyaga.vkurse.ui.list.groups.mvp.VkListGroupsPresenter
 import com.thebrodyaga.vkurse.ui.main.mvp.models.MainActivityModel
 import dagger.Module
 import dagger.Provides
@@ -11,9 +11,9 @@ import dagger.Provides
  *         on 16.04.2018.
  */
 @Module
-class VkListPostsFragmentModule {
+class VkListGroupsFragmentModule {
     @PerFragment
     @Provides
     fun provideVkListPostsPresenter(mainActivityModel: MainActivityModel)
-            : VkListPostsPresenter = VkListPostsPresenter(mainActivityModel)
+            : VkListGroupsPresenter = VkListGroupsPresenter(mainActivityModel)
 }

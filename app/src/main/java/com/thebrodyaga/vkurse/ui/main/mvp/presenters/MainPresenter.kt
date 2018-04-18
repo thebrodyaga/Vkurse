@@ -12,8 +12,10 @@ import com.thebrodyaga.vkurse.ui.main.mvp.models.MainActivityModel
  *         on 19.02.2018.
  */
 @InjectViewState
-class MainPresenter(private val mainActivityModel: MainActivityModel) : MvpPresenter<MainView>() {
-    init {
+class MainPresenter(private val mainActivityModel: MainActivityModel)
+    : MvpPresenter<MainView>() {
+
+    override fun onFirstViewAttach() {
         viewState.showDefaultFragment(VkListPostsFragment.FragmentTAG)
     }
 

@@ -1,8 +1,9 @@
 package com.thebrodyaga.vkurse.application.di
 
+import com.thebrodyaga.vkurse.application.di.scopes.PerActivity
 import com.thebrodyaga.vkurse.ui.main.MainActivity
 import com.thebrodyaga.vkurse.ui.main.dagger.MainActivityModule
-import com.thebrodyaga.vkurse.ui.main.dagger.VkListPostsFragmentProvider
+import com.thebrodyaga.vkurse.ui.main.dagger.MainFragmentProvider
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -13,7 +14,7 @@ import dagger.android.ContributesAndroidInjector
 @Module
 abstract class ActivityBuilder {
 
-    @ContributesAndroidInjector(modules = [MainActivityModule::class,
-        VkListPostsFragmentProvider::class])
+    @PerActivity
+    @ContributesAndroidInjector(modules = [MainActivityModule::class, MainFragmentProvider::class])
     abstract fun bindMainActivity(): MainActivity
 }

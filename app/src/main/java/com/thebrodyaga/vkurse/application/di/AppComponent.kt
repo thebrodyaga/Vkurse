@@ -5,6 +5,7 @@ import com.squareup.picasso.Picasso
 import com.thebrodyaga.vkurse.application.App
 import dagger.BindsInstance
 import dagger.Component
+import dagger.android.AndroidInjector
 import dagger.android.support.AndroidSupportInjectionModule
 import javax.inject.Singleton
 
@@ -24,6 +25,6 @@ interface AppComponent {
         fun build(): AppComponent
     }
 
-    fun getPicasso(): Picasso
+    fun getPicasso(): Picasso   //todo инжектить адаптеры
     fun inject(app: App)
 }

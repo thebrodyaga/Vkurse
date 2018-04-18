@@ -7,6 +7,7 @@ import com.thebrodyaga.vkurse.application.di.modules.RoomModule
 import com.thebrodyaga.vkurse.application.di.modules.VkurseApiModule
 import com.thebrodyaga.vkurse.data.net.VkService
 import com.thebrodyaga.vkurse.data.net.VkurseApi
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton

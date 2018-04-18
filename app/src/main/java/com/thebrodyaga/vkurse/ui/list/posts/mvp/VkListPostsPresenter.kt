@@ -9,6 +9,7 @@ import com.thebrodyaga.vkurse.models.gson.VkWallResponse
 import com.thebrodyaga.vkurse.models.gson.testOwnerInfoList
 import com.thebrodyaga.vkurse.data.net.VkService
 import com.thebrodyaga.vkurse.ui.base.BasePresenter
+import com.thebrodyaga.vkurse.ui.main.mvp.models.MainActivityModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 
@@ -17,9 +18,10 @@ import io.reactivex.disposables.Disposable
  *         on 22.02.2018.
  */
 @InjectViewState
-class VkListPostsPresenter : BasePresenter<VkListPostsView>() {
+class VkListPostsPresenter(private val mainActivityModel: MainActivityModel)
+    : BasePresenter<VkListPostsView>() {
 
-//    val vkService = App.appComponent.getVkService()
+    //    val vkService = App.appComponent.getVkService()
     private lateinit var currentState: VkWallBody
 
     override fun onFirstViewAttach() {
