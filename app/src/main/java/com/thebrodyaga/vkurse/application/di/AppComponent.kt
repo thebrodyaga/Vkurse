@@ -3,6 +3,7 @@ package com.thebrodyaga.vkurse.application.di
 import android.app.Application
 import com.squareup.picasso.Picasso
 import com.thebrodyaga.vkurse.application.App
+import com.thebrodyaga.vkurse.data.net.VkService
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjector
@@ -26,5 +27,6 @@ interface AppComponent {
     }
 
     fun getPicasso(): Picasso   //todo инжектить адаптеры
+    fun getVkService(): VkService
     fun inject(app: App)
 }

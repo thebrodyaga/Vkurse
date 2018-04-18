@@ -11,7 +11,7 @@ import com.thebrodyaga.vkobjects.groups.responses.SearchResponse
 interface SearchGroupsView : MvpView {
 
     @StateStrategyType(SingleStateStrategy::class)
-    fun setNewSearchGroup(searchResponse: SearchResponse)
+    fun setNewSearchGroup(searchResponse: SearchResponse?)
 
     @StateStrategyType(AddToEndStrategy::class)
     fun setOffsetSearchGroup(searchResponse: SearchResponse)
@@ -21,7 +21,4 @@ interface SearchGroupsView : MvpView {
 
     @StateStrategyType(OneExecutionStateStrategy::class)
     fun showErrorToast()
-
-    @StateStrategyType(SingleStateStrategy::class)
-    fun stopSearch()
 }

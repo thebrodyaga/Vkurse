@@ -24,6 +24,9 @@ interface VkListPostsView : MvpView {
     @StateStrategyType(OneExecutionStateStrategy::class)
     fun showErrorToast()
 
+    @StateStrategyType(OneExecutionStateStrategy::class)
+    fun scrollTop()
+
     @StateStrategyType(SingleStateStrategy::class)
     fun setFirstData(wallPostList: List<WallPostFull>)
 

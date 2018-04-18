@@ -9,45 +9,39 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import com.arellomobile.mvp.MvpAppCompatFragment
 import com.arellomobile.mvp.presenter.InjectPresenter
-import com.arellomobile.mvp.presenter.PresenterType
 import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.thebrodyaga.vkobjects.groups.Group
 import com.thebrodyaga.vkobjects.groups.responses.SearchResponse
 import com.thebrodyaga.vkurse.R
 import com.thebrodyaga.vkurse.common.DEBUG_TAG
-import com.thebrodyaga.vkurse.ui.main.mvp.views.ScrollToTopView
-import com.thebrodyaga.vkurse.ui.main.mvp.views.ToolbarSearchView
-import com.thebrodyaga.vkurse.ui.list.groups.mvp.VkListGroupsView
-import com.thebrodyaga.vkurse.ui.list.groups.mvp.SearchGroupsView
 import com.thebrodyaga.vkurse.ui.base.BaseAdapter
 import com.thebrodyaga.vkurse.ui.base.DaggerSupportFragment
 import com.thebrodyaga.vkurse.ui.list.groups.mvp.SearchGroupsPresenter
+import com.thebrodyaga.vkurse.ui.list.groups.mvp.SearchGroupsView
 import com.thebrodyaga.vkurse.ui.list.groups.mvp.VkListGroupsPresenter
-import com.thebrodyaga.vkurse.ui.main.mvp.presenters.NavigationBarPresenter
-import com.thebrodyaga.vkurse.ui.main.mvp.presenters.ScrollToTopPresenter
-import com.thebrodyaga.vkurse.ui.main.mvp.presenters.ToolbarSearchPresenter
+import com.thebrodyaga.vkurse.ui.list.groups.mvp.VkListGroupsView
 import kotlinx.android.synthetic.main.fragment_vk_list_groups.view.*
 import javax.inject.Inject
 
 
-class VkListGroupsFragment : DaggerSupportFragment(), ScrollToTopView, ToolbarSearchView, VkListGroupsView, SearchGroupsView, BaseAdapter.OnLoadMoreListener {
+class VkListGroupsFragment : DaggerSupportFragment(), VkListGroupsView,
+        SearchGroupsView, BaseAdapter.OnLoadMoreListener {
 
-    @InjectPresenter(type = PresenterType.GLOBAL, tag = ScrollToTopPresenter.ScrollToTopPresenterTAG)
-    lateinit var scrollToTopPresenter: ScrollToTopPresenter
-    @InjectPresenter(type = PresenterType.GLOBAL, tag = ToolbarSearchPresenter.SearchPresenterTAG)
-    lateinit var toolbarSearchPresenter: ToolbarSearchPresenter
     @Inject
     @InjectPresenter()
     lateinit var vkListGroupsPresenter: VkListGroupsPresenter
+    @Inject
     @InjectPresenter()
     lateinit var searchGroupsPresenter: SearchGroupsPresenter
     private lateinit var adapter: VkGroupsAdapter
     private lateinit var recyclerView: RecyclerView
 
     @ProvidePresenter
-    fun providePresenter(): VkListGroupsPresenter = vkListGroupsPresenter
+    fun provideListPresenter(): VkListGroupsPresenter = vkListGroupsPresenter
+
+    @ProvidePresenter
+    fun provideSearchPresenter(): SearchGroupsPresenter = searchGroupsPresenter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -57,12 +51,6 @@ class VkListGroupsFragment : DaggerSupportFragment(), ScrollToTopView, ToolbarSe
         adapter = VkGroupsAdapter(this)
         recyclerView.adapter = adapter
         return view
-    }
-
-    override fun scrollTop(menuPosition: Int) {
-        if (menuPosition != NavigationBarPresenter.ListGroupsFragmentPosition) return
-        Log.d(DEBUG_TAG, "scrollTop VkListGroupsFragment")
-        recyclerView.scrollToPosition(0)
     }
 
     //<editor-fold desc="VkListGroupsView">
@@ -75,6 +63,11 @@ class VkListGroupsFragment : DaggerSupportFragment(), ScrollToTopView, ToolbarSe
         Log.i(DEBUG_TAG, "showFullGroupsList")
         adapter.showFullList(fullList)
     }
+
+    override fun scrollTop() {
+        Log.d(DEBUG_TAG, "scrollTop VkListGroupsFragment")
+        recyclerView.scrollToPosition(0)
+    }
     //</editor-fold>
 
     //<editor-fold desc="SearchGroupsView">
@@ -83,9 +76,10 @@ class VkListGroupsFragment : DaggerSupportFragment(), ScrollToTopView, ToolbarSe
         searchGroupsPresenter.offsetSearchGroups()
     }
 
-    override fun setNewSearchGroup(searchResponse: SearchResponse) {
+    override fun setNewSearchGroup(searchResponse: SearchResponse?) {
         Log.i("DebugTag", "setNewSearchGroup")
-        adapter.setFirstSearchList(searchResponse.items)
+        if (searchResponse != null) adapter.setFirstSearchList(searchResponse.items)
+        else adapter.emptySearchList()
     }
 
     override fun setOffsetSearchGroup(searchResponse: SearchResponse) {
@@ -102,24 +96,6 @@ class VkListGroupsFragment : DaggerSupportFragment(), ScrollToTopView, ToolbarSe
     override fun showErrorToast() {
         Log.i(DEBUG_TAG, "showErrorToast")
         Toast.makeText(this.context, R.string.error_toast, Toast.LENGTH_SHORT).show()
-    }
-
-    override fun stopSearch() {
-        Log.i(DEBUG_TAG, "stopSearch")
-        vkListGroupsPresenter.getFullGroups()
-    }
-    //</editor-fold>
-
-    //<editor-fold desc="ToolbarSearchView">
-    override fun needSearch(query: String) {
-        Log.i(DEBUG_TAG, "needSearch VkListGroupsFragment")
-        vkListGroupsPresenter.getFilteredList(query)
-        searchGroupsPresenter.startSearch(query)
-    }
-
-    override fun notNeedSearch() {
-        Log.i(DEBUG_TAG, "notNeedSearch VkListGroupsFragment")
-        searchGroupsPresenter.stopSearch()
     }
     //</editor-fold>
 

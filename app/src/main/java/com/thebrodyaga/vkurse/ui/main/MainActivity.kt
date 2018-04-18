@@ -9,9 +9,7 @@ import android.support.v4.content.ContextCompat
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import com.arellomobile.mvp.MvpAppCompatActivity
 import com.arellomobile.mvp.presenter.InjectPresenter
-import com.arellomobile.mvp.presenter.PresenterType
 import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationAdapter
 import com.thebrodyaga.vkurse.R
@@ -21,35 +19,21 @@ import com.thebrodyaga.vkurse.ui.chat.ChatFragment
 import com.thebrodyaga.vkurse.ui.list.groups.VkListGroupsFragment
 import com.thebrodyaga.vkurse.ui.list.posts.VkListPostsFragment
 import com.thebrodyaga.vkurse.ui.main.mvp.presenters.MainPresenter
-import com.thebrodyaga.vkurse.ui.main.mvp.presenters.NavigationBarPresenter
-import com.thebrodyaga.vkurse.ui.main.mvp.presenters.ScrollToTopPresenter
-import com.thebrodyaga.vkurse.ui.main.mvp.presenters.ToolbarSearchPresenter
 import com.thebrodyaga.vkurse.ui.main.mvp.views.MainView
-import com.thebrodyaga.vkurse.ui.main.mvp.views.NavigationBarView
-import com.thebrodyaga.vkurse.ui.main.mvp.views.ScrollToTopView
-import com.thebrodyaga.vkurse.ui.main.mvp.views.ToolbarSearchView
 import com.thebrodyaga.vkurse.ui.setting.SettingActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 import android.support.v7.widget.SearchView as AndroidSearchView
 
 
-class MainActivity : DaggerAppCompatActivity(), NavigationBarView, MainView,
-        ScrollToTopView, ToolbarSearchView {
+class MainActivity : DaggerAppCompatActivity(), MainView {
 
-    @InjectPresenter
-    lateinit var navigationBarPresenter: NavigationBarPresenter
     @Inject
     @InjectPresenter
     lateinit var mainPresenter: MainPresenter
-    @InjectPresenter(type = PresenterType.GLOBAL, tag = ScrollToTopPresenter.ScrollToTopPresenterTAG)
-    lateinit var scrollToTopPresenter: ScrollToTopPresenter
-    @InjectPresenter(type = PresenterType.GLOBAL, tag = ToolbarSearchPresenter.SearchPresenterTAG)
-    lateinit var toolbarSearchPresenter: ToolbarSearchPresenter
     private var searchItem: MenuItem? = null
     //  при смене конфигурации toggleSearchIcon() вызывается раньше чем onCreateOptionsMenu()
-    //TODO поискать как сделать по-красоте
-    private var isSearchItemVisible = false
+    private var isSearchItemVisible = false     //TODO поискать как сделать по-красоте
 
     @ProvidePresenter
     fun providePresenter(): MainPresenter = mainPresenter
@@ -61,8 +45,8 @@ class MainActivity : DaggerAppCompatActivity(), NavigationBarView, MainView,
         AHBottomNavigationAdapter(this, R.menu.main_bottom_bar).setupWithBottomNavigation(bottomBar)
         bottomBar.accentColor = ContextCompat.getColor(this, R.color.primary)
         bottomBar.setOnTabSelectedListener { position, wasSelected ->
-            if (wasSelected) scrollToTopPresenter.onBottomBarReClick(position)
-            else navigationBarPresenter.onBottomBarClick(position)
+            if (wasSelected) mainPresenter.onBottomBarReClick(position)
+            else mainPresenter.onBottomBarClick(position)
         }
     }
 
@@ -76,11 +60,10 @@ class MainActivity : DaggerAppCompatActivity(), NavigationBarView, MainView,
         searchItem = menu?.findItem(R.id.toolbar_search)
         searchItem?.isVisible = isSearchItemVisible
         val searchView: AndroidSearchView? = searchItem?.actionView as AndroidSearchView?
-        searchView?.setOnQueryTextListener(toolbarSearchPresenter)
+        searchView?.setOnQueryTextListener(mainPresenter)
         return true
     }
 
-    //<editor-fold desc="NavigationBarView">
     override fun showListPostsFragment() {
         Log.d(DEBUG_TAG, "showListPostsFragment")
         searchItem?.collapseActionView()
@@ -97,13 +80,6 @@ class MainActivity : DaggerAppCompatActivity(), NavigationBarView, MainView,
         searchItem?.collapseActionView()
         managingFragment(ChatFragment.FragmentTAG)
     }
-    //</editor-fold>
-
-    //<editor-fold desc="MainView">
-    override fun showDefaultFragment(fragmentTag: String) {
-        Log.d(DEBUG_TAG, "showDefaultFragment")
-        managingFragment(fragmentTag)
-    }
 
     override fun startSettingActivity() {
         startActivity(Intent(this, SettingActivity::class.java))
@@ -114,23 +90,11 @@ class MainActivity : DaggerAppCompatActivity(), NavigationBarView, MainView,
         searchItem?.isVisible = isVisible
         isSearchItemVisible = isVisible
     }
-    //</editor-fold>
 
-    override fun scrollTop(menuPosition: Int) {
+    override fun scrollTop() {
         Log.d(DEBUG_TAG, "scrollTop MainActivity")
         myAppBar.setExpanded(true)
-        return
     }
-
-    //<editor-fold desc="ToolbarSearchView">
-    override fun needSearch(query: String) {
-        Log.i("DebugTag", "needSearch MainActivity")
-    }
-
-    override fun notNeedSearch() {
-        Log.i(DEBUG_TAG, "notNeedSearch MainActivity")
-    }
-    //</editor-fold>
 
     //<editor-fold desc="Тасовка фрагментов">
     private fun managingFragment(fragmentTag: String) {

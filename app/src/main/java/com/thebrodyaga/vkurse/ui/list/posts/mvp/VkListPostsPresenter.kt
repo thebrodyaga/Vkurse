@@ -10,6 +10,7 @@ import com.thebrodyaga.vkurse.models.gson.testOwnerInfoList
 import com.thebrodyaga.vkurse.data.net.VkService
 import com.thebrodyaga.vkurse.ui.base.BasePresenter
 import com.thebrodyaga.vkurse.ui.main.mvp.models.MainActivityModel
+import com.thebrodyaga.vkurse.ui.main.mvp.presenters.MainPresenter.Companion.ListPostsFragmentPosition
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 
@@ -21,13 +22,14 @@ import io.reactivex.disposables.Disposable
 class VkListPostsPresenter(private val mainActivityModel: MainActivityModel)
     : BasePresenter<VkListPostsView>() {
 
-    //    val vkService = App.appComponent.getVkService()
+    private val vkService = App.appComponent.getVkService()
     private lateinit var currentState: VkWallBody
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
         currentState = VkWallBody(timeStep = VkService.timeStep, ownerInfoList = testOwnerInfoList)
         viewState.choiceForegroundView(PROGRESS_VIEW_FLAG)
+        subscribeOnScroll()
         loadFirstWall()
     }
 
@@ -37,7 +39,7 @@ class VkListPostsPresenter(private val mainActivityModel: MainActivityModel)
     }
 
     fun loadNewWall() {
-        /*unSubscribeOnDestroy(vkService.getNewWall(currentState)
+        unSubscribeOnDestroy(vkService.getNewWall(currentState)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
                     Log.d(DEBUG_TAG, "loadNewWall successful")
@@ -48,41 +50,37 @@ class VkListPostsPresenter(private val mainActivityModel: MainActivityModel)
                     Log.e(DEBUG_TAG, "loadFirstWall error: " + it.message)
                     viewState.showErrorToast()
                     viewState.hideRefreshing()
-                }))*/
+                }))
     }
 
     fun loadAfterLast() {
-        /*viewState.tootleProgressItem(true)
-        val disposable: Disposable =
-                vkService.getListAfterLast(currentState)
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe({
-                            Log.d(DEBUG_TAG, "loadWallAfterLast successful")
-                            viewState.tootleProgressItem(false)
-                            viewState.setAfterLastData(it.wallPostList)
-                        }, {
-                            Log.e(DEBUG_TAG, "loadWallAfterLast error: " + it.message)
-                            viewState.tootleProgressItem(false)
-                            viewState.showErrorToast()
-                        })
-        unSubscribeOnDestroy(disposable)*/
+        viewState.tootleProgressItem(true)
+        unSubscribeOnDestroy(vkService.getListAfterLast(currentState)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    Log.d(DEBUG_TAG, "loadWallAfterLast successful")
+                    viewState.tootleProgressItem(false)
+                    viewState.setAfterLastData(it.wallPostList)
+                }, {
+                    Log.e(DEBUG_TAG, "loadWallAfterLast error: " + it.message)
+                    viewState.tootleProgressItem(false)
+                    viewState.showErrorToast()
+                }))
     }
 
     private fun loadFirstWall() {
-        /*val disposable: Disposable =
-                vkService.getFirstList(currentState)
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe({
-                            Log.d(DEBUG_TAG, "loadFirstWall successful")
-                            setCurrentState(it, first = it.wallPostList.first().date,
-                                    last = it.wallPostList.last().date)
-                            viewState.setFirstData(it.wallPostList)
-                            viewState.choiceForegroundView(DATA_VIEW_FLAG)
-                        }, {
-                            Log.e(DEBUG_TAG, "loadFirstWall error: " + it.message)
-                            viewState.choiceForegroundView(ERROR_VIEW_FLAG)
-                        })
-        unSubscribeOnDestroy(disposable)*/
+        unSubscribeOnDestroy(vkService.getFirstList(currentState)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    Log.d(DEBUG_TAG, "loadFirstWall successful")
+                    setCurrentState(it, first = it.wallPostList.first().date,
+                            last = it.wallPostList.last().date)
+                    viewState.setFirstData(it.wallPostList)
+                    viewState.choiceForegroundView(DATA_VIEW_FLAG)
+                }, {
+                    Log.e(DEBUG_TAG, "loadFirstWall error: " + it.message)
+                    viewState.choiceForegroundView(ERROR_VIEW_FLAG)
+                }))
     }
 
     private fun setCurrentState(it: VkWallResponse, last: Int? = null, first: Int? = null) =
@@ -92,6 +90,10 @@ class VkListPostsPresenter(private val mainActivityModel: MainActivityModel)
                 currentState.ownerInfoList = it.ownerInfoList
             }
 
+    private fun subscribeOnScroll() {
+        unSubscribeOnDestroy(mainActivityModel.scrollObservable
+                .subscribe({ if (it == ListPostsFragmentPosition) viewState.scrollTop() }))
+    }
 
     companion object {
         const val ERROR_VIEW_FLAG = "errorViewFlag"

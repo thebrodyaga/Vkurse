@@ -1,6 +1,7 @@
 package com.thebrodyaga.vkurse.ui.list.groups.mvp
 
 import com.arellomobile.mvp.MvpView
+import com.arellomobile.mvp.viewstate.strategy.OneExecutionStateStrategy
 import com.arellomobile.mvp.viewstate.strategy.SingleStateStrategy
 import com.arellomobile.mvp.viewstate.strategy.StateStrategyType
 import com.thebrodyaga.vkobjects.groups.Group
@@ -16,4 +17,7 @@ interface VkListGroupsView : MvpView {
 
     @StateStrategyType(SingleStateStrategy::class)
     fun showFullGroupsList(fullList: List<Group>)
+
+    @StateStrategyType(OneExecutionStateStrategy::class)
+    fun scrollTop()
 }

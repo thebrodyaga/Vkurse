@@ -76,6 +76,11 @@ abstract class SearchAdapter<T>(onLoadMoreListener: OnLoadMoreListener?) : BaseA
         notifyItemRangeInserted(mainList.size + 1, contentList.size)
     }
 
+    fun emptySearchList() {
+        currentState = DEVICE_AND_SEARCH_LIST_STEP
+        notifyItemChanged(itemCount)
+    }
+
     private fun refreshMainList(list: List<T>) {
         val itemCount = mainList.size
         mainList.clear()

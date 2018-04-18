@@ -9,28 +9,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import com.arellomobile.mvp.MvpAppCompatFragment
 import com.arellomobile.mvp.presenter.InjectPresenter
-import com.arellomobile.mvp.presenter.PresenterType
 import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.thebrodyaga.vkobjects.wall.WallPostFull
 import com.thebrodyaga.vkurse.R
 import com.thebrodyaga.vkurse.common.DEBUG_TAG
-import com.thebrodyaga.vkurse.ui.main.mvp.presenters.NavigationBarPresenter.Companion.ListPostsFragmentPosition
-import com.thebrodyaga.vkurse.ui.main.mvp.presenters.ScrollToTopPresenter
-import com.thebrodyaga.vkurse.ui.list.posts.mvp.VkListPostsPresenter
-import com.thebrodyaga.vkurse.ui.main.mvp.views.ScrollToTopView
-import com.thebrodyaga.vkurse.ui.list.posts.mvp.VkListPostsView
 import com.thebrodyaga.vkurse.ui.base.BaseAdapter
 import com.thebrodyaga.vkurse.ui.base.DaggerSupportFragment
+import com.thebrodyaga.vkurse.ui.list.posts.mvp.VkListPostsPresenter
+import com.thebrodyaga.vkurse.ui.list.posts.mvp.VkListPostsView
 import kotlinx.android.synthetic.main.fragment_vk_list_posts.*
 import kotlinx.android.synthetic.main.fragment_vk_list_posts.view.*
 import javax.inject.Inject
 
 
-class VkListPostsFragment : DaggerSupportFragment(), ScrollToTopView, VkListPostsView, BaseAdapter.OnLoadMoreListener {
-    @InjectPresenter(type = PresenterType.GLOBAL, tag = ScrollToTopPresenter.ScrollToTopPresenterTAG)
-    lateinit var scrollToTopPresenter: ScrollToTopPresenter
+class VkListPostsFragment : DaggerSupportFragment(), VkListPostsView, BaseAdapter.OnLoadMoreListener {
+
     @Inject
     @InjectPresenter()
     lateinit var vkListPostsPresenter: VkListPostsPresenter
@@ -50,13 +44,6 @@ class VkListPostsFragment : DaggerSupportFragment(), ScrollToTopView, VkListPost
         adapter = VkPostsAdapter(this)
         recyclerView.adapter = adapter
         return view
-    }
-
-    override fun scrollTop(menuPosition: Int) {
-        if (menuPosition != ListPostsFragmentPosition) return
-        Log.d(DEBUG_TAG, "scrollTop VkListPostsFragment")
-        recyclerView.scrollToPosition(0)
-
     }
 
     override fun setFirstData(wallPostList: List<WallPostFull>) {
@@ -104,6 +91,11 @@ class VkListPostsFragment : DaggerSupportFragment(), ScrollToTopView, VkListPost
     override fun showErrorToast() {
         Log.i(DEBUG_TAG, "showErrorToast")
         Toast.makeText(context, getString(R.string.error_toast), Toast.LENGTH_SHORT).show()
+    }
+
+    override fun scrollTop() {
+        Log.d(DEBUG_TAG, "scrollTop VkListPostsFragment")
+        recyclerView.scrollToPosition(0)
     }
 
     companion object {

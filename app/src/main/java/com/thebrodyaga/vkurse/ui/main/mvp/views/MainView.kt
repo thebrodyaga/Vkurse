@@ -11,10 +11,17 @@ import com.arellomobile.mvp.viewstate.strategy.StateStrategyType
  */
 @StateStrategyType(OneExecutionStateStrategy::class)
 interface MainView : MvpView {
-    fun showDefaultFragment(fragmentTag: String)
 
     fun startSettingActivity()
 
     @StateStrategyType(AddToEndSingleStrategy::class)
     fun toggleSearchIcon(isVisible: Boolean)
+
+    fun showListPostsFragment()
+
+    fun showListGroupsFragment()
+
+    fun showChatFragment()
+
+    fun scrollTop()
 }
