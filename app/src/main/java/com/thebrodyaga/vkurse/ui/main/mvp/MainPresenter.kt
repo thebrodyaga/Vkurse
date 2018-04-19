@@ -21,9 +21,9 @@ class MainPresenter(private val mainActivityModel: MainActivityModel)
 
     fun onToolbarItemSelected(item: Int?) {
         when (item) {
-            /*R.id.toolbar_settings -> {
+            R.id.toolbar_settings -> {
                 viewState.startSettingActivity()
-            }*/
+            }
         }
     }
 

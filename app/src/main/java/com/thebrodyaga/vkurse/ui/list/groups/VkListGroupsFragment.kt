@@ -8,7 +8,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.thebrodyaga.vkobjects.groups.Group
@@ -111,7 +110,7 @@ class VkListGroupsFragment : DaggerSupportFragment(), VkListGroupsView,
 
     override fun showErrorToast() {
         Log.i(DEBUG_TAG, "showErrorToast")
-        Toast.makeText(this.context, R.string.error_toast, Toast.LENGTH_SHORT).show()
+        showToast(getString(R.string.error_toast))
     }
     //</editor-fold>
 

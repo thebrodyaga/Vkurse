@@ -35,7 +35,7 @@ class MainActivity : DaggerAppCompatActivity(), MainView, SearchView.OnQueryText
     private var searchItem: MenuItem? = null
     private var searchView: SearchView? = null
     //  при смене конфигурации toggleSearchIcon() вызывается раньше чем onCreateOptionsMenu()
-    private var isSearchItemVisible = false     //TODO поискать как сделать по-красоте
+    private var isSearchItemVisible = false
     private var currentQuery: CharSequence? = null
 
     @ProvidePresenter

@@ -14,7 +14,7 @@ import javax.inject.Inject
  * Created by Win10
  *         on 17.04.2018.
  */
-abstract class DaggerSupportFragment : MvpAppCompatFragment(), HasSupportFragmentInjector {
+abstract class DaggerSupportFragment : BaseFragment(), HasSupportFragmentInjector {
     @Inject
     lateinit var childFragmentInjector: DispatchingAndroidInjector<Fragment>
 
@@ -25,10 +25,5 @@ abstract class DaggerSupportFragment : MvpAppCompatFragment(), HasSupportFragmen
 
     override fun supportFragmentInjector(): AndroidInjector<Fragment>? {
         return childFragmentInjector
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        App.getRefWatcher(activity)?.watch(this)
     }
 }

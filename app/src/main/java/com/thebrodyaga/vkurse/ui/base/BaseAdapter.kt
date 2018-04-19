@@ -57,10 +57,8 @@ abstract class BaseAdapter<T>(private val onLoadMoreListener: OnLoadMoreListener
 
     fun insertProgressItem() {
         if (isLoading) return
-        recyclerView?.post {
-            contentList.add(null)
-            notifyItemInserted(itemCount - 1)
-        }  // прилетает из onScrolled -> presenter
+        contentList.add(null)
+        notifyItemInserted(itemCount - 1)   // прилетает из onScrolled -> presenter
         isLoading = true
     }
 
@@ -82,7 +80,7 @@ abstract class BaseAdapter<T>(private val onLoadMoreListener: OnLoadMoreListener
                 if (dy <= 0 || isLoading || contentList.isEmpty()) return
                 if (linearLayoutManager.itemCount
                         == linearLayoutManager.findLastVisibleItemPosition() + visibleThreshold)
-                    onLoadMoreListener.onLoadMore()
+                    recyclerView?.post { onLoadMoreListener.onLoadMore() }
             }
         })
     }

@@ -8,7 +8,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.thebrodyaga.vkobjects.wall.WallPostFull
@@ -62,7 +61,7 @@ class VkListPostsFragment : DaggerSupportFragment(), VkListPostsView, BaseAdapte
     }
 
     override fun tootleProgressItem(isVisible: Boolean) {
-        Log.d(DEBUG_TAG, "tootleProgressItem VkListPostsFragment")
+        Log.d(DEBUG_TAG, "tootleProgressItem VkListPostsFragment isVisible = $isVisible")
         if (isVisible) adapter.insertProgressItem()
         else adapter.removedProgressItem()
     }
@@ -90,7 +89,7 @@ class VkListPostsFragment : DaggerSupportFragment(), VkListPostsView, BaseAdapte
 
     override fun showErrorToast() {
         Log.i(DEBUG_TAG, "showErrorToast")
-        Toast.makeText(context, getString(R.string.error_toast), Toast.LENGTH_SHORT).show()
+        showToast(getString(R.string.error_toast))
     }
 
     override fun scrollTop() {
