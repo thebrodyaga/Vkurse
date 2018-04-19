@@ -1,6 +1,5 @@
 package com.thebrodyaga.vkurse.ui.main.mvp
 
-import android.support.v7.widget.SearchView
 import com.arellomobile.mvp.InjectViewState
 import com.thebrodyaga.vkurse.R
 import com.thebrodyaga.vkurse.ui.base.BasePresenter
@@ -11,7 +10,7 @@ import com.thebrodyaga.vkurse.ui.base.BasePresenter
  */
 @InjectViewState
 class MainPresenter(private val mainActivityModel: MainActivityModel)
-    : BasePresenter<MainView>(), SearchView.OnQueryTextListener {
+    : BasePresenter<MainView>() {
 
     override fun onFirstViewAttach() {
         viewState.showListPostsFragment()
@@ -22,9 +21,9 @@ class MainPresenter(private val mainActivityModel: MainActivityModel)
 
     fun onToolbarItemSelected(item: Int?) {
         when (item) {
-            R.id.toolbar_settings -> {
+            /*R.id.toolbar_settings -> {
                 viewState.startSettingActivity()
-            }
+            }*/
         }
     }
 
@@ -32,14 +31,8 @@ class MainPresenter(private val mainActivityModel: MainActivityModel)
         viewState.toggleSearchIcon(isVisible)
     }
 
-    override fun onQueryTextSubmit(query: String?): Boolean {
+    fun searchControl(query: String?) {
         mainActivityModel.searchControl(query)
-        return false
-    }
-
-    override fun onQueryTextChange(newText: String?): Boolean {
-        mainActivityModel.searchControl(newText)
-        return false
     }
 
     fun onBottomBarReClick(menuPosition: Int): Boolean {

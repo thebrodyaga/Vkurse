@@ -3,6 +3,7 @@ package com.thebrodyaga.vkurse.ui.main
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentTransaction
 import android.support.v4.content.ContextCompat
@@ -23,17 +24,19 @@ import com.thebrodyaga.vkurse.ui.main.mvp.MainView
 import com.thebrodyaga.vkurse.ui.setting.SettingActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
-import android.support.v7.widget.SearchView as AndroidSearchView
+import android.support.v7.widget.SearchView
 
 
-class MainActivity : DaggerAppCompatActivity(), MainView {
+class MainActivity : DaggerAppCompatActivity(), MainView, SearchView.OnQueryTextListener, MenuItem.OnActionExpandListener {
 
     @Inject
     @InjectPresenter
     lateinit var mainPresenter: MainPresenter
     private var searchItem: MenuItem? = null
+    private var searchView: SearchView? = null
     //  при смене конфигурации toggleSearchIcon() вызывается раньше чем onCreateOptionsMenu()
     private var isSearchItemVisible = false     //TODO поискать как сделать по-красоте
+    private var currentQuery: CharSequence? = null
 
     @ProvidePresenter
     fun providePresenter(): MainPresenter = mainPresenter
@@ -58,16 +61,26 @@ class MainActivity : DaggerAppCompatActivity(), MainView {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.main_toolbar, menu)
         searchItem = menu?.findItem(R.id.toolbar_search)
+        searchView = searchItem?.actionView as SearchView?
         searchItem?.isVisible = isSearchItemVisible
-        val searchView: AndroidSearchView? = searchItem?.actionView as AndroidSearchView?
-        searchView?.setQuery("",false)
-        searchView?.setOnQueryTextListener(mainPresenter)
+        Handler().post {
+            if (isSearchItemVisible && currentQuery != null) {
+                searchView?.clearFocus()
+                searchView?.isIconified = false
+                searchItem?.expandActionView()
+                searchView?.setQuery(currentQuery, false)
+            } else searchView?.setQuery("", false)
+            searchView?.maxWidth = Int.MAX_VALUE
+            searchView?.setOnQueryTextListener(this)
+            searchItem?.setOnActionExpandListener(this)
+        }
         return true
     }
 
+    //<editor-fold desc="Presenter">
     override fun showListPostsFragment() {
         Log.d(DEBUG_TAG, "showListPostsFragment")
-        searchItem?.collapseActionView()
+        if (searchItem?.isActionViewExpanded == true) searchItem?.collapseActionView()
         managingFragment(VkListPostsFragment.FragmentTAG)
     }
 
@@ -78,7 +91,7 @@ class MainActivity : DaggerAppCompatActivity(), MainView {
 
     override fun showChatFragment() {
         Log.d(DEBUG_TAG, "showChatFragment")
-        searchItem?.collapseActionView()
+        if (searchItem?.isActionViewExpanded == true) searchItem?.collapseActionView()
         managingFragment(ChatFragment.FragmentTAG)
     }
 
@@ -96,6 +109,7 @@ class MainActivity : DaggerAppCompatActivity(), MainView {
         Log.d(DEBUG_TAG, "scrollTop MainActivity")
         myAppBar.setExpanded(true)
     }
+    //</editor-fold>
 
     //<editor-fold desc="Тасовка фрагментов">
     private fun managingFragment(fragmentTag: String) {
@@ -131,4 +145,45 @@ class MainActivity : DaggerAppCompatActivity(), MainView {
         return fragmentTransaction
     }
     //</editor-fold>
+
+    override fun onSaveInstanceState(outState: Bundle?) {
+        super.onSaveInstanceState(outState)
+        if (searchItem?.isActionViewExpanded == true)
+            outState?.putCharSequence(CURRENT_QUERY_REQUEST_FLAG, currentQuery)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
+        super.onRestoreInstanceState(savedInstanceState)
+        currentQuery = savedInstanceState?.getCharSequence(CURRENT_QUERY_REQUEST_FLAG)
+    }
+
+
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        /*currentQuery = query
+        mainPresenter.searchControl(query)*/
+        return false
+    }
+
+    override fun onQueryTextChange(newText: String?): Boolean {
+        currentQuery = newText
+        mainPresenter.searchControl(newText)
+        return false
+    }
+
+    override fun onMenuItemActionExpand(item: MenuItem?): Boolean {
+        if (item?.itemId == R.id.toolbar_search)
+            currentQuery = searchView?.query
+        return true
+    }
+
+    override fun onMenuItemActionCollapse(item: MenuItem?): Boolean {
+        if (item?.itemId == R.id.toolbar_search)
+            currentQuery = null
+        return true
+    }
+
+
+    companion object {
+        const val CURRENT_QUERY_REQUEST_FLAG = "currentQueryRequestFlag"
+    }
 }

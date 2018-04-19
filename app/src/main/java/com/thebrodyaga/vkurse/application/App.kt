@@ -2,9 +2,11 @@ package com.thebrodyaga.vkurse.application
 
 import android.app.Activity
 import android.app.Application
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import com.squareup.leakcanary.LeakCanary
+import com.squareup.leakcanary.RefWatcher
 import com.thebrodyaga.vkurse.application.di.AppComponent
 import com.thebrodyaga.vkurse.application.di.DaggerAppComponent
 import com.thebrodyaga.vkurse.common.LIVECYCLE_CALLBACKS_TAG
@@ -22,9 +24,11 @@ import javax.inject.Inject
 class App : Application(), HasActivityInjector, Application.ActivityLifecycleCallbacks {
     override fun activityInjector(): AndroidInjector<Activity> = activityDispatchingAndroidInjector
 
+    private lateinit var refWatcher: RefWatcher
+
     override fun onCreate() {
         super.onCreate()
-        LeakCanary.install(this)
+        refWatcher = LeakCanary.install(this)
         registerActivityLifecycleCallbacks(this)
         appComponent = DaggerAppComponent
                 .builder()
@@ -66,6 +70,11 @@ class App : Application(), HasActivityInjector, Application.ActivityLifecycleCal
     }
 
     companion object {
+        fun getRefWatcher(context: Context?): RefWatcher? {
+            val application = context?.applicationContext as? App
+            return application?.refWatcher
+        }
+
         lateinit var appComponent: AppComponent
         private fun activityLifecycleLog(activity: Activity, bundle: Bundle?) {
             Log.d(LIVECYCLE_CALLBACKS_TAG, "Activity: ${activity.javaClass.simpleName}, " +

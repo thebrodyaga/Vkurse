@@ -87,10 +87,17 @@ class VkListGroupsFragment : DaggerSupportFragment(), VkListGroupsView,
     }
 
     override fun tootleProgressItem(isVisible: Boolean) {
-        Log.i(DEBUG_TAG, "tootleProgressItem")
+        Log.i(DEBUG_TAG, "tootleProgressItem isVisible = $isVisible")
         if (isVisible) adapter.insertProgressItem()
         else adapter.removedProgressItem()
     }
+
+    override fun clearSearchList() {
+        Log.i("DebugTag", "clearSearchList")
+        adapter.clearSearchList()
+        adapter.removeHeader()
+    }
+
 
     override fun showTextHeader() {
         Log.i("DebugTag", "showTextHeader")

@@ -42,6 +42,7 @@ class SearchGroupsPresenter(private val mainActivityModel: MainActivityModel) : 
                     Log.d(DEBUG_TAG, "newSearchGroups successful")
                     currentQuery = query
                     currentOffset = it.items.size
+                    viewState.showTextHeader()
                     viewState.setNewSearchGroup(it)
                 }, {
                     Log.e(DEBUG_TAG, "newSearchGroups error: " + it.message)
@@ -69,6 +70,7 @@ class SearchGroupsPresenter(private val mainActivityModel: MainActivityModel) : 
     private fun startSearch(query: String) {
         clearDisposable()
         searchHandler.removeCallbacksAndMessages(null)
+        viewState.clearSearchList()
         viewState.showProgressHeader()
         searchHandler.postDelayed({ newSearchGroups(query) }, 1000)
     }
@@ -77,6 +79,7 @@ class SearchGroupsPresenter(private val mainActivityModel: MainActivityModel) : 
         currentOffset = 0
         currentQuery = ""
         clearDisposable()
+        viewState.clearSearchList()
         searchHandler.removeCallbacksAndMessages(null)
     }
 

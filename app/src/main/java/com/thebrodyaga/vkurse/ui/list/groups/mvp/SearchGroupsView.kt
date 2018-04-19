@@ -15,6 +15,9 @@ interface SearchGroupsView : MvpView {
 
     fun showProgressHeader()
 
+    fun clearSearchList()
+
+    @StateStrategyType(AddToEndStrategy::class)
     fun setNewSearchGroup(searchResponse: SearchResponse)
 
     @StateStrategyType(AddToEndStrategy::class)

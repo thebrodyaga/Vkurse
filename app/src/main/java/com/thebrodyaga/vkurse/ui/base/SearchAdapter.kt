@@ -56,20 +56,17 @@ abstract class SearchAdapter<T>(onLoadMoreListener: OnLoadMoreListener?) : BaseA
     }
 
     fun showFullList(list: List<T>) {
-        clearSearchList()
-        removeHeader()
+        currentState = DEVICE_LIST_STEP
         refreshMainList(list)
     }
 
     fun showFilteredList(list: List<T>) {
-        clearSearchList()
         refreshMainList(list)
     }
 
     fun setFirstSearchList(contentList: List<T>) {
-        showTextHeader()
         this.contentList.addAll(contentList)
-        notifyItemRangeInserted(mainList.size + 1, contentList.size)
+        notifyItemRangeInserted(itemCount, contentList.size)
     }
 
     fun showTextHeader() {
@@ -95,7 +92,7 @@ abstract class SearchAdapter<T>(onLoadMoreListener: OnLoadMoreListener?) : BaseA
         notifyItemRangeInserted(0, list.size)
     }
 
-    private fun clearSearchList() {
+    fun clearSearchList() {
         val itemCount = super.getItemCount()
         contentList.clear()
         if (itemCount != 0) notifyItemRangeRemoved(getItemCount(), itemCount)

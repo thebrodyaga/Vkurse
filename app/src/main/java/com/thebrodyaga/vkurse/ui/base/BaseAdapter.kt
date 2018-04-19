@@ -57,8 +57,10 @@ abstract class BaseAdapter<T>(private val onLoadMoreListener: OnLoadMoreListener
 
     fun insertProgressItem() {
         if (isLoading) return
-        contentList.add(null)
-        recyclerView?.post { notifyItemInserted(itemCount - 1) }  // прилетает из onScrolled -> presenter
+        recyclerView?.post {
+            contentList.add(null)
+            notifyItemInserted(itemCount - 1)
+        }  // прилетает из onScrolled -> presenter
         isLoading = true
     }
 
