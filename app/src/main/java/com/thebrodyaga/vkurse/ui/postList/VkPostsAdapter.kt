@@ -1,4 +1,4 @@
-package com.thebrodyaga.vkurse.ui.list.posts
+package com.thebrodyaga.vkurse.ui.postList
 
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater

@@ -50,6 +50,7 @@ abstract class BaseAdapter<T>(private val onLoadMoreListener: OnLoadMoreListener
     }
 
     fun clearList() {
+        if (contentList.isEmpty()) return
         contentList.clear()
         isLoading = false
         notifyDataSetChanged()

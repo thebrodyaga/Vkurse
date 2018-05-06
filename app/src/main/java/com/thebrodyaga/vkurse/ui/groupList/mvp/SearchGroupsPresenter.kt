@@ -1,4 +1,4 @@
-package com.thebrodyaga.vkurse.ui.list.groups.mvp
+package com.thebrodyaga.vkurse.ui.groupList.mvp
 
 import android.os.Handler
 import android.util.Log

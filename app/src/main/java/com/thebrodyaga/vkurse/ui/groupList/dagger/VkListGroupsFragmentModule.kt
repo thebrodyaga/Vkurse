@@ -1,8 +1,8 @@
-package com.thebrodyaga.vkurse.ui.list.groups.dagger
+package com.thebrodyaga.vkurse.ui.groupList.dagger
 
 import com.thebrodyaga.vkurse.application.di.scopes.PerFragment
-import com.thebrodyaga.vkurse.ui.list.groups.mvp.SearchGroupsPresenter
-import com.thebrodyaga.vkurse.ui.list.groups.mvp.VkListGroupsPresenter
+import com.thebrodyaga.vkurse.ui.groupList.mvp.SearchGroupsPresenter
+import com.thebrodyaga.vkurse.ui.groupList.mvp.VkListGroupsPresenter
 import com.thebrodyaga.vkurse.ui.main.mvp.MainActivityModel
 import dagger.Module
 import dagger.Provides

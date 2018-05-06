@@ -2,7 +2,11 @@ package com.thebrodyaga.vkurse.ui.main.mvp
 
 import com.arellomobile.mvp.InjectViewState
 import com.thebrodyaga.vkurse.R
+import com.thebrodyaga.vkurse.application.App
+import com.thebrodyaga.vkurse.models.room.VkGroup
 import com.thebrodyaga.vkurse.ui.base.BasePresenter
+import io.reactivex.Completable
+import io.reactivex.schedulers.Schedulers
 
 /**
  * Created by Emelyanov.N4
@@ -22,7 +26,14 @@ class MainPresenter(private val mainActivityModel: MainActivityModel)
     fun onToolbarItemSelected(item: Int?) {
         when (item) {
             R.id.toolbar_settings -> {
-                viewState.startSettingActivity()
+//                viewState.startSettingActivity()
+                Completable.fromAction {
+                    App.appComponent.getRoom()
+                            .getGroupDao().deleteAllGroups()
+                }.subscribeOn(Schedulers.io()).subscribe()
+                val vkGroup = VkGroup()
+                Completable.fromAction { mainActivityModel.insertGroup(vkGroup) }
+                        .subscribeOn(Schedulers.io()).subscribe()
             }
         }
     }

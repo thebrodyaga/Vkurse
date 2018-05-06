@@ -1,8 +1,11 @@
 package com.thebrodyaga.vkurse.ui.main.mvp
 
-import android.arch.persistence.room.RoomDatabase
 import com.thebrodyaga.vkurse.application.di.scopes.PerActivity
+import com.thebrodyaga.vkurse.data.db.RoomDatabase
 import com.thebrodyaga.vkurse.data.net.VkService
+import com.thebrodyaga.vkurse.models.room.VkGroup
+import io.reactivex.Flowable
+import io.reactivex.Single
 import io.reactivex.subjects.PublishSubject
 import javax.inject.Inject
 
@@ -25,5 +28,17 @@ class MainActivityModel @Inject constructor(
 
     fun scrollToTop(position: Int) {
         scrollObservable.onNext(position)
+    }
+
+    fun getFavoriteGroups(): Flowable<List<VkGroup>> {
+        return roomDatabase.getGroupDao().getFlowableGroups()
+    }
+
+    fun getSingleGroups(): Single<List<VkGroup>> {
+        return roomDatabase.getGroupDao().getSingleGroups()
+    }
+
+    fun insertGroup(vkGroup: VkGroup) {
+        roomDatabase.getGroupDao().insertGroups(vkGroup)
     }
 }

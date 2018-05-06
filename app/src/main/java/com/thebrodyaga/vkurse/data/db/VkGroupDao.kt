@@ -1,11 +1,9 @@
 package com.thebrodyaga.vkurse.data.db
 
-import android.arch.persistence.room.Dao
-import android.arch.persistence.room.Delete
-import android.arch.persistence.room.Insert
-import android.arch.persistence.room.Query
+import android.arch.persistence.room.*
 import com.thebrodyaga.vkurse.models.room.VkGroup
 import io.reactivex.Flowable
+import io.reactivex.Single
 
 /**
  * Created by Win10
@@ -15,13 +13,16 @@ import io.reactivex.Flowable
 @Dao
 interface VkGroupDao {
     @Query("SELECT * FROM ${VkGroup.tableName}")
-    fun getAllGroups(): Flowable<List<VkGroup>>
+    fun getFlowableGroups(): Flowable<List<VkGroup>>
+
+    @Query("SELECT * FROM ${VkGroup.tableName}")
+    fun getSingleGroups(): Single<List<VkGroup>>
 
     @Query("SELECT * FROM ${VkGroup.tableName} WHERE id = :id")
     fun getGroupById(id: Int): VkGroup
 
-    @Insert
-    fun insertGroups(vararg groups: VkGroup)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertGroups(vkGroup: VkGroup)
 
     @Delete
     fun deleteGroup(group: VkGroup)

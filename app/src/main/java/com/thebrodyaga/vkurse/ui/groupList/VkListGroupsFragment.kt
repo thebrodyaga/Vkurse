@@ -1,4 +1,4 @@
-package com.thebrodyaga.vkurse.ui.list.groups
+package com.thebrodyaga.vkurse.ui.groupList
 
 
 import android.os.Bundle
@@ -16,10 +16,10 @@ import com.thebrodyaga.vkurse.R
 import com.thebrodyaga.vkurse.common.DEBUG_TAG
 import com.thebrodyaga.vkurse.ui.base.BaseAdapter
 import com.thebrodyaga.vkurse.ui.base.DaggerSupportFragment
-import com.thebrodyaga.vkurse.ui.list.groups.mvp.SearchGroupsPresenter
-import com.thebrodyaga.vkurse.ui.list.groups.mvp.SearchGroupsView
-import com.thebrodyaga.vkurse.ui.list.groups.mvp.VkListGroupsPresenter
-import com.thebrodyaga.vkurse.ui.list.groups.mvp.VkListGroupsView
+import com.thebrodyaga.vkurse.ui.groupList.mvp.SearchGroupsPresenter
+import com.thebrodyaga.vkurse.ui.groupList.mvp.SearchGroupsView
+import com.thebrodyaga.vkurse.ui.groupList.mvp.VkListGroupsPresenter
+import com.thebrodyaga.vkurse.ui.groupList.mvp.VkListGroupsView
 import kotlinx.android.synthetic.main.fragment_vk_list_groups.view.*
 import javax.inject.Inject
 

@@ -1,4 +1,4 @@
-package com.thebrodyaga.vkurse.ui.list.posts
+package com.thebrodyaga.vkurse.ui.postList
 
 
 import android.os.Bundle
@@ -15,8 +15,8 @@ import com.thebrodyaga.vkurse.R
 import com.thebrodyaga.vkurse.common.DEBUG_TAG
 import com.thebrodyaga.vkurse.ui.base.BaseAdapter
 import com.thebrodyaga.vkurse.ui.base.DaggerSupportFragment
-import com.thebrodyaga.vkurse.ui.list.posts.mvp.VkListPostsPresenter
-import com.thebrodyaga.vkurse.ui.list.posts.mvp.VkListPostsView
+import com.thebrodyaga.vkurse.ui.postList.mvp.VkListPostsPresenter
+import com.thebrodyaga.vkurse.ui.postList.mvp.VkListPostsView
 import kotlinx.android.synthetic.main.fragment_vk_list_posts.*
 import kotlinx.android.synthetic.main.fragment_vk_list_posts.view.*
 import javax.inject.Inject
@@ -47,6 +47,7 @@ class VkListPostsFragment : DaggerSupportFragment(), VkListPostsView, BaseAdapte
 
     override fun setFirstData(wallPostList: List<WallPostFull>) {
         Log.d(DEBUG_TAG, "setFirstData VkListPostsFragment")
+        adapter.clearList()
         adapter.setToEnd(wallPostList)
     }
 

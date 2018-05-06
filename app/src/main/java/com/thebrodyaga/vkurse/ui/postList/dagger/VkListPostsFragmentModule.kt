@@ -1,7 +1,7 @@
-package com.thebrodyaga.vkurse.ui.list.posts.dagger
+package com.thebrodyaga.vkurse.ui.postList.dagger
 
 import com.thebrodyaga.vkurse.application.di.scopes.PerFragment
-import com.thebrodyaga.vkurse.ui.list.posts.mvp.VkListPostsPresenter
+import com.thebrodyaga.vkurse.ui.postList.mvp.VkListPostsPresenter
 import com.thebrodyaga.vkurse.ui.main.mvp.MainActivityModel
 import dagger.Module
 import dagger.Provides

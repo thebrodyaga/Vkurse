@@ -1,4 +1,4 @@
-package com.thebrodyaga.vkurse.ui.list.posts.mvp
+package com.thebrodyaga.vkurse.ui.postList.mvp
 
 /**
  * Created by Win10

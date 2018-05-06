@@ -1,4 +1,4 @@
-package com.thebrodyaga.vkurse.ui.list.groups
+package com.thebrodyaga.vkurse.ui.groupList
 
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater

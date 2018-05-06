@@ -1,11 +1,10 @@
 package com.thebrodyaga.vkurse.ui.main.dagger
 
-import com.thebrodyaga.vkurse.application.di.scopes.PerActivity
 import com.thebrodyaga.vkurse.application.di.scopes.PerFragment
-import com.thebrodyaga.vkurse.ui.list.groups.VkListGroupsFragment
-import com.thebrodyaga.vkurse.ui.list.groups.dagger.VkListGroupsFragmentModule
-import com.thebrodyaga.vkurse.ui.list.posts.VkListPostsFragment
-import com.thebrodyaga.vkurse.ui.list.posts.dagger.VkListPostsFragmentModule
+import com.thebrodyaga.vkurse.ui.groupList.VkListGroupsFragment
+import com.thebrodyaga.vkurse.ui.groupList.dagger.VkListGroupsFragmentModule
+import com.thebrodyaga.vkurse.ui.postList.VkListPostsFragment
+import com.thebrodyaga.vkurse.ui.postList.dagger.VkListPostsFragmentModule
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 

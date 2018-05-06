@@ -12,7 +12,7 @@ data class VkWallResponse(val wallPostList: List<WallPostFull>,
                           val ownerInfoList: List<OwnerInfo>)
 
 data class OwnerInfo(val ownerId: Int,
-                     val offset: Int,
+                     val offset: Int = 0,
                      val count: Int? = null)
 
 data class VkWallBody(var timeStep: Int,
