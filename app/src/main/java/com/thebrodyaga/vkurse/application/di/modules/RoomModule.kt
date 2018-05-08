@@ -12,11 +12,13 @@ import javax.inject.Singleton
  * Created by Win10
  *         on 12.04.2018.
  */
-@Module()
+@Module
 class RoomModule {
     @Provides
     @Singleton
     fun provideRoom(context: Context): RoomDatabase {
-        return Room.databaseBuilder(context, RoomDatabase::class.java, DATABASE_NAME).build()
+        return Room.databaseBuilder(context, RoomDatabase::class.java, DATABASE_NAME)
+                .fallbackToDestructiveMigration()
+                .build()
     }
 }

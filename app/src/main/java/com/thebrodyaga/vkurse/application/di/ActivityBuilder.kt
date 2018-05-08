@@ -2,8 +2,8 @@ package com.thebrodyaga.vkurse.application.di
 
 import com.thebrodyaga.vkurse.application.di.scopes.PerActivity
 import com.thebrodyaga.vkurse.ui.main.MainActivity
-import com.thebrodyaga.vkurse.ui.main.dagger.MainActivityModule
-import com.thebrodyaga.vkurse.ui.main.dagger.MainFragmentProvider
+import com.thebrodyaga.vkurse.ui.main.di.MainActivityModule
+import com.thebrodyaga.vkurse.ui.main.di.MainFragmentProvider
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 

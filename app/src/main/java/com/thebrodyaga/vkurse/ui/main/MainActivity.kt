@@ -7,6 +7,7 @@ import android.os.Handler
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentTransaction
 import android.support.v4.content.ContextCompat
+import android.support.v7.widget.SearchView
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -18,13 +19,12 @@ import com.thebrodyaga.vkurse.common.DEBUG_TAG
 import com.thebrodyaga.vkurse.ui.base.DaggerAppCompatActivity
 import com.thebrodyaga.vkurse.ui.chat.ChatFragment
 import com.thebrodyaga.vkurse.ui.groupList.VkListGroupsFragment
-import com.thebrodyaga.vkurse.ui.postList.VkListPostsFragment
 import com.thebrodyaga.vkurse.ui.main.mvp.MainPresenter
 import com.thebrodyaga.vkurse.ui.main.mvp.MainView
+import com.thebrodyaga.vkurse.ui.postList.VkListPostsFragment
 import com.thebrodyaga.vkurse.ui.setting.SettingActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
-import android.support.v7.widget.SearchView
 
 
 class MainActivity : DaggerAppCompatActivity(), MainView, SearchView.OnQueryTextListener, MenuItem.OnActionExpandListener {

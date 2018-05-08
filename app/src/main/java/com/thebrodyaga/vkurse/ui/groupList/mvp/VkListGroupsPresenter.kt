@@ -3,7 +3,7 @@ package com.thebrodyaga.vkurse.ui.groupList.mvp
 import com.arellomobile.mvp.InjectViewState
 import com.thebrodyaga.vkobjects.groups.Group
 import com.thebrodyaga.vkurse.ui.base.BasePresenter
-import com.thebrodyaga.vkurse.ui.main.mvp.MainActivityModel
+import com.thebrodyaga.vkurse.ui.main.mvp.MainInteractor
 import com.thebrodyaga.vkurse.ui.main.mvp.MainPresenter.Companion.ListGroupsFragmentPosition
 
 /**
@@ -11,7 +11,7 @@ import com.thebrodyaga.vkurse.ui.main.mvp.MainPresenter.Companion.ListGroupsFrag
  *         on 28.03.2018
  */
 @InjectViewState
-class VkListGroupsPresenter(private val mainActivityModel: MainActivityModel) : BasePresenter<VkListGroupsView>() {
+class VkListGroupsPresenter(private val mainInteractor: MainInteractor) : BasePresenter<VkListGroupsView>() {
 
     private var fullList = listOf(Group(), Group())
 
@@ -30,7 +30,7 @@ class VkListGroupsPresenter(private val mainActivityModel: MainActivityModel) : 
     }
 
     private fun subscribeOnSearch() {
-        unSubscribeOnDestroy(mainActivityModel.searchObservable
+        unSubscribeOnDestroy(mainInteractor.searchObservable
                 .subscribe({
                     if (it.isNotBlank()) getFilteredList(it)
                     else getFullGroups()
@@ -38,7 +38,7 @@ class VkListGroupsPresenter(private val mainActivityModel: MainActivityModel) : 
     }
 
     private fun subscribeOnScroll() {
-        unSubscribeOnDestroy(mainActivityModel.scrollObservable
+        unSubscribeOnDestroy(mainInteractor.scrollObservable
                 .subscribe({ if (it == ListGroupsFragmentPosition) viewState.scrollTop() }))
     }
 }

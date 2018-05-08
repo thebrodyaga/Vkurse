@@ -15,7 +15,7 @@ import javax.inject.Singleton
  * Created by Emelyanov.N4
  *         on 27.03.2018
  */
-@Module()
+@Module
 class OkHttpClientModule {
     @Provides
     @Singleton

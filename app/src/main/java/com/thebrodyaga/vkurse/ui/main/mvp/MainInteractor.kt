@@ -14,7 +14,7 @@ import javax.inject.Inject
  *         on 17.04.2018.
  */
 @PerActivity
-class MainActivityModel @Inject constructor(
+class MainInteractor @Inject constructor(
         private val vkService: VkService,
         private val roomDatabase: RoomDatabase) {
 

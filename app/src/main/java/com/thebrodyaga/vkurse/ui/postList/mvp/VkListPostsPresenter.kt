@@ -10,11 +10,10 @@ import com.thebrodyaga.vkurse.models.gson.VkWallBody
 import com.thebrodyaga.vkurse.models.gson.VkWallResponse
 import com.thebrodyaga.vkurse.models.room.VkGroup
 import com.thebrodyaga.vkurse.ui.base.BasePresenter
-import com.thebrodyaga.vkurse.ui.main.mvp.MainActivityModel
+import com.thebrodyaga.vkurse.ui.main.mvp.MainInteractor
 import com.thebrodyaga.vkurse.ui.main.mvp.MainPresenter.Companion.ListPostsFragmentPosition
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
 import java.util.*
 
 /**
@@ -22,18 +21,20 @@ import java.util.*
  *         on 22.02.2018.
  */
 @InjectViewState
-class VkListPostsPresenter(private val mainActivityModel: MainActivityModel)
+class VkListPostsPresenter(private val mainInteractor: MainInteractor)
     : BasePresenter<VkListPostsView>() {
 
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
     private val vkService = App.appComponent.getVkService()
     private lateinit var currentState: VkWallBody
+    private var isVisible = false
+    private var isNeedReload = false
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
         viewState.choiceForegroundView(PROGRESS_VIEW_FLAG)
         subscribeOnScroll()
-        getFavoriteGroups()
+        subscribeOnGroups()
         /*currentState = VkWallBody(timeStep = VkService.timeStep, ownerInfoList = testOwnerInfoList)
         viewState.choiceForegroundView(PROGRESS_VIEW_FLAG)
         loadFirstWall()*/
@@ -47,15 +48,14 @@ class VkListPostsPresenter(private val mainActivityModel: MainActivityModel)
     fun loadNewWall() {
         unSubscribeOnDestroy(vkService.getNewWall(currentState)
                 .observeOn(AndroidSchedulers.mainThread())
+                .doFinally { viewState.hideRefreshing() }
                 .subscribe({
                     Log.d(DEBUG_TAG, "loadNewWall successful")
                     setCurrentState(it, first = it.wallPostList.firstOrNull()?.date)
                     viewState.setNewData(it.wallPostList)
-                    viewState.hideRefreshing()
                 }, {
                     Log.e(DEBUG_TAG, "loadFirstWall error: " + it.message)
                     viewState.showErrorToast()
-                    viewState.hideRefreshing()
                 }))
     }
 
@@ -63,18 +63,18 @@ class VkListPostsPresenter(private val mainActivityModel: MainActivityModel)
         viewState.tootleProgressItem(true)
         unSubscribeOnDestroy(vkService.getListAfterLast(currentState)
                 .observeOn(AndroidSchedulers.mainThread())
+                .doFinally { viewState.tootleProgressItem(false) }
                 .subscribe({
                     Log.d(DEBUG_TAG, "loadWallAfterLast successful")
-                    viewState.tootleProgressItem(false)
                     viewState.setAfterLastData(it.wallPostList)
                 }, {
                     Log.e(DEBUG_TAG, "loadWallAfterLast error: " + it.message)
-                    viewState.tootleProgressItem(false)
                     viewState.showErrorToast()
                 }))
     }
 
     private fun loadFirstWall() {
+        isNeedReload = false
         unSubscribeOnDestroy(vkService.getFirstList(currentState)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
@@ -89,26 +89,9 @@ class VkListPostsPresenter(private val mainActivityModel: MainActivityModel)
                 }))
     }
 
-    private fun getFavoriteGroups() {
-        unSubscribeOnDestroy(mainActivityModel.getSingleGroups()
-                .subscribeOn(Schedulers.io())
-                .doOnSuccess { newCurrentState(it) }
-                .doFinally { subscribeOnGroups() }
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    //                    newCurrentState(it)
-//                    viewState.choiceForegroundView(PROGRESS_VIEW_FLAG)
-                    loadFirstWall()
-//                    subscribeOnGroups()
-                }, {
-                    viewState.choiceForegroundView(EMPTY_VIEW_FLAG)
-//                    subscribeOnGroups()
-                }))
-    }
-
     private fun newCurrentState(groupsList: List<VkGroup>) {
         val ownerInfoList = ArrayList<OwnerInfo>()
-        groupsList.forEach { ownerInfoList.add(OwnerInfo(-1 * it.id)) }
+        groupsList.forEach { ownerInfoList.add(OwnerInfo(-1 * it.id!!)) }
         currentState = VkWallBody(timeStep = VkService.timeStep, ownerInfoList = ownerInfoList)
     }
 
@@ -119,16 +102,21 @@ class VkListPostsPresenter(private val mainActivityModel: MainActivityModel)
     }
 
     private fun subscribeOnScroll() {
-        compositeDisposable.add(mainActivityModel.scrollObservable
+        compositeDisposable.add(mainInteractor.scrollObservable
                 .subscribe({ if (it == ListPostsFragmentPosition) viewState.scrollTop() }))
     }
 
     private fun subscribeOnGroups() {
-        compositeDisposable.add(mainActivityModel.getFavoriteGroups()
-                .skip(1)
-                .observeOn(Schedulers.io())
+        compositeDisposable.add(mainInteractor.getFavoriteGroups()
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
                     clearDisposable()
+                    if (it.isNotEmpty()) {
+                        viewState.choiceForegroundView(PROGRESS_VIEW_FLAG)
+                        newCurrentState(it)
+                        if (isVisible) loadFirstWall()
+                        else isNeedReload = true
+                    } else viewState.choiceForegroundView(EMPTY_VIEW_FLAG)
                     Log.i(DEBUG_TAG, "Favorite group update")
                 }))
     }
@@ -143,5 +131,15 @@ class VkListPostsPresenter(private val mainActivityModel: MainActivityModel)
         const val DATA_VIEW_FLAG = "dataViewFlag"
         const val PROGRESS_VIEW_FLAG = "progressViewFlag"
         const val EMPTY_VIEW_FLAG = "emptyViewFlag"
+    }
+
+    fun onStart() {
+        isVisible = true
+        if (isNeedReload) loadFirstWall()
+
+    }
+
+    fun onStop() {
+        isVisible = false
     }
 }

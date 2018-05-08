@@ -6,7 +6,7 @@ import com.arellomobile.mvp.InjectViewState
 import com.thebrodyaga.vkurse.application.App
 import com.thebrodyaga.vkurse.common.DEBUG_TAG
 import com.thebrodyaga.vkurse.ui.base.BasePresenter
-import com.thebrodyaga.vkurse.ui.main.mvp.MainActivityModel
+import com.thebrodyaga.vkurse.ui.main.mvp.MainInteractor
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 
@@ -15,7 +15,7 @@ import io.reactivex.disposables.CompositeDisposable
  *         on 27.03.2018
  */
 @InjectViewState
-class SearchGroupsPresenter(private val mainActivityModel: MainActivityModel) : BasePresenter<SearchGroupsView>() {
+class SearchGroupsPresenter(private val mainInteractor: MainInteractor) : BasePresenter<SearchGroupsView>() {
 
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
     private val vkService = App.appComponent.getVkService()
@@ -28,7 +28,7 @@ class SearchGroupsPresenter(private val mainActivityModel: MainActivityModel) : 
     }
 
     private fun subscribeOnSearch() {
-        compositeDisposable.add(mainActivityModel.searchObservable
+        compositeDisposable.add(mainInteractor.searchObservable
                 .subscribe({
                     if (it.isNotBlank()) startSearch(it)
                     else stopSearch()

@@ -1,9 +1,9 @@
-package com.thebrodyaga.vkurse.ui.main.dagger
+package com.thebrodyaga.vkurse.ui.main.di
 
 import com.thebrodyaga.vkurse.application.di.scopes.PerActivity
 import com.thebrodyaga.vkurse.data.db.RoomDatabase
 import com.thebrodyaga.vkurse.data.net.VkService
-import com.thebrodyaga.vkurse.ui.main.mvp.MainActivityModel
+import com.thebrodyaga.vkurse.ui.main.mvp.MainInteractor
 import com.thebrodyaga.vkurse.ui.main.mvp.MainPresenter
 import dagger.Module
 import dagger.Provides
@@ -18,11 +18,11 @@ class MainActivityModule {
     @PerActivity
     @Provides
     fun provideMainActivityModel(vkService: VkService, roomDatabase: RoomDatabase)
-            : MainActivityModel = MainActivityModel(vkService, roomDatabase)
+            : MainInteractor = MainInteractor(vkService, roomDatabase)
 
     @PerActivity
     @Provides
-    fun provideMainPresenter(mainActivityModel: MainActivityModel)
-            : MainPresenter = MainPresenter(mainActivityModel)
+    fun provideMainPresenter(mainInteractor: MainInteractor)
+            : MainPresenter = MainPresenter(mainInteractor)
 
 }

@@ -1,8 +1,8 @@
-package com.thebrodyaga.vkurse.ui.postList.dagger
+package com.thebrodyaga.vkurse.ui.postList.di
 
 import com.thebrodyaga.vkurse.application.di.scopes.PerFragment
 import com.thebrodyaga.vkurse.ui.postList.mvp.VkListPostsPresenter
-import com.thebrodyaga.vkurse.ui.main.mvp.MainActivityModel
+import com.thebrodyaga.vkurse.ui.main.mvp.MainInteractor
 import dagger.Module
 import dagger.Provides
 
@@ -14,6 +14,6 @@ import dagger.Provides
 class VkListPostsFragmentModule {
     @PerFragment
     @Provides
-    fun provideVkListPostsPresenter(mainActivityModel: MainActivityModel)
-            : VkListPostsPresenter = VkListPostsPresenter(mainActivityModel)
+    fun provideVkListPostsPresenter(mainInteractor: MainInteractor)
+            : VkListPostsPresenter = VkListPostsPresenter(mainInteractor)
 }

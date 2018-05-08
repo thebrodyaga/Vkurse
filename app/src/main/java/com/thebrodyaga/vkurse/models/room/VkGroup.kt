@@ -11,12 +11,11 @@ import com.thebrodyaga.vkobjects.groups.Group
  */
 
 @Entity(tableName = VkGroup.tableName)
-data class VkGroup(@Ignore val group: Group) {
+data class VkGroup(@Ignore private val group: Group) {
     constructor() : this(Group())
 
-
     @PrimaryKey
-    var id: Int = group.id ?: 11 /*throw NullPointerException("Group.id нельзя null")*/
+    var id: Int = group.id ?: 0
     var name: String? = group.name
     var screenName: String? = group.screenName
     var type: String? = group.type?.toString() //GroupType enum

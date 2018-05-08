@@ -26,23 +26,33 @@ class VkListPostsFragment : DaggerSupportFragment(), VkListPostsView, BaseAdapte
 
     @Inject
     @InjectPresenter()
-    lateinit var vkListPostsPresenter: VkListPostsPresenter
+    lateinit var presenter: VkListPostsPresenter
     private lateinit var adapter: VkPostsAdapter
     private lateinit var recyclerView: RecyclerView
 
     @ProvidePresenter
-    fun providePresenter(): VkListPostsPresenter = vkListPostsPresenter
+    fun providePresenter(): VkListPostsPresenter = presenter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_vk_list_posts, container, false)
-        view.errorButton.setOnClickListener { vkListPostsPresenter.onErrorButtonClick() }
-        view.swipeRefresh.setOnRefreshListener { vkListPostsPresenter.loadNewWall() }
+        view.errorButton.setOnClickListener { presenter.onErrorButtonClick() }
+        view.swipeRefresh.setOnRefreshListener { presenter.loadNewWall() }
         recyclerView = view.recyclerView
         recyclerView.layoutManager = LinearLayoutManager(this.context)
         adapter = VkPostsAdapter(this)
         recyclerView.adapter = adapter
         return view
+    }
+
+    override fun onStart() {
+        super.onStart()
+        presenter.onStart()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        presenter.onStop()
     }
 
     override fun setFirstData(wallPostList: List<WallPostFull>) {
@@ -68,7 +78,7 @@ class VkListPostsFragment : DaggerSupportFragment(), VkListPostsView, BaseAdapte
     }
 
     override fun onLoadMore() {
-        vkListPostsPresenter.loadAfterLast()
+        presenter.loadAfterLast()
     }
 
     override fun hideRefreshing() {
@@ -85,6 +95,7 @@ class VkListPostsFragment : DaggerSupportFragment(), VkListPostsView, BaseAdapte
             VkListPostsPresenter.DATA_VIEW_FLAG -> swipeRefresh.visibility = View.VISIBLE
             VkListPostsPresenter.PROGRESS_VIEW_FLAG -> progressBar.visibility = View.VISIBLE
             VkListPostsPresenter.ERROR_VIEW_FLAG -> errorButton.visibility = View.VISIBLE
+            /*VkListPostsPresenter.EMPTY_VIEW_FLAG -> emptyButton.visibility = View.VISIBLE*/
         }
     }
 
