@@ -150,6 +150,10 @@ class MainActivity : DaggerAppCompatActivity(), MainView, SearchView.OnQueryText
         super.onSaveInstanceState(outState)
         if (searchItem?.isActionViewExpanded == true)
             outState?.putCharSequence(CURRENT_QUERY_REQUEST_FLAG, currentQuery)
+        if (!isFinishing) return
+        searchView?.setOnQueryTextListener(null)    //при повороте с клавиатурой происходит утечка
+        searchItem?.collapseActionView()
+        searchItem?.setOnActionExpandListener(null)
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
@@ -181,7 +185,6 @@ class MainActivity : DaggerAppCompatActivity(), MainView, SearchView.OnQueryText
             currentQuery = null
         return true
     }
-
 
     companion object {
         const val CURRENT_QUERY_REQUEST_FLAG = "currentQueryRequestFlag"
