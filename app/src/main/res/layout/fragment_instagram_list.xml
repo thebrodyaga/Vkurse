@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.thebrodyaga.vkurse.ui.fragments.InstagramListFragment">
+    tools:context="com.thebrodyaga.vkurse.screen.fragments.InstagramListFragment">
 
     <TextView
         android:layout_width="match_parent"

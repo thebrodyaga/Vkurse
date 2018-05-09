@@ -5,11 +5,14 @@ import com.thebrodyaga.vkobjects.groups.responses.SearchResponse
 import com.thebrodyaga.vkurse.models.gson.VkWallBody
 import com.thebrodyaga.vkurse.models.gson.VkWallResponse
 import io.reactivex.Observable
+import javax.inject.Singleton
 
 /**
  * Created by Emelyanov.N4
  *         on 21.02.2018.
  */
+
+@Singleton
 class VkService(private var vkurseApi: VkurseApi) {
 
     fun getFirstList(vkWallBody: VkWallBody): Observable<VkWallResponse> {
@@ -30,9 +33,5 @@ class VkService(private var vkurseApi: VkurseApi) {
 
     fun getGroupsById(groupId: Int?, vararg groupIds: Int?): Observable<List<GroupFull>> {
         return vkurseApi.getGroupsById(groupId, *groupIds)
-    }
-
-    companion object {
-        const val timeStep = 60 * 60 * 2 //2 часа
     }
 }
