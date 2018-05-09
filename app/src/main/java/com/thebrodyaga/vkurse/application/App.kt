@@ -11,6 +11,7 @@ import com.thebrodyaga.vkurse.application.di.AppComponent
 import com.thebrodyaga.vkurse.application.di.DaggerAppComponent
 import com.thebrodyaga.vkurse.common.LIVECYCLE_CALLBACKS_TAG
 import dagger.android.AndroidInjector
+import dagger.android.DaggerApplication
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector
 import javax.inject.Inject
@@ -21,24 +22,19 @@ import javax.inject.Inject
  *         on 18.07.2017.
  */
 
-class App : Application(), HasActivityInjector, Application.ActivityLifecycleCallbacks {
-    override fun activityInjector(): AndroidInjector<Activity> = activityDispatchingAndroidInjector
-
+class App : DaggerApplication(), Application.ActivityLifecycleCallbacks {
     private lateinit var refWatcher: RefWatcher
 
     override fun onCreate() {
         super.onCreate()
         refWatcher = LeakCanary.install(this)
         registerActivityLifecycleCallbacks(this)
-        appComponent = DaggerAppComponent
-                .builder()
-                .application(this)
-                .build()
-        appComponent.inject(this)
     }
 
-    @Inject
-    lateinit var activityDispatchingAndroidInjector: DispatchingAndroidInjector<Activity>
+    override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
+        appComponent = DaggerAppComponent.builder().application(this).build()
+        return appComponent
+    }
 
     //<editor-fold desc="Description">
     override fun onActivityCreated(activity: Activity, bundle: Bundle?) {

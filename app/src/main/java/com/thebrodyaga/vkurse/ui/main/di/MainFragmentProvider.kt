@@ -16,9 +16,9 @@ import dagger.android.ContributesAndroidInjector
 abstract class MainFragmentProvider {
     @PerFragment
     @ContributesAndroidInjector(modules = [VkListPostsFragmentModule::class])
-    abstract fun provideVkListPostsFragmentFactory(): VkListPostsFragment
+    abstract fun provideVkListPostsFragment(): VkListPostsFragment
 
     @PerFragment
     @ContributesAndroidInjector(modules = [VkListGroupsFragmentModule::class])
-    abstract fun provideVkListGroupsFragmentFactory(): VkListGroupsFragment
+    abstract fun provideVkListGroupsFragment(): VkListGroupsFragment
 }
