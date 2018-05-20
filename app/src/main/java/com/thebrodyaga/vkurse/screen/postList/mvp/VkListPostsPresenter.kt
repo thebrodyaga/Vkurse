@@ -37,6 +37,7 @@ class VkListPostsPresenter @Inject constructor(private val mainInteractor: MainI
         viewState.choiceForegroundView(PROGRESS_VIEW_FLAG)
         subscribeOnScroll()
         subscribeOnGroups()
+        subscribeOnVisible()
     }
 
     fun onErrorButtonClick() {
@@ -108,6 +109,16 @@ class VkListPostsPresenter @Inject constructor(private val mainInteractor: MainI
                 }))
     }
 
+    private fun subscribeOnVisible() {
+        compositeDisposable.add(mainInteractor.visibleObservable
+                .subscribe({
+                    if (it == ListPostsFragmentPosition) {
+                        isVisible = true
+                        if (isNeedReload) loadFirstWall()
+                    } else isVisible = false
+                }))
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         compositeDisposable.clear()
@@ -118,15 +129,5 @@ class VkListPostsPresenter @Inject constructor(private val mainInteractor: MainI
         const val DATA_VIEW_FLAG = "dataViewFlag"
         const val PROGRESS_VIEW_FLAG = "progressViewFlag"
         const val EMPTY_VIEW_FLAG = "emptyViewFlag"
-    }
-
-    fun onStart() {
-        isVisible = true
-        if (isNeedReload) loadFirstWall()
-
-    }
-
-    fun onStop() {
-        isVisible = false
     }
 }

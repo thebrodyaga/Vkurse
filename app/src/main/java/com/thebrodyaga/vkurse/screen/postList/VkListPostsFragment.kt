@@ -28,10 +28,16 @@ class VkListPostsFragment : DaggerSupportFragment(), VkListPostsView, BaseAdapte
     @InjectPresenter()
     lateinit var presenter: VkListPostsPresenter
     private lateinit var adapter: VkPostsAdapter
-    private lateinit var recyclerView: RecyclerView
+    private var recyclerView: RecyclerView? = null
 
     @ProvidePresenter
     fun providePresenter(): VkListPostsPresenter = presenter
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        adapter = VkPostsAdapter(this)
+
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -39,20 +45,14 @@ class VkListPostsFragment : DaggerSupportFragment(), VkListPostsView, BaseAdapte
         view.errorButton.setOnClickListener { presenter.onErrorButtonClick() }
         view.swipeRefresh.setOnRefreshListener { presenter.loadNewWall() }
         recyclerView = view.recyclerView
-        recyclerView.layoutManager = LinearLayoutManager(this.context)
-        adapter = VkPostsAdapter(this)
-        recyclerView.adapter = adapter
+        recyclerView?.layoutManager = LinearLayoutManager(this.context)
+        recyclerView?.adapter = adapter
         return view
     }
 
-    override fun onStart() {
-        super.onStart()
-        presenter.onStart()
-    }
-
-    override fun onStop() {
-        super.onStop()
-        presenter.onStop()
+    override fun onDestroyView() {
+        super.onDestroyView()
+        recyclerView?.adapter = null
     }
 
     override fun setFirstData(wallPostList: List<WallPostFull>) {
@@ -95,7 +95,7 @@ class VkListPostsFragment : DaggerSupportFragment(), VkListPostsView, BaseAdapte
             VkListPostsPresenter.DATA_VIEW_FLAG -> swipeRefresh.visibility = View.VISIBLE
             VkListPostsPresenter.PROGRESS_VIEW_FLAG -> progressBar.visibility = View.VISIBLE
             VkListPostsPresenter.ERROR_VIEW_FLAG -> errorButton.visibility = View.VISIBLE
-            /*VkListPostsPresenter.EMPTY_VIEW_FLAG -> emptyButton.visibility = View.VISIBLE*/
+        /*VkListPostsPresenter.EMPTY_VIEW_FLAG -> emptyButton.visibility = View.VISIBLE*/
         }
     }
 
@@ -106,7 +106,7 @@ class VkListPostsFragment : DaggerSupportFragment(), VkListPostsView, BaseAdapte
 
     override fun scrollTop() {
         Log.d(DEBUG_TAG, "scrollTop VkListPostsFragment")
-        recyclerView.scrollToPosition(0)
+        recyclerView?.scrollToPosition(0)
     }
 
     companion object {

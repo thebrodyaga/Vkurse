@@ -21,7 +21,6 @@ abstract class BaseAdapter<T>(private val onLoadMoreListener: OnLoadMoreListener
     protected val contentList = arrayListOf<T?>()
     protected val visibleThreshold = 1    //последний видимый перед загрузкой
     private var isLoading: Boolean = false
-    private var recyclerView: RecyclerView? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return ProgressHolder(LayoutInflater.from(parent.context)
@@ -74,8 +73,7 @@ abstract class BaseAdapter<T>(private val onLoadMoreListener: OnLoadMoreListener
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
         if (onLoadMoreListener == null) return
         val linearLayoutManager = recyclerView.layoutManager as? LinearLayoutManager ?: return
-        this.recyclerView = recyclerView
-        (this.recyclerView)?.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             //TODO спамит подгрузку если сервак отвалился, поискать как сделать по-красоте
             override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
                 if (dy <= 0 || isLoading || contentList.isEmpty()) return
@@ -87,7 +85,7 @@ abstract class BaseAdapter<T>(private val onLoadMoreListener: OnLoadMoreListener
     }
 
     override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
-        this.recyclerView = null
+        recyclerView.addOnScrollListener(null)
     }
 
     class ProgressHolder(containerView: View) : RecyclerView.ViewHolder(containerView)

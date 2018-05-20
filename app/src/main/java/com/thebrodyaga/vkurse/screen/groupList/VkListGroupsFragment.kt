@@ -34,7 +34,7 @@ class VkListGroupsFragment : DaggerSupportFragment(), VkListGroupsView,
     @InjectPresenter()
     lateinit var searchGroupsPresenter: SearchGroupsPresenter
     private lateinit var adapter: VkGroupsAdapter
-    private lateinit var recyclerView: RecyclerView
+    private var recyclerView: RecyclerView? = null
 
     @ProvidePresenter
     fun provideListPresenter(): VkListGroupsPresenter = vkListGroupsPresenter
@@ -42,14 +42,23 @@ class VkListGroupsFragment : DaggerSupportFragment(), VkListGroupsView,
     @ProvidePresenter
     fun provideSearchPresenter(): SearchGroupsPresenter = searchGroupsPresenter
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        adapter = VkGroupsAdapter(this)
+
+    }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_vk_list_groups, container, false)
         recyclerView = view.recyclerView
-        recyclerView.layoutManager = LinearLayoutManager(this.context)
-        adapter = VkGroupsAdapter(this)
-        recyclerView.adapter = adapter
+        recyclerView?.layoutManager = LinearLayoutManager(this.context)
+        recyclerView?.adapter = adapter
         return view
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        recyclerView?.adapter = null
     }
 
     //<editor-fold desc="VkListGroupsView">
@@ -65,7 +74,7 @@ class VkListGroupsFragment : DaggerSupportFragment(), VkListGroupsView,
 
     override fun scrollTop() {
         Log.d(DEBUG_TAG, "scrollTop VkListGroupsFragment")
-        recyclerView.scrollToPosition(0)
+        recyclerView?.scrollToPosition(0)
     }
     //</editor-fold>
 

@@ -5,7 +5,6 @@ apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 27
-    buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "com.thebrodyaga.vkurse"
         minSdkVersion 21
@@ -24,22 +23,21 @@ android {
 }
 
 ext {
-    support = '27.1.0'
+    support = '27.1.1'
     retrofit = '2.3.0'
     dagger = '2.14.1'
     moxy = "1.5.3"
     leakcanary = "1.5.4"
-    room = "1.0.0"
+    room = "1.1.0"
 }
 
 dependencies {
-    implementation "com.android.support:appcompat-v7:$support"
     implementation "com.android.support:design:$support"
     implementation "com.android.support:cardview-v7:$support"
-    implementation "com.android.support:recyclerview-v7:$support"
-    implementation "com.android.support:support-v4:$support"
+    implementation "com.android.support:exifinterface:$support"
+    implementation "com.android.support:animated-vector-drawable:$support"
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     implementation 'com.android.support.constraint:constraint-layout:1.1.0'
@@ -90,7 +88,7 @@ dependencies {
     //bottom navigation
     implementation 'com.aurelhubert:ahbottomnavigation:2.1.0'
 
-    testCompile 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.12'
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
     //модельки от Api

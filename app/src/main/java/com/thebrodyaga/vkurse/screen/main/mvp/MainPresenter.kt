@@ -1,7 +1,10 @@
 package com.thebrodyaga.vkurse.screen.main.mvp
 
+import android.util.Log
 import com.arellomobile.mvp.InjectViewState
 import com.thebrodyaga.vkurse.R
+import com.thebrodyaga.vkurse.common.DEBUG_TAG
+import com.thebrodyaga.vkurse.models.room.VkGroup
 import com.thebrodyaga.vkurse.screen.base.BasePresenter
 import javax.inject.Inject
 
@@ -14,7 +17,7 @@ class MainPresenter @Inject constructor(private val mainInteractor: MainInteract
     : BasePresenter<MainView>() {
 
     override fun onFirstViewAttach() {
-        viewState.showListPostsFragment()
+        Log.d(DEBUG_TAG, "onFirstViewAttach MainPresenter")
         unSubscribeOnDestroy(mainInteractor
                 .scrollObservable
                 .subscribe({ viewState.scrollTop() }))
@@ -42,6 +45,7 @@ class MainPresenter @Inject constructor(private val mainInteractor: MainInteract
     }
 
     fun onBottomBarClick(menuPosition: Int): Boolean {
+        mainInteractor.visibleFragment(menuPosition)
         when (menuPosition) {
             ListPostsFragmentPosition -> {
                 viewState.showListPostsFragment()

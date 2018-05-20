@@ -9,12 +9,9 @@ import com.squareup.leakcanary.LeakCanary
 import com.squareup.leakcanary.RefWatcher
 import com.thebrodyaga.vkurse.application.di.AppComponent
 import com.thebrodyaga.vkurse.application.di.DaggerAppComponent
-import com.thebrodyaga.vkurse.common.LIVECYCLE_CALLBACKS_TAG
+import com.thebrodyaga.vkurse.common.ACTIVITY_LIVECYCLE_CALLBACKS
 import dagger.android.AndroidInjector
 import dagger.android.DaggerApplication
-import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasActivityInjector
-import javax.inject.Inject
 
 
 /**
@@ -73,24 +70,24 @@ class App : DaggerApplication(), Application.ActivityLifecycleCallbacks {
 
         lateinit var appComponent: AppComponent
         private fun activityLifecycleLog(activity: Activity, bundle: Bundle?) {
-            Log.d(LIVECYCLE_CALLBACKS_TAG, "Activity: ${activity.javaClass.simpleName}, " +
+            Log.d(ACTIVITY_LIVECYCLE_CALLBACKS, "Activity: ${activity.javaClass.simpleName}, " +
                     "Id: ${System.identityHashCode(activity)}, " +
-                    "MethodName: ${trace(Thread.currentThread().stackTrace)}, " +
+                    "MethodName: ${trace(Thread.currentThread().stackTrace,"access\$activityLifecycleLog")}, " +
                     "Bundle: ${if (bundle != null) bundle.javaClass.simpleName +
                             ", Id: " + System.identityHashCode(bundle) else "null"}")
         }
 
         private fun activityLifecycleLog(activity: Activity) {
-            Log.d(LIVECYCLE_CALLBACKS_TAG, ("Activity: " + activity.javaClass.simpleName +
+            Log.d(ACTIVITY_LIVECYCLE_CALLBACKS, ("Activity: " + activity.javaClass.simpleName +
                     ", Id: " + System.identityHashCode(activity) +
-                    ", MethodName: " + trace(Thread.currentThread().stackTrace)))
+                    ", MethodName: " + trace(Thread.currentThread().stackTrace,"access\$activityLifecycleLog")))
         }
 
-        private fun trace(e: Array<StackTraceElement>): String {
+        fun trace(e: Array<StackTraceElement>, methodName:String): String {
             var doNext = false
             for (s in e) {
                 if (doNext) return s.methodName
-                doNext = s.methodName.contains("access\$activityLifecycleLog")
+                doNext = s.methodName.contains(methodName)
             }
             return "null"
         }

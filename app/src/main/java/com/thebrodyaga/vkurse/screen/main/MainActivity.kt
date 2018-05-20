@@ -20,6 +20,7 @@ import com.thebrodyaga.vkurse.screen.base.DaggerAppCompatActivity
 import com.thebrodyaga.vkurse.screen.chat.ChatFragment
 import com.thebrodyaga.vkurse.screen.groupList.VkListGroupsFragment
 import com.thebrodyaga.vkurse.screen.main.mvp.MainPresenter
+import com.thebrodyaga.vkurse.screen.main.mvp.MainPresenter.Companion.ListPostsFragmentPosition
 import com.thebrodyaga.vkurse.screen.main.mvp.MainView
 import com.thebrodyaga.vkurse.screen.postList.VkListPostsFragment
 import com.thebrodyaga.vkurse.screen.setting.SettingActivity
@@ -51,6 +52,7 @@ class MainActivity : DaggerAppCompatActivity(), MainView, SearchView.OnQueryText
             if (wasSelected) mainPresenter.onBottomBarReClick(position)
             else mainPresenter.onBottomBarClick(position)
         }
+        if (savedInstanceState == null) mainPresenter.onBottomBarClick(ListPostsFragmentPosition)
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -137,11 +139,11 @@ class MainActivity : DaggerAppCompatActivity(), MainView, SearchView.OnQueryText
     private fun checkVisibleFragment(): FragmentTransaction {
         val fragmentTransaction = supportFragmentManager.beginTransaction()
         var fragment = supportFragmentManager.findFragmentByTag(VkListPostsFragment.FragmentTAG)
-        if (fragment != null) fragmentTransaction.hide(fragment)
+        if (fragment != null && !fragment.isHidden) fragmentTransaction.hide(fragment)
         fragment = supportFragmentManager.findFragmentByTag(VkListGroupsFragment.FragmentTAG)
-        if (fragment != null) fragmentTransaction.hide(fragment)
+        if (fragment != null && !fragment.isHidden) fragmentTransaction.hide(fragment)
         fragment = supportFragmentManager.findFragmentByTag(ChatFragment.FragmentTAG)
-        if (fragment != null) fragmentTransaction.hide(fragment)
+        if (fragment != null && !fragment.isHidden) fragmentTransaction.hide(fragment)
         return fragmentTransaction
     }
     //</editor-fold>

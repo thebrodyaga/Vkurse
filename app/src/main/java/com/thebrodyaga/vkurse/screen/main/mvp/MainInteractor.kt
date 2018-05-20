@@ -9,6 +9,7 @@ import com.thebrodyaga.vkurse.data.net.VkService
 import com.thebrodyaga.vkurse.models.room.VkGroup
 import io.reactivex.Flowable
 import io.reactivex.Single
+import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 import javax.inject.Inject
 
@@ -25,6 +26,7 @@ class MainInteractor(private val vkService: VkService,
 
     val scrollObservable: PublishSubject<Int> = PublishSubject.create<Int>()
     val searchObservable: PublishSubject<String> = PublishSubject.create<String>()
+    val visibleObservable: BehaviorSubject<Int> = BehaviorSubject.create<Int>()
 
     fun searchControl(query: String?) {
         if (query != null && query.isNotBlank()) searchObservable.onNext(query)
@@ -33,6 +35,10 @@ class MainInteractor(private val vkService: VkService,
 
     fun scrollToTop(position: Int) {
         scrollObservable.onNext(position)
+    }
+
+    fun visibleFragment(position: Int) {
+        visibleObservable.onNext(position)
     }
 
     fun getFavoriteGroups(): Flowable<List<VkGroup>> {
