@@ -19,99 +19,166 @@
     android:id="@+id/card_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_gravity="center"
-    android:layout_marginBottom="@dimen/md_keylines"
-    android:foreground="?attr/selectableItemBackground">
+    android:layout_gravity="center">
 
 
-    <RelativeLayout
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/relativeLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/post_image"
+        app:layout_constraintTop_toTopOf="@+id/post_image">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/profile_image"
-            android:layout_width="@dimen/profile_image_width"
-            android:layout_height="@dimen/profile_image_height"
-            android:layout_marginBottom="@dimen/md_keylines"
-            android:layout_marginLeft="@dimen/md_keylines"
-            android:layout_marginRight="@dimen/md_keylines"
-            android:layout_marginTop="@dimen/md_keylines"
-            android:src="@drawable/d_here" />
+            android:layout_width="@dimen/card_source_image_width"
+            android:layout_height="@dimen/card_source_image_height"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/d_here"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/title_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="18dp"
-            android:layout_toEndOf="@+id/profile_image"
-            android:text="@string/item_title" />
+            android:text="@string/item_title"
+            app:layout_constraintBottom_toTopOf="@+id/subtitle_text"
+            app:layout_constraintStart_toStartOf="@+id/subtitle_text" />
 
         <TextView
             android:id="@+id/subtitle_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/title_text"
-            android:layout_marginBottom="18dp"
-            android:layout_toEndOf="@+id/profile_image"
+            android:layout_marginStart="16dp"
             android:text="@string/item_subtitle"
-            android:textSize="13sp" />
+            android:textSize="13sp"
+            app:layout_constraintBottom_toBottomOf="@+id/profile_image"
+            app:layout_constraintStart_toEndOf="@+id/profile_image"
+            tools:layout_editor_absoluteY="56dp" />
 
-        <LinearLayout
-            android:id="@+id/post_text_layout"
+
+        <android.support.constraint.Group
+            android:id="@+id/group_post_header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/profile_image"
-            android:layout_marginBottom="@dimen/md_keylines"
-            android:layout_marginEnd="@dimen/md_keylines"
-            android:layout_marginStart="@dimen/md_keylines"
-            android:orientation="vertical">
+            app:constraint_referenced_ids="subtitle_text,profile_image,title_text" />
 
-            <at.blogc.android.views.ExpandableTextView
-                android:id="@+id/post_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:maxLines="5"
-                android:text="@string/text_post_description"
-                app:animation_duration="1000" />
-
-            <TextView
-                android:id="@+id/show_more"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/show_more" />
-        </LinearLayout>
-
-        <RelativeLayout
-            android:id="@+id/post_image_layout"
-            android:layout_width="match_parent"
+        <at.blogc.android.views.ExpandableTextView
+            android:id="@+id/post_text"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/post_text_layout">
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:ellipsize="end"
+            android:maxLines="5"
+            android:text="@string/text_post_description"
+            app:animation_duration="1000"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/profile_image" />
 
-            <ImageView
-                android:id="@+id/post_image"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/card_image_height"
-                android:scaleType="center"
-                android:visibility="invisible" />
-            <!--
+        <TextView
+            android:id="@+id/show_more"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/show_more"
+            app:layout_constraintStart_toStartOf="@+id/post_text"
+            app:layout_constraintTop_toBottomOf="@+id/post_text" />
+
+
+        <android.support.constraint.Group
+            android:id="@+id/group_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="post_text,show_more" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/repost_profile_image"
+            android:layout_width="@dimen/card_source_image_width"
+            android:layout_height="@dimen/card_source_image_height"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/d_here"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/show_more" />
+
+        <TextView
+            android:id="@+id/repost_subtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="@string/repost_subhead"
+            android:textSize="13sp"
+            app:layout_constraintBottom_toBottomOf="@+id/repost_profile_image"
+            app:layout_constraintStart_toEndOf="@+id/repost_profile_image" />
+
+        <TextView
+            android:id="@+id/repost_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/repost_title"
+            app:layout_constraintBottom_toTopOf="@+id/repost_subtitle"
+            app:layout_constraintStart_toStartOf="@+id/repost_subtitle" />
+
+        <TextView
+            android:id="@+id/repost_show_more"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/show_more"
+            app:layout_constraintStart_toStartOf="@+id/repost_text"
+            app:layout_constraintTop_toBottomOf="@+id/repost_text" />
+
+        <at.blogc.android.views.ExpandableTextView
+            android:id="@+id/repost_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:ellipsize="end"
+            android:maxLines="5"
+            android:text="@string/text_post_description"
+            app:animation_duration="1000"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/repost_profile_image" />
+
+        <android.support.constraint.Group
+            android:id="@+id/group_repost_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            app:constraint_referenced_ids="repost_profile_image,repost_subtitle,repost_title,repost_show_more,repost_text" />
+
+        <ImageView
+            android:id="@+id/post_image"
+            android:layout_width="0dp"
+            android:layout_height="200dp"
+            android:layout_marginTop="16dp"
+            android:scaleType="center"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/repost_show_more" />
+        <!--
                             app:srcCompat="@mipmap/ic_error"
             -->
-            <ProgressBar
-                android:id="@+id/card_progress"
-                style="@style/Widget.AppCompat.ProgressBar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:theme="@style/CircularProgress"
-                android:visibility="visible" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
+        <ProgressBar
+            android:id="@+id/card_progress"
+            style="@style/Widget.AppCompat.ProgressBar"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/post_image_layout">
+            android:layout_marginTop="8dp"
+            android:theme="@style/CircularProgress"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/post_image" />
 
-        </RelativeLayout>
-    </RelativeLayout>
+
+    </android.support.constraint.ConstraintLayout>
 </android.support.v7.widget.CardView>

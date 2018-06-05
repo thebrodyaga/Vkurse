@@ -19,4 +19,6 @@
     <string name="itemGroupName">[GroupName]</string>
     <string name="error_toast">Проблемы с сетью</string>
     <string name="error_button_text">Запусти сервак</string>
+    <string name="repost_subhead">RepostSubhead</string>
+    <string name="repost_title">RepostTitle</string>
 </resources>
