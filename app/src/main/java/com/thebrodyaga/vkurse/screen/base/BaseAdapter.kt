@@ -84,10 +84,6 @@ abstract class BaseAdapter<T>(private val onLoadMoreListener: OnLoadMoreListener
         })
     }
 
-    override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
-        recyclerView.addOnScrollListener(null)
-    }
-
     class ProgressHolder(containerView: View) : RecyclerView.ViewHolder(containerView)
 
     companion object {

@@ -51,14 +51,14 @@ class VkListGroupsFragment : DaggerSupportFragment(), VkListGroupsView,
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_vk_list_groups, container, false)
         recyclerView = view.recyclerView
-        recyclerView?.layoutManager = LinearLayoutManager(this.context)
+        recyclerView?.layoutManager = LinearLayoutManager(inflater.context)
         recyclerView?.adapter = adapter
         return view
     }
 
     override fun onDestroyView() {
-        super.onDestroyView()
         recyclerView?.adapter = null
+        super.onDestroyView()
     }
 
     //<editor-fold desc="VkListGroupsView">

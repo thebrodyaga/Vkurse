@@ -15,7 +15,7 @@ import javax.inject.Inject
 class VkListGroupsPresenter @Inject constructor(private val mainInteractor: MainInteractor)
     : BasePresenter<VkListGroupsView>() {
 
-    private var fullList = listOf(Group(), Group())
+    private var fullList = listOf(Group(), Group(),Group(), Group(),Group(), Group(),Group(), Group(),Group(), Group(),Group(), Group(),Group(), Group(),Group(), Group(),Group(), Group(),Group(), Group())
 
     override fun onFirstViewAttach() {
         getFullGroups()

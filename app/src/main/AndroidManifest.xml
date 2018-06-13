@@ -21,7 +21,7 @@
         </activity>
         <activity
             android:name=".screen.setting.SettingActivity"
-            android:parentActivityName=".screen.main.MainActivity" />
+            android:parentActivityName=".screen.main.MainActivity"/>
     </application>
 
 </manifest>

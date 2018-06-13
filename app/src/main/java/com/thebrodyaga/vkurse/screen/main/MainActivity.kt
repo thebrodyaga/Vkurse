@@ -47,7 +47,8 @@ class MainActivity : DaggerAppCompatActivity(), MainView, SearchView.OnQueryText
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
         AHBottomNavigationAdapter(this, R.menu.main_bottom_bar).setupWithBottomNavigation(bottomBar)
-        bottomBar.accentColor = ContextCompat.getColor(this, R.color.primary)
+        bottomBar.isBehaviorTranslationEnabled = false
+        bottomBar.defaultBackgroundColor = ContextCompat.getColor(this, R.color.primaryColor)
         bottomBar.setOnTabSelectedListener { position, wasSelected ->
             if (wasSelected) mainPresenter.onBottomBarReClick(position)
             else mainPresenter.onBottomBarClick(position)
