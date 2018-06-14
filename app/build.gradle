@@ -37,6 +37,7 @@ dependencies {
     implementation "com.android.support:exifinterface:$support"
     implementation "com.android.support:animated-vector-drawable:$support"
     implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.android.support:support-v4:27.1.1'
     androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
@@ -90,6 +91,9 @@ dependencies {
 
     testImplementation 'junit:junit:4.12'
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+
+    //slide-to-dismiss
+    implementation 'com.r0adkll:slidableactivity:2.0.6'
 
     //модельки от Api
     implementation project(':VkResponseObjects')

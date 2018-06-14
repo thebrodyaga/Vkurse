@@ -4,7 +4,6 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/VkResponseObjects/VkResponseObjects.iml" filepath="$PROJECT_DIR$/VkResponseObjects/VkResponseObjects.iml" />
       <module fileurl="file://$PROJECT_DIR$/Vkurse.iml" filepath="$PROJECT_DIR$/Vkurse.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Vkurse.iml" filepath="$PROJECT_DIR$/Vkurse.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

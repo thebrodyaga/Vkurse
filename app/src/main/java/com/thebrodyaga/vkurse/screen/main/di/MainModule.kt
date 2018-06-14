@@ -13,7 +13,7 @@ import dagger.Provides
  *         on 16.04.2018.
  */
 @Module
-class MainActivityModule {
+class MainModule {
 
     @ActivityScope
     @Provides

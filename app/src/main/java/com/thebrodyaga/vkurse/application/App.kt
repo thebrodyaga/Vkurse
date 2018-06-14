@@ -9,6 +9,7 @@ import com.squareup.leakcanary.LeakCanary
 import com.squareup.leakcanary.RefWatcher
 import com.thebrodyaga.vkurse.application.di.AppComponent
 import com.thebrodyaga.vkurse.application.di.DaggerAppComponent
+import com.thebrodyaga.vkurse.application.di.Injector
 import com.thebrodyaga.vkurse.common.ACTIVITY_LIVECYCLE_CALLBACKS
 import dagger.android.AndroidInjector
 import dagger.android.DaggerApplication
@@ -63,12 +64,13 @@ class App : DaggerApplication(), Application.ActivityLifecycleCallbacks {
     }
 
     companion object {
+        lateinit var appComponent: AppComponent
+
         fun getRefWatcher(context: Context?): RefWatcher? {
             val application = context?.applicationContext as? App
             return application?.refWatcher
         }
 
-        lateinit var appComponent: AppComponent
         private fun activityLifecycleLog(activity: Activity, bundle: Bundle?) {
             Log.d(ACTIVITY_LIVECYCLE_CALLBACKS, "Activity: ${activity.javaClass.simpleName}, " +
                     "Id: ${System.identityHashCode(activity)}, " +

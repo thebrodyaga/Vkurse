@@ -2,21 +2,14 @@ package com.thebrodyaga.vkurse.screen.postList.mvp
 
 import android.util.Log
 import com.arellomobile.mvp.InjectViewState
-import com.thebrodyaga.vkurse.application.App
+import com.thebrodyaga.vkurse.application.di.Injector
 import com.thebrodyaga.vkurse.common.DEBUG_TAG
-import com.thebrodyaga.vkurse.common.timeStep
-import com.thebrodyaga.vkurse.data.net.VkService
-import com.thebrodyaga.vkurse.models.gson.OwnerInfo
-import com.thebrodyaga.vkurse.models.gson.VkWallBody
-import com.thebrodyaga.vkurse.models.gson.VkWallResponse
-import com.thebrodyaga.vkurse.models.room.VkGroup
 import com.thebrodyaga.vkurse.repository.PostRepository
 import com.thebrodyaga.vkurse.screen.base.BasePresenter
 import com.thebrodyaga.vkurse.screen.main.mvp.MainInteractor
 import com.thebrodyaga.vkurse.screen.main.mvp.MainPresenter.Companion.ListPostsFragmentPosition
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import java.util.*
 import javax.inject.Inject
 
 /**
@@ -24,11 +17,12 @@ import javax.inject.Inject
  *         on 22.02.2018.
  */
 @InjectViewState
-class VkListPostsPresenter @Inject constructor(private val mainInteractor: MainInteractor,
-                                               private val postRepository: PostRepository)
+class VkListPostsPresenter @Inject constructor(private val postRepository: PostRepository)
     : BasePresenter<VkListPostsView>() {
 
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
+    private val mainInteractor: MainInteractor = Injector.plusMainComponent().getMainInteractor()
+
     private var isVisible = false
     private var isNeedReload = false
 

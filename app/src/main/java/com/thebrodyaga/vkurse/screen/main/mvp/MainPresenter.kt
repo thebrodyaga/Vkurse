@@ -3,8 +3,8 @@ package com.thebrodyaga.vkurse.screen.main.mvp
 import android.util.Log
 import com.arellomobile.mvp.InjectViewState
 import com.thebrodyaga.vkurse.R
+import com.thebrodyaga.vkurse.application.di.Injector
 import com.thebrodyaga.vkurse.common.DEBUG_TAG
-import com.thebrodyaga.vkurse.models.room.VkGroup
 import com.thebrodyaga.vkurse.screen.base.BasePresenter
 import javax.inject.Inject
 
@@ -13,8 +13,8 @@ import javax.inject.Inject
  *         on 19.02.2018.
  */
 @InjectViewState
-class MainPresenter @Inject constructor(private val mainInteractor: MainInteractor)
-    : BasePresenter<MainView>() {
+class MainPresenter @Inject constructor() : BasePresenter<MainView>() {
+    private var mainInteractor: MainInteractor = Injector.plusMainComponent().getMainInteractor()
 
     override fun onFirstViewAttach() {
         Log.d(DEBUG_TAG, "onFirstViewAttach MainPresenter")
@@ -58,6 +58,11 @@ class MainPresenter @Inject constructor(private val mainInteractor: MainInteract
             }
         }
         return true
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Injector.clearMainComponent()
     }
 
     companion object {

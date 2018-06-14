@@ -3,7 +3,7 @@ package com.thebrodyaga.vkurse.screen.groupList.mvp
 import android.os.Handler
 import android.util.Log
 import com.arellomobile.mvp.InjectViewState
-import com.thebrodyaga.vkurse.application.App
+import com.thebrodyaga.vkurse.application.di.Injector
 import com.thebrodyaga.vkurse.common.DEBUG_TAG
 import com.thebrodyaga.vkurse.repository.GroupRepository
 import com.thebrodyaga.vkurse.screen.base.BasePresenter
@@ -17,11 +17,11 @@ import javax.inject.Inject
  *         on 27.03.2018
  */
 @InjectViewState
-class SearchGroupsPresenter @Inject constructor(private val mainInteractor: MainInteractor,
-                                                private val groupRepository: GroupRepository)
+class SearchGroupsPresenter @Inject constructor(private val groupRepository: GroupRepository)
     : BasePresenter<SearchGroupsView>() {
 
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
+    private var mainInteractor: MainInteractor = Injector.plusMainComponent().getMainInteractor()
     private val searchHandler = Handler()
 
     override fun onFirstViewAttach() {

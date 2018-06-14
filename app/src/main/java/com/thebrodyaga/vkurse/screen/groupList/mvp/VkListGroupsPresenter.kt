@@ -2,6 +2,7 @@ package com.thebrodyaga.vkurse.screen.groupList.mvp
 
 import com.arellomobile.mvp.InjectViewState
 import com.thebrodyaga.vkobjects.groups.Group
+import com.thebrodyaga.vkurse.application.di.Injector
 import com.thebrodyaga.vkurse.screen.base.BasePresenter
 import com.thebrodyaga.vkurse.screen.main.mvp.MainInteractor
 import com.thebrodyaga.vkurse.screen.main.mvp.MainPresenter.Companion.ListGroupsFragmentPosition
@@ -12,10 +13,12 @@ import javax.inject.Inject
  *         on 28.03.2018
  */
 @InjectViewState
-class VkListGroupsPresenter @Inject constructor(private val mainInteractor: MainInteractor)
+class VkListGroupsPresenter @Inject constructor()
     : BasePresenter<VkListGroupsView>() {
-
-    private var fullList = listOf(Group(), Group(),Group(), Group(),Group(), Group(),Group(), Group(),Group(), Group(),Group(), Group(),Group(), Group(),Group(), Group(),Group(), Group(),Group(), Group())
+    private var mainInteractor: MainInteractor = Injector.plusMainComponent().getMainInteractor()
+    private var fullList = listOf(Group(), Group(), Group(), Group(), Group(), Group(), Group(),
+            Group(), Group(), Group(), Group(), Group(), Group(), Group(), Group(), Group(), Group(),
+            Group(), Group(), Group())
 
     override fun onFirstViewAttach() {
         getFullGroups()

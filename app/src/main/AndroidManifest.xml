@@ -19,9 +19,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".screen.setting.SettingActivity" />
         <activity
-            android:name=".screen.setting.SettingActivity"
-            android:parentActivityName=".screen.main.MainActivity"/>
+            android:name=".screen.imageSlider.ImageSliderActivity"
+            android:theme="@style/SlidingTheme" />
     </application>
 
 </manifest>

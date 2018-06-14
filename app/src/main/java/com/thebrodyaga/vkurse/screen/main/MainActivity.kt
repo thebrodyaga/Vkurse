@@ -19,6 +19,7 @@ import com.thebrodyaga.vkurse.common.DEBUG_TAG
 import com.thebrodyaga.vkurse.screen.base.DaggerAppCompatActivity
 import com.thebrodyaga.vkurse.screen.chat.ChatFragment
 import com.thebrodyaga.vkurse.screen.groupList.VkListGroupsFragment
+import com.thebrodyaga.vkurse.screen.imageSlider.ImageSliderActivity
 import com.thebrodyaga.vkurse.screen.main.mvp.MainPresenter
 import com.thebrodyaga.vkurse.screen.main.mvp.MainPresenter.Companion.ListPostsFragmentPosition
 import com.thebrodyaga.vkurse.screen.main.mvp.MainView
@@ -99,7 +100,7 @@ class MainActivity : DaggerAppCompatActivity(), MainView, SearchView.OnQueryText
     }
 
     override fun startSettingActivity() {
-        startActivity(Intent(this, SettingActivity::class.java))
+        startActivity(Intent(this, ImageSliderActivity::class.java))
     }
 
     override fun toggleSearchIcon(isVisible: Boolean) {
