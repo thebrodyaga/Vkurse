@@ -1,10 +1,9 @@
 package com.thebrodyaga.vkurse.screen.main.di
 
 import com.thebrodyaga.vkurse.application.di.scopes.ActivityScope
-import com.thebrodyaga.vkurse.data.db.RoomDatabase
-import com.thebrodyaga.vkurse.data.net.VkService
+import com.thebrodyaga.vkurse.repository.GroupRepository
+import com.thebrodyaga.vkurse.repository.PostRepository
 import com.thebrodyaga.vkurse.screen.main.mvp.MainInteractor
-import com.thebrodyaga.vkurse.screen.main.mvp.MainPresenter
 import dagger.Module
 import dagger.Provides
 
@@ -17,6 +16,7 @@ class MainModule {
 
     @ActivityScope
     @Provides
-    fun provideMainInteractor(vkService: VkService, roomDatabase: RoomDatabase)
-            : MainInteractor = MainInteractor(vkService, roomDatabase)
+    fun provideMainInteractor(postRepository: PostRepository,
+                              groupRepository: GroupRepository)
+            : MainInteractor = MainInteractor(postRepository, groupRepository)
 }

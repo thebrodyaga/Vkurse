@@ -9,7 +9,7 @@ import com.thebrodyaga.vkobjects.wall.WallPostFull
 import com.thebrodyaga.vkurse.R
 import com.thebrodyaga.vkurse.common.getDate
 import com.thebrodyaga.vkurse.screen.base.BaseAdapter
-import kotlinx.android.synthetic.main.card_item.view.*
+import kotlinx.android.synthetic.main.post_item_card.view.*
 
 /**
  * Created by Emelyanov.N4
@@ -21,7 +21,7 @@ class VkPostsAdapter(onLoadMoreListener: OnLoadMoreListener?) : BaseAdapter<Wall
         return when (viewType) {
             VIEW_ITEM -> {
                 PostHolder(LayoutInflater.from(parent.context)
-                        .inflate(R.layout.card_item, parent, false))
+                        .inflate(R.layout.post_item_card, parent, false))
             }
             else -> super.onCreateViewHolder(parent, viewType)
         }

@@ -5,6 +5,7 @@ import com.thebrodyaga.vkobjects.groups.responses.SearchResponse
 import com.thebrodyaga.vkurse.models.gson.VkWallBody
 import com.thebrodyaga.vkurse.models.gson.VkWallResponse
 import io.reactivex.Observable
+import io.reactivex.Single
 import javax.inject.Singleton
 
 /**
@@ -33,5 +34,9 @@ class VkService(private var vkurseApi: VkurseApi) {
 
     fun getGroupsById(groupId: Int?, vararg groupIds: Int?): Observable<List<GroupFull>> {
         return vkurseApi.getGroupsById(groupId, *groupIds)
+    }
+
+    fun getSingleGroup(groupId: Int): Single<GroupFull>{
+        return vkurseApi.getSingleGroup(groupId).firstOrError().flatMap { Single.just(it[0]) }
     }
 }

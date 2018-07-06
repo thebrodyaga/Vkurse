@@ -1,6 +1,8 @@
 package com.thebrodyaga.vkurse.application.di
 
 import com.thebrodyaga.vkurse.application.di.scopes.ActivityScope
+import com.thebrodyaga.vkurse.screen.group.VkGroupActivity
+import com.thebrodyaga.vkurse.screen.group.di.VkGroupActivityModule
 import com.thebrodyaga.vkurse.screen.imageSlider.ImageSliderActivity
 import com.thebrodyaga.vkurse.screen.imageSlider.di.ImageSliderFragmentProvider
 import com.thebrodyaga.vkurse.screen.main.MainActivity
@@ -22,4 +24,9 @@ abstract class ActivityBuilder {
     @ActivityScope
     @ContributesAndroidInjector(modules = [ImageSliderFragmentProvider::class])
     abstract fun bindImageSliderActivity(): ImageSliderActivity
+
+    @ActivityScope
+    @ContributesAndroidInjector(modules = [VkGroupActivityModule::class])
+    abstract fun bindVkGroupActivity(): VkGroupActivity
+
 }

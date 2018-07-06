@@ -35,4 +35,10 @@ interface VkurseApi {
     @GET("vk/getGroupsById")
     fun getGroupsById(@Query("groupId") groupId: Int?,
                       @Query("groupIds") vararg groupIds: Int?): Observable<List<GroupFull>>
+
+    /**
+     * информация об одной группе
+     */
+    @GET("vk/getGroupsById")
+    fun getSingleGroup(@Query("groupId") groupId: Int): Observable<List<GroupFull>>
 }

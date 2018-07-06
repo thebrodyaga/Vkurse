@@ -94,4 +94,8 @@ abstract class BaseAdapter<T>(private val onLoadMoreListener: OnLoadMoreListener
     interface OnLoadMoreListener {
         fun onLoadMore()
     }
+
+    interface OnItemClickListener {
+        fun onListItemClick(view: View, position: Int)
+    }
 }

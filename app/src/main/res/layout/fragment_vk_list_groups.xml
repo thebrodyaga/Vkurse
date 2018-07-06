@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="8dp"
-        tools:listitem="@layout/item_group" />
+        tools:listitem="@layout/group_item" />
 
     <!--<fragment
         android:id="@+id/searchGroupsFragment"

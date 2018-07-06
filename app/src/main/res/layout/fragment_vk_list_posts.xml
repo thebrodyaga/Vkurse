@@ -14,7 +14,7 @@
             android:id="@+id/recyclerView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:listitem="@layout/card_item" />
+            tools:listitem="@layout/post_item_card" />
     </android.support.v4.widget.SwipeRefreshLayout>
 
     <Button

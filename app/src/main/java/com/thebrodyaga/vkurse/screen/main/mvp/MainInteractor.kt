@@ -7,6 +7,8 @@ import com.thebrodyaga.vkurse.common.INSTANCE_TAG
 import com.thebrodyaga.vkurse.data.db.RoomDatabase
 import com.thebrodyaga.vkurse.data.net.VkService
 import com.thebrodyaga.vkurse.models.room.VkGroup
+import com.thebrodyaga.vkurse.repository.GroupRepository
+import com.thebrodyaga.vkurse.repository.PostRepository
 import io.reactivex.Flowable
 import io.reactivex.Single
 import io.reactivex.subjects.BehaviorSubject
@@ -18,8 +20,8 @@ import javax.inject.Inject
  *         on 17.04.2018.
  */
 @ActivityScope
-class MainInteractor(private val vkService: VkService,
-                     private val roomDatabase: RoomDatabase) {
+class MainInteractor(private val postRepository: PostRepository,
+                     private val groupRepository: GroupRepository) {
     init {
         Log.d(INSTANCE_TAG, "${this.javaClass.simpleName} id: ${System.identityHashCode(this)}")
     }
@@ -42,10 +44,10 @@ class MainInteractor(private val vkService: VkService,
     }
 
     fun getFavoriteGroups(): Flowable<List<VkGroup>> {
-        return roomDatabase.getGroupDao().getFlowableGroups()
+        return groupRepository.getFavoriteGroups()
     }
 
-    fun insertGroup(vkGroup: VkGroup) {
-        roomDatabase.getGroupDao().insertGroups(vkGroup)
+    fun addFavoriteGroup(vkGroup: VkGroup) {
+        groupRepository.addFavoriteGroup(vkGroup)
     }
 }

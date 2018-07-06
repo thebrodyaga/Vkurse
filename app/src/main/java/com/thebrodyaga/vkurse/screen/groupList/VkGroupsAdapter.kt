@@ -9,19 +9,22 @@ import com.thebrodyaga.vkobjects.groups.Group
 import com.thebrodyaga.vkurse.R
 import com.thebrodyaga.vkurse.screen.base.SearchAdapter
 import de.hdodenhof.circleimageview.CircleImageView
-import kotlinx.android.synthetic.main.item_group.view.*
+import kotlinx.android.synthetic.main.group_item.view.*
 
 /**
  * Created by Emelyanov.N4
  *         on 27.03.2018
  */
-class VkGroupsAdapter(onLoadMoreListener: OnLoadMoreListener?) : SearchAdapter<Group>(onLoadMoreListener) {
+class VkGroupsAdapter(onLoadMoreListener: OnLoadMoreListener?,
+                      private val onItemClickListener: OnItemClickListener? = null)
+    : SearchAdapter<Group>(onLoadMoreListener) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
             VIEW_ITEM -> {
                 GroupHolder(LayoutInflater.from(parent.context)
-                        .inflate(R.layout.item_group, parent, false))
+                        .inflate(R.layout.group_item, parent, false),
+                        onItemClickListener)
             }
             else -> super.onCreateViewHolder(parent, viewType)
         }
@@ -31,17 +34,22 @@ class VkGroupsAdapter(onLoadMoreListener: OnLoadMoreListener?) : SearchAdapter<G
         when (holder) {
             is GroupHolder -> {
                 val group =
-                        if (position in 0 until mainList.size) mainList[position]
-                        else contentList[position - mainList.size - 1]
-                                ?: return
-                holder.groupName.text = group.name ?: position.toString()
+                        if (holder.adapterPosition in 0 until mainList.size) mainList[holder.adapterPosition]
+                        else contentList[holder.adapterPosition - mainList.size - 1] ?: return
+                holder.groupName.text = group.name ?: holder.adapterPosition.toString()
                 picasso.load(group.photo50).into(holder.groupIcon)
             }
         }
     }
 
-    class GroupHolder(containerView: View) : RecyclerView.ViewHolder(containerView) {
+    class GroupHolder(containerView: View,
+                      onItemClickListener: OnItemClickListener?)
+        : RecyclerView.ViewHolder(containerView) {
         val groupName: TextView = itemView.singleLineText
         val groupIcon: CircleImageView = itemView.icon
+
+        init {
+            itemView.setOnClickListener { onItemClickListener?.onListItemClick(it, adapterPosition) }
+        }
     }
 }

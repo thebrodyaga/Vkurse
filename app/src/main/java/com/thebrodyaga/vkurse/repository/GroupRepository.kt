@@ -1,9 +1,13 @@
 package com.thebrodyaga.vkurse.repository
 
+import com.thebrodyaga.vkobjects.groups.GroupFull
 import com.thebrodyaga.vkobjects.groups.responses.SearchResponse
 import com.thebrodyaga.vkurse.data.db.RoomDatabase
 import com.thebrodyaga.vkurse.data.net.VkService
+import com.thebrodyaga.vkurse.models.room.VkGroup
+import io.reactivex.Flowable
 import io.reactivex.Observable
+import io.reactivex.Single
 import javax.inject.Singleton
 
 /**
@@ -33,4 +37,14 @@ class GroupRepository(vkService: VkService,
             else currentOffset = 0
         }
     }
+
+    fun getFavoriteGroups(): Flowable<List<VkGroup>> =
+            roomDatabase.getGroupDao().getFlowableGroups()
+
+
+    fun addFavoriteGroup(vkGroup: VkGroup) =
+            roomDatabase.getGroupDao().insertGroups(vkGroup)
+
+    fun loadFullGroup(currentGroup: Int): Single<GroupFull> =
+            vkService.getSingleGroup(currentGroup)
 }

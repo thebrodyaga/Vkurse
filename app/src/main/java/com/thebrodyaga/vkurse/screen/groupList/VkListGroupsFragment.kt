@@ -25,7 +25,7 @@ import javax.inject.Inject
 
 
 class VkListGroupsFragment : DaggerSupportFragment(), VkListGroupsView,
-        SearchGroupsView, BaseAdapter.OnLoadMoreListener {
+        SearchGroupsView, BaseAdapter.OnLoadMoreListener, BaseAdapter.OnItemClickListener {
 
     @Inject
     @InjectPresenter()
@@ -44,7 +44,7 @@ class VkListGroupsFragment : DaggerSupportFragment(), VkListGroupsView,
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        adapter = VkGroupsAdapter(this)
+        adapter = VkGroupsAdapter(this,this)
 
     }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -122,6 +122,10 @@ class VkListGroupsFragment : DaggerSupportFragment(), VkListGroupsView,
         showToast(getString(R.string.error_toast))
     }
     //</editor-fold>
+
+    override fun onListItemClick(view: View, position: Int) {
+        Log.d(DEBUG_TAG, "onListItemClick")
+    }
 
     companion object {
         const val FragmentTAG = "VkListGroupsFragmentTAG"
