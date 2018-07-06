@@ -2,6 +2,7 @@ package com.thebrodyaga.vkurse.application.di.modules
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.thebrodyaga.vkurse.BuildConfig
 import com.thebrodyaga.vkurse.data.net.VkurseApi
 import dagger.Module
 import dagger.Provides
@@ -32,7 +33,7 @@ class VkurseApiModule {
         return Retrofit.Builder()
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
                 .client(okHttpClient)
-                .baseUrl("http://10.1.121.224:8080/api/")
+                .baseUrl(BuildConfig.SERVER_URL)
                 .addConverterFactory(provideConverterFactory())
                 .build()
     }
