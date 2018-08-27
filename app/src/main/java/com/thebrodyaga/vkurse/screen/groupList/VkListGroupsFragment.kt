@@ -15,7 +15,7 @@ import com.thebrodyaga.vkobjects.groups.responses.SearchResponse
 import com.thebrodyaga.vkurse.R
 import com.thebrodyaga.vkurse.common.DEBUG_TAG
 import com.thebrodyaga.vkurse.screen.base.BaseAdapter
-import com.thebrodyaga.vkurse.screen.base.DaggerSupportFragment
+import com.thebrodyaga.vkurse.screen.base.BaseFragment
 import com.thebrodyaga.vkurse.screen.groupList.mvp.SearchGroupsPresenter
 import com.thebrodyaga.vkurse.screen.groupList.mvp.SearchGroupsView
 import com.thebrodyaga.vkurse.screen.groupList.mvp.VkListGroupsPresenter
@@ -24,7 +24,7 @@ import kotlinx.android.synthetic.main.fragment_vk_list_groups.view.*
 import javax.inject.Inject
 
 
-class VkListGroupsFragment : DaggerSupportFragment(), VkListGroupsView,
+class VkListGroupsFragment : BaseFragment(), VkListGroupsView,
         SearchGroupsView, BaseAdapter.OnLoadMoreListener, BaseAdapter.OnItemClickListener {
 
     @Inject

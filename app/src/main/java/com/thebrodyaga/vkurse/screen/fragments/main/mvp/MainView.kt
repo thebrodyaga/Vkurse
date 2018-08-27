@@ -1,4 +1,4 @@
-package com.thebrodyaga.vkurse.screen.main.mvp
+package com.thebrodyaga.vkurse.screen.fragments.main.mvp
 
 import com.arellomobile.mvp.MvpView
 import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy
@@ -12,7 +12,16 @@ import com.arellomobile.mvp.viewstate.strategy.StateStrategyType
 @StateStrategyType(OneExecutionStateStrategy::class)
 interface MainView : MvpView {
 
-    fun startSettingActivity()
+    @StateStrategyType(OneExecutionStateStrategy::class)
+    fun showPage(fragmentTag: String)
+
+    companion object {
+        val POSTS_PAGE = Pair(0, "POSTS_PAGE_TAG")
+        val SEARCH_PAGE = Pair(1, "SEARCH_PAGE_TAG")
+        val CHAT_PAGE = Pair(2, "CHAT_PAGE_TAG")
+    }
+
+    /*fun startSettingActivity()
 
     @StateStrategyType(AddToEndSingleStrategy::class)
     fun toggleSearchIcon(isVisible: Boolean)
@@ -23,5 +32,5 @@ interface MainView : MvpView {
 
     fun showChatFragment()
 
-    fun scrollTop()
+    fun scrollTop()*/
 }

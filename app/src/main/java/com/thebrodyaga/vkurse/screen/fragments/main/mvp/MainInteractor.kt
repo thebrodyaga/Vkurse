@@ -1,19 +1,14 @@
-package com.thebrodyaga.vkurse.screen.main.mvp
+package com.thebrodyaga.vkurse.screen.fragments.main.mvp
 
 import android.util.Log
 import com.thebrodyaga.vkurse.application.di.scopes.ActivityScope
-import com.thebrodyaga.vkurse.common.DEBUG_TAG
 import com.thebrodyaga.vkurse.common.INSTANCE_TAG
-import com.thebrodyaga.vkurse.data.db.RoomDatabase
-import com.thebrodyaga.vkurse.data.net.VkService
 import com.thebrodyaga.vkurse.models.room.VkGroup
 import com.thebrodyaga.vkurse.repository.GroupRepository
 import com.thebrodyaga.vkurse.repository.PostRepository
 import io.reactivex.Flowable
-import io.reactivex.Single
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
-import javax.inject.Inject
 
 /**
  * Created by Win10

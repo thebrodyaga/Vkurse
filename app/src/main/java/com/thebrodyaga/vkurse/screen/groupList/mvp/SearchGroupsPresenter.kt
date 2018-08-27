@@ -7,7 +7,7 @@ import com.thebrodyaga.vkurse.application.di.Injector
 import com.thebrodyaga.vkurse.common.DEBUG_TAG
 import com.thebrodyaga.vkurse.repository.GroupRepository
 import com.thebrodyaga.vkurse.screen.base.BasePresenter
-import com.thebrodyaga.vkurse.screen.main.mvp.MainInteractor
+import com.thebrodyaga.vkurse.screen.fragments.main.mvp.MainInteractor
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject

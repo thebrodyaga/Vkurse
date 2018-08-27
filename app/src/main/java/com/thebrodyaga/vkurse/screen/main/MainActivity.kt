@@ -1,62 +1,70 @@
 package com.thebrodyaga.vkurse.screen.main
 
-import android.annotation.SuppressLint
-import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
 import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentTransaction
-import android.support.v4.content.ContextCompat
-import android.support.v7.widget.SearchView
-import android.util.Log
-import android.view.Menu
-import android.view.MenuItem
-import com.arellomobile.mvp.presenter.InjectPresenter
-import com.arellomobile.mvp.presenter.ProvidePresenter
-import com.aurelhubert.ahbottomnavigation.AHBottomNavigationAdapter
+import android.widget.Toast
 import com.thebrodyaga.vkurse.R
-import com.thebrodyaga.vkurse.common.DEBUG_TAG
-import com.thebrodyaga.vkurse.screen.base.DaggerAppCompatActivity
-import com.thebrodyaga.vkurse.screen.chat.ChatFragment
-import com.thebrodyaga.vkurse.screen.groupList.VkListGroupsFragment
-import com.thebrodyaga.vkurse.screen.imageSlider.ImageSliderActivity
-import com.thebrodyaga.vkurse.screen.main.mvp.MainPresenter
-import com.thebrodyaga.vkurse.screen.main.mvp.MainPresenter.Companion.ListPostsFragmentPosition
-import com.thebrodyaga.vkurse.screen.main.mvp.MainView
-import com.thebrodyaga.vkurse.screen.postList.VkListPostsFragment
-import com.thebrodyaga.vkurse.screen.setting.SettingActivity
-import kotlinx.android.synthetic.main.activity_main.*
+import com.thebrodyaga.vkurse.screen.Screens
+import com.thebrodyaga.vkurse.screen.base.BaseActivity
+import com.thebrodyaga.vkurse.screen.base.BaseFragment
+import com.thebrodyaga.vkurse.screen.fragments.main.MainFragment
+import ru.terrakok.cicerone.NavigatorHolder
+import ru.terrakok.cicerone.Router
+import ru.terrakok.cicerone.android.SupportFragmentNavigator
+import ru.terrakok.cicerone.commands.Command
+import ru.terrakok.cicerone.commands.Replace
 import javax.inject.Inject
 
 
-class MainActivity : DaggerAppCompatActivity(), MainView, SearchView.OnQueryTextListener, MenuItem.OnActionExpandListener {
+class MainActivity : BaseActivity()/*, MainView, SearchView.OnQueryTextListener, MenuItem.OnActionExpandListener*/ {
 
     @Inject
-    @InjectPresenter
-    lateinit var mainPresenter: MainPresenter
-    private var searchItem: MenuItem? = null
-    private var searchView: SearchView? = null
-    //  при смене конфигурации toggleSearchIcon() вызывается раньше чем onCreateOptionsMenu()
-    private var isSearchItemVisible = false
-    private var currentQuery: CharSequence? = null
+    lateinit var navigatorHolder: NavigatorHolder
+    @Inject
+    lateinit var router: Router
 
-    @ProvidePresenter
-    fun providePresenter(): MainPresenter = mainPresenter
+    private val currentFragment
+        get() = supportFragmentManager.findFragmentById(R.id.fragmentContainer) as BaseFragment?
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        setSupportActionBar(toolbar)
-        AHBottomNavigationAdapter(this, R.menu.main_bottom_bar).setupWithBottomNavigation(bottomBar)
-        bottomBar.isBehaviorTranslationEnabled = false
-        bottomBar.defaultBackgroundColor = ContextCompat.getColor(this, R.color.primaryColor)
-        bottomBar.setOnTabSelectedListener { position, wasSelected ->
-            if (wasSelected) mainPresenter.onBottomBarReClick(position)
-            else mainPresenter.onBottomBarClick(position)
+        if (savedInstanceState == null) {
+            navigator.applyCommands(arrayOf<Command>(Replace(Screens.MAIN_FRAGMENT.toString(), null)))
         }
-        if (savedInstanceState == null) mainPresenter.onBottomBarClick(ListPostsFragmentPosition)
     }
 
+    private val navigator = object : SupportFragmentNavigator(supportFragmentManager, R.id.fragmentContainer) {
+        override fun showSystemMessage(message: String?) {
+            Toast.makeText(this@MainActivity, message, Toast.LENGTH_SHORT).show()
+        }
+
+        override fun createFragment(screenKey: String, data: Any?): Fragment {
+            return when (Screens.valueOf(screenKey)) {
+                Screens.MAIN_FRAGMENT -> MainFragment()
+            }
+        }
+
+        override fun exit() {
+            finish()
+        }
+    }
+
+    override fun onResumeFragments() {
+        super.onResumeFragments()
+        navigatorHolder.setNavigator(navigator)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        navigatorHolder.removeNavigator()
+    }
+
+    override fun onBackPressed() {
+        currentFragment?.onBackPressed() ?: router.finishChain()
+    }
+/*
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         mainPresenter.onToolbarItemSelected(item?.itemId)
         return super.onOptionsItemSelected(item)
@@ -163,8 +171,8 @@ class MainActivity : DaggerAppCompatActivity(), MainView, SearchView.OnQueryText
 
 
     override fun onQueryTextSubmit(query: String?): Boolean {
-        /*currentQuery = query
-        mainPresenter.searchControl(query)*/
+        *//*currentQuery = query
+        mainPresenter.searchControl(query)*//*
         return false
     }
 
@@ -196,5 +204,5 @@ class MainActivity : DaggerAppCompatActivity(), MainView, SearchView.OnQueryText
 
     companion object {
         const val CURRENT_QUERY_REQUEST_FLAG = "currentQueryRequestFlag"
-    }
+    }*/
 }

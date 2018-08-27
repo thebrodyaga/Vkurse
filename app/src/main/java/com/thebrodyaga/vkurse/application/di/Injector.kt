@@ -1,7 +1,7 @@
 package com.thebrodyaga.vkurse.application.di
 
 import com.thebrodyaga.vkurse.application.App
-import com.thebrodyaga.vkurse.screen.main.di.MainComponent
+import com.thebrodyaga.vkurse.screen.fragments.main.di.MainComponent
 
 /**
  * Created by Emelyanov917

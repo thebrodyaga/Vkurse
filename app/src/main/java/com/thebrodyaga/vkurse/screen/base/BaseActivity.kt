@@ -19,7 +19,7 @@ import javax.inject.Inject
  * Created by Win10
  *         on 17.04.2018.
  */
-abstract class DaggerAppCompatActivity : MvpAppCompatActivity(), HasSupportFragmentInjector {
+abstract class BaseActivity : MvpAppCompatActivity(), HasSupportFragmentInjector {
     @Inject
     lateinit var supportFragmentInjector: DispatchingAndroidInjector<Fragment>
 

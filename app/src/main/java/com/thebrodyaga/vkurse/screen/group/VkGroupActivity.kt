@@ -6,12 +6,12 @@ import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.thebrodyaga.vkurse.R
 import com.thebrodyaga.vkurse.common.DEBUG_TAG
-import com.thebrodyaga.vkurse.screen.base.DaggerAppCompatActivity
+import com.thebrodyaga.vkurse.screen.base.BaseActivity
 import com.thebrodyaga.vkurse.screen.group.mvp.VkGroupPresenter
 import com.thebrodyaga.vkurse.screen.group.mvp.VkGroupView
 import javax.inject.Inject
 
-class VkGroupActivity : DaggerAppCompatActivity(), VkGroupView {
+class VkGroupActivity : BaseActivity(), VkGroupView {
 
     private var currentGroup = 0
 

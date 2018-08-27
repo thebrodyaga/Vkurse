@@ -33,7 +33,7 @@ ext {
     dagger = '2.14.1'
     moxy = "1.5.3"
     leakcanary = "1.5.4"
-    room = "1.1.0"
+    room = "1.1.1"
 }
 
 dependencies {
@@ -46,7 +46,7 @@ dependencies {
     androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    implementation 'com.android.support.constraint:constraint-layout:1.1.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.2'
 
     //утечки
     debugImplementation "com.squareup.leakcanary:leakcanary-android:$leakcanary"
@@ -55,6 +55,9 @@ dependencies {
     //rxJava
     implementation 'io.reactivex.rxjava2:rxjava:2.1.9'
     implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
+
+    //Cicerone
+    implementation 'ru.terrakok.cicerone:cicerone:3.0.0'
 
     //dagger
     implementation "com.google.dagger:dagger:$dagger"
@@ -67,7 +70,7 @@ dependencies {
     implementation "com.squareup.retrofit2:retrofit:$retrofit"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit"
     implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit"
-    implementation 'com.squareup.okhttp3:logging-interceptor:3.8.1'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.9.0'
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.google.code.gson:gson:2.8.2'
 
@@ -89,7 +92,7 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:2.2.0'
 
     //"Показать полностью..." TextView
-    implementation 'at.blogc:expandabletextview:1.0.3'
+    implementation 'at.blogc:expandabletextview:1.0.5'
 
     //bottom navigation
     implementation 'com.aurelhubert:ahbottomnavigation:2.1.0'

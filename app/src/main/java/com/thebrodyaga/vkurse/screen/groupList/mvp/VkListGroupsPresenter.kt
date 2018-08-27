@@ -4,8 +4,8 @@ import com.arellomobile.mvp.InjectViewState
 import com.thebrodyaga.vkobjects.groups.Group
 import com.thebrodyaga.vkurse.application.di.Injector
 import com.thebrodyaga.vkurse.screen.base.BasePresenter
-import com.thebrodyaga.vkurse.screen.main.mvp.MainInteractor
-import com.thebrodyaga.vkurse.screen.main.mvp.MainPresenter.Companion.ListGroupsFragmentPosition
+import com.thebrodyaga.vkurse.screen.fragments.main.mvp.MainInteractor
+import com.thebrodyaga.vkurse.screen.fragments.main.mvp.MainPresenter.Companion.ListGroupsFragmentPosition
 import javax.inject.Inject
 
 /**

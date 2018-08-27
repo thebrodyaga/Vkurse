@@ -20,6 +20,8 @@ abstract class BasePresenter<View : MvpView> : MvpPresenter<View>() {
         compositeDisposable.clear()
     }
 
+    open fun onBackPressed() {}
+
     override fun onDestroy() {
         super.onDestroy()
         compositeDisposable.clear()

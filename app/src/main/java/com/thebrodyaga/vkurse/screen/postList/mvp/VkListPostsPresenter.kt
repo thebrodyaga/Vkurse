@@ -6,8 +6,8 @@ import com.thebrodyaga.vkurse.application.di.Injector
 import com.thebrodyaga.vkurse.common.DEBUG_TAG
 import com.thebrodyaga.vkurse.repository.PostRepository
 import com.thebrodyaga.vkurse.screen.base.BasePresenter
-import com.thebrodyaga.vkurse.screen.main.mvp.MainInteractor
-import com.thebrodyaga.vkurse.screen.main.mvp.MainPresenter.Companion.ListPostsFragmentPosition
+import com.thebrodyaga.vkurse.screen.fragments.main.mvp.MainInteractor
+import com.thebrodyaga.vkurse.screen.fragments.main.mvp.MainPresenter.Companion.ListPostsFragmentPosition
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
@@ -91,7 +91,7 @@ class VkListPostsPresenter @Inject constructor(private val postRepository: PostR
     private fun subscribeOnGroups() {
         compositeDisposable.add(mainInteractor.getFavoriteGroups()
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
+                .subscribe {
                     clearDisposable()
                     if (it.isNotEmpty()) {
                         viewState.choiceForegroundView(PROGRESS_VIEW_FLAG)
@@ -100,17 +100,17 @@ class VkListPostsPresenter @Inject constructor(private val postRepository: PostR
                         else isNeedReload = true
                     } else viewState.choiceForegroundView(EMPTY_VIEW_FLAG)
                     Log.i(DEBUG_TAG, "Favorite group update")
-                }))
+                })
     }
 
     private fun subscribeOnVisible() {
         compositeDisposable.add(mainInteractor.visibleObservable
-                .subscribe({
+                .subscribe {
                     if (it == ListPostsFragmentPosition) {
                         isVisible = true
                         if (isNeedReload) loadFirstWall()
                     } else isVisible = false
-                }))
+                })
     }
 
     override fun onDestroy() {

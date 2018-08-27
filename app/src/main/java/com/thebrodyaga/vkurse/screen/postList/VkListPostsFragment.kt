@@ -14,7 +14,7 @@ import com.thebrodyaga.vkobjects.wall.WallPostFull
 import com.thebrodyaga.vkurse.R
 import com.thebrodyaga.vkurse.common.DEBUG_TAG
 import com.thebrodyaga.vkurse.screen.base.BaseAdapter
-import com.thebrodyaga.vkurse.screen.base.DaggerSupportFragment
+import com.thebrodyaga.vkurse.screen.base.BaseFragment
 import com.thebrodyaga.vkurse.screen.postList.mvp.VkListPostsPresenter
 import com.thebrodyaga.vkurse.screen.postList.mvp.VkListPostsView
 import kotlinx.android.synthetic.main.fragment_vk_list_posts.*
@@ -22,7 +22,7 @@ import kotlinx.android.synthetic.main.fragment_vk_list_posts.view.*
 import javax.inject.Inject
 
 
-class VkListPostsFragment : DaggerSupportFragment(), VkListPostsView, BaseAdapter.OnLoadMoreListener {
+class VkListPostsFragment : BaseFragment(), VkListPostsView, BaseAdapter.OnLoadMoreListener {
 
     @Inject
     @InjectPresenter()

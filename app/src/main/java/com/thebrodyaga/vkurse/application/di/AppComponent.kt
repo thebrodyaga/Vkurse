@@ -5,7 +5,7 @@ import com.squareup.picasso.Picasso
 import com.thebrodyaga.vkurse.application.App
 import com.thebrodyaga.vkurse.data.db.RoomDatabase
 import com.thebrodyaga.vkurse.data.net.VkService
-import com.thebrodyaga.vkurse.screen.main.di.MainComponent
+import com.thebrodyaga.vkurse.screen.fragments.main.di.MainComponent
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjector

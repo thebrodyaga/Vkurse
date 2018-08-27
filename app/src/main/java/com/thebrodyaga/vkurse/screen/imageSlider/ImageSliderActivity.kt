@@ -10,10 +10,10 @@ import com.r0adkll.slidr.model.SlidrConfig
 import com.r0adkll.slidr.model.SlidrListener
 import com.r0adkll.slidr.model.SlidrPosition
 import com.thebrodyaga.vkurse.R
-import com.thebrodyaga.vkurse.screen.base.DaggerAppCompatActivity
+import com.thebrodyaga.vkurse.screen.base.BaseActivity
 import kotlinx.android.synthetic.main.activity_image_slider.*
 
-class ImageSliderActivity : DaggerAppCompatActivity(), SlidrListener {
+class ImageSliderActivity : BaseActivity(), SlidrListener {
     private val evaluator = ArgbEvaluator()
     private var blackColor: Int = Color.BLACK
     private var transparent: Int = Color.TRANSPARENT

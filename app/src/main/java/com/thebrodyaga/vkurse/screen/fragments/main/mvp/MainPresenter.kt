@@ -1,4 +1,4 @@
-package com.thebrodyaga.vkurse.screen.main.mvp
+package com.thebrodyaga.vkurse.screen.fragments.main.mvp
 
 import android.util.Log
 import com.arellomobile.mvp.InjectViewState
@@ -18,25 +18,6 @@ class MainPresenter @Inject constructor() : BasePresenter<MainView>() {
 
     override fun onFirstViewAttach() {
         Log.d(DEBUG_TAG, "onFirstViewAttach MainPresenter")
-        unSubscribeOnDestroy(mainInteractor
-                .scrollObservable
-                .subscribe({ viewState.scrollTop() }))
-    }
-
-    fun onToolbarItemSelected(item: Int?) {
-        when (item) {
-            R.id.toolbar_settings -> {
-                viewState.startSettingActivity()
-            }
-        }
-    }
-
-    fun toggleSearchIcon(isVisible: Boolean) {
-        viewState.toggleSearchIcon(isVisible)
-    }
-
-    fun searchControl(query: String?) {
-        mainInteractor.searchControl(query)
     }
 
     fun onBottomBarReClick(menuPosition: Int): Boolean {
@@ -45,16 +26,15 @@ class MainPresenter @Inject constructor() : BasePresenter<MainView>() {
     }
 
     fun onBottomBarClick(menuPosition: Int): Boolean {
-        mainInteractor.visibleFragment(menuPosition)
         when (menuPosition) {
-            ListPostsFragmentPosition -> {
-                viewState.showListPostsFragment()
+            MainView.POSTS_PAGE.first -> {
+                viewState.showPage(MainView.POSTS_PAGE.second)
             }
-            ListGroupsFragmentPosition -> {
-                viewState.showListGroupsFragment()
+            MainView.SEARCH_PAGE.first -> {
+                viewState.showPage(MainView.SEARCH_PAGE.second)
             }
-            ChatFragmentPosition -> {
-                viewState.showChatFragment()
+            MainView.CHAT_PAGE.first -> {
+                viewState.showPage(MainView.CHAT_PAGE.second)
             }
         }
         return true

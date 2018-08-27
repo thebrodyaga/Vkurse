@@ -6,7 +6,7 @@ import com.thebrodyaga.vkurse.screen.group.di.VkGroupActivityModule
 import com.thebrodyaga.vkurse.screen.imageSlider.ImageSliderActivity
 import com.thebrodyaga.vkurse.screen.imageSlider.di.ImageSliderFragmentProvider
 import com.thebrodyaga.vkurse.screen.main.MainActivity
-import com.thebrodyaga.vkurse.screen.main.di.MainFragmentProvider
+import com.thebrodyaga.vkurse.screen.main.MainProvider
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -18,7 +18,7 @@ import dagger.android.ContributesAndroidInjector
 abstract class ActivityBuilder {
 
     @ActivityScope
-    @ContributesAndroidInjector(modules = [MainFragmentProvider::class])
+    @ContributesAndroidInjector(modules = [MainProvider::class])
     abstract fun bindMainActivity(): MainActivity
 
     @ActivityScope
