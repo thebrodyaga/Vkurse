@@ -33,7 +33,7 @@ abstract class BaseActivity : MvpAppCompatActivity(), HasSupportFragmentInjector
 
     //<editor-fold desc="Lifecycle">
     companion object {
-        private fun fragmentLifecycleLog(fragment: Fragment?, bundle: Bundle?) {
+        private fun fragmentLifecycleLog(fragment: Fragment, bundle: Bundle?) {
             Log.d(FRAGMENT_LIVECYCLE_CALLBACKS, "Fragment: ${if (fragment!=null)fragment.javaClass.simpleName +
                     ", Id: "+ System.identityHashCode(fragment) else "null"}"  +
                     ", MethodName: ${trace(Thread.currentThread().stackTrace,"access\$fragmentLifecycleLog")}, " +
@@ -41,7 +41,7 @@ abstract class BaseActivity : MvpAppCompatActivity(), HasSupportFragmentInjector
                             ", Id: " + System.identityHashCode(bundle) else "null"}")
         }
 
-        private fun fragmentLifecycleLog(fragment: Fragment?) {
+        private fun fragmentLifecycleLog(fragment: Fragment) {
             Log.d(FRAGMENT_LIVECYCLE_CALLBACKS, ("Fragment:  ${if (fragment!=null)fragment.javaClass.simpleName +
                     ", Id: "+ System.identityHashCode(fragment) else "null"}"  +
                     ", MethodName: " + trace(Thread.currentThread().stackTrace,"access\$fragmentLifecycleLog")))
@@ -59,13 +59,13 @@ abstract class BaseActivity : MvpAppCompatActivity(), HasSupportFragmentInjector
             fragmentLifecycleLog(f)
         }
 
-        override fun onFragmentCreated(fm: FragmentManager?, f: Fragment?, savedInstanceState: Bundle?) {
+        override fun onFragmentCreated(fm: FragmentManager, f: Fragment, savedInstanceState: Bundle?) {
             super.onFragmentCreated(fm, f, savedInstanceState)
             fragmentLifecycleLog(f,savedInstanceState)
 
         }
 
-        override fun onFragmentActivityCreated(fm: FragmentManager?, f: Fragment?, savedInstanceState: Bundle?) {
+        override fun onFragmentActivityCreated(fm: FragmentManager, f: Fragment, savedInstanceState: Bundle?) {
             super.onFragmentActivityCreated(fm, f, savedInstanceState)
             fragmentLifecycleLog(f,savedInstanceState)
         }
@@ -75,42 +75,42 @@ abstract class BaseActivity : MvpAppCompatActivity(), HasSupportFragmentInjector
             fragmentLifecycleLog(f,savedInstanceState)
         }
 
-        override fun onFragmentStarted(fm: FragmentManager?, f: Fragment?) {
+        override fun onFragmentStarted(fm: FragmentManager, f: Fragment) {
             super.onFragmentStarted(fm, f)
             fragmentLifecycleLog(f)
         }
 
-        override fun onFragmentResumed(fm: FragmentManager?, f: Fragment?) {
+        override fun onFragmentResumed(fm: FragmentManager, f: Fragment) {
             super.onFragmentResumed(fm, f)
             fragmentLifecycleLog(f)
         }
 
-        override fun onFragmentPaused(fm: FragmentManager?, f: Fragment?) {
+        override fun onFragmentPaused(fm: FragmentManager, f: Fragment) {
             super.onFragmentPaused(fm, f)
             fragmentLifecycleLog(f)
         }
 
-        override fun onFragmentStopped(fm: FragmentManager?, f: Fragment?) {
+        override fun onFragmentStopped(fm: FragmentManager, f: Fragment) {
             super.onFragmentStopped(fm, f)
             fragmentLifecycleLog(f)
         }
 
-        override fun onFragmentSaveInstanceState(fm: FragmentManager?, f: Fragment?, outState: Bundle?) {
+        override fun onFragmentSaveInstanceState(fm: FragmentManager, f: Fragment, outState: Bundle) {
             super.onFragmentSaveInstanceState(fm, f, outState)
             fragmentLifecycleLog(f,outState)
         }
 
-        override fun onFragmentViewDestroyed(fm: FragmentManager?, f: Fragment?) {
+        override fun onFragmentViewDestroyed(fm: FragmentManager, f: Fragment) {
             super.onFragmentViewDestroyed(fm, f)
             fragmentLifecycleLog(f)
         }
 
-        override fun onFragmentDestroyed(fm: FragmentManager?, f: Fragment?) {
+        override fun onFragmentDestroyed(fm: FragmentManager, f: Fragment) {
             super.onFragmentDestroyed(fm, f)
             fragmentLifecycleLog(f)
         }
 
-        override fun onFragmentDetached(fm: FragmentManager?, f: Fragment?) {
+        override fun onFragmentDetached(fm: FragmentManager, f: Fragment) {
             super.onFragmentDetached(fm, f)
             fragmentLifecycleLog(f)
         }

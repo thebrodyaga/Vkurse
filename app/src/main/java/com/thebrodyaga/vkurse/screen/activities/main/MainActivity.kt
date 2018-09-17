@@ -1,4 +1,4 @@
-package com.thebrodyaga.vkurse.screen.main
+package com.thebrodyaga.vkurse.screen.activities.main
 
 import android.os.Bundle
 import android.support.v4.app.Fragment

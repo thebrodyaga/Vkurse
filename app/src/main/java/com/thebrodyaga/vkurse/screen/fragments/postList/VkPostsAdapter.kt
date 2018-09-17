@@ -1,4 +1,4 @@
-package com.thebrodyaga.vkurse.screen.postList
+package com.thebrodyaga.vkurse.screen.fragments.postList
 
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater

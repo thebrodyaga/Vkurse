@@ -6,6 +6,7 @@ import com.thebrodyaga.vkurse.R
 import com.thebrodyaga.vkurse.application.di.Injector
 import com.thebrodyaga.vkurse.common.DEBUG_TAG
 import com.thebrodyaga.vkurse.screen.base.BasePresenter
+import ru.terrakok.cicerone.Router
 import javax.inject.Inject
 
 /**
@@ -13,7 +14,7 @@ import javax.inject.Inject
  *         on 19.02.2018.
  */
 @InjectViewState
-class MainPresenter @Inject constructor() : BasePresenter<MainView>() {
+class MainPresenter @Inject constructor(private val router: Router) : BasePresenter<MainView>() {
     private var mainInteractor: MainInteractor = Injector.plusMainComponent().getMainInteractor()
 
     override fun onFirstViewAttach() {
@@ -38,6 +39,10 @@ class MainPresenter @Inject constructor() : BasePresenter<MainView>() {
             }
         }
         return true
+    }
+
+    override fun onBackPressed() {
+        router.exit()
     }
 
     override fun onDestroy() {

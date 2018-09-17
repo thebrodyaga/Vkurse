@@ -1,1 +1,1 @@
-include ':app', ':VkResponseObjects'
+include ':app'

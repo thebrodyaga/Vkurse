@@ -1,4 +1,4 @@
-package com.thebrodyaga.vkurse.screen.groupList.mvp
+package com.thebrodyaga.vkurse.screen.fragments.groupList.mvp
 
 import com.arellomobile.mvp.MvpView
 import com.arellomobile.mvp.viewstate.strategy.OneExecutionStateStrategy

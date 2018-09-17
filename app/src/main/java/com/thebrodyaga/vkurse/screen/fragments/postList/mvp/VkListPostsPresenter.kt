@@ -1,4 +1,4 @@
-package com.thebrodyaga.vkurse.screen.postList.mvp
+package com.thebrodyaga.vkurse.screen.fragments.postList.mvp
 
 import android.util.Log
 import com.arellomobile.mvp.InjectViewState
@@ -85,7 +85,7 @@ class VkListPostsPresenter @Inject constructor(private val postRepository: PostR
 
     private fun subscribeOnScroll() {
         compositeDisposable.add(mainInteractor.scrollObservable
-                .subscribe({ if (it == ListPostsFragmentPosition) viewState.scrollTop() }))
+                .subscribe { if (it == ListPostsFragmentPosition) viewState.scrollTop() })
     }
 
     private fun subscribeOnGroups() {
@@ -96,7 +96,8 @@ class VkListPostsPresenter @Inject constructor(private val postRepository: PostR
                     if (it.isNotEmpty()) {
                         viewState.choiceForegroundView(PROGRESS_VIEW_FLAG)
                         postRepository.newCurrentState(it)
-                        if (isVisible) loadFirstWall()
+                        if (isVisible)
+                            loadFirstWall()
                         else isNeedReload = true
                     } else viewState.choiceForegroundView(EMPTY_VIEW_FLAG)
                     Log.i(DEBUG_TAG, "Favorite group update")

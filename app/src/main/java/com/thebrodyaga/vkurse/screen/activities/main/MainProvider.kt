@@ -1,9 +1,9 @@
-package com.thebrodyaga.vkurse.screen.main
+package com.thebrodyaga.vkurse.screen.activities.main
 
 import com.thebrodyaga.vkurse.application.di.scopes.PerFragment
 import com.thebrodyaga.vkurse.screen.fragments.main.MainFragment
-import com.thebrodyaga.vkurse.screen.groupList.VkListGroupsFragment
-import com.thebrodyaga.vkurse.screen.postList.VkListPostsFragment
+import com.thebrodyaga.vkurse.screen.fragments.groupList.VkListGroupsFragment
+import com.thebrodyaga.vkurse.screen.fragments.postList.VkListPostsFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 

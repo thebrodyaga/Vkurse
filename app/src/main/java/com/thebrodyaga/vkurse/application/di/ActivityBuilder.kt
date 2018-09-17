@@ -5,8 +5,8 @@ import com.thebrodyaga.vkurse.screen.group.VkGroupActivity
 import com.thebrodyaga.vkurse.screen.group.di.VkGroupActivityModule
 import com.thebrodyaga.vkurse.screen.imageSlider.ImageSliderActivity
 import com.thebrodyaga.vkurse.screen.imageSlider.di.ImageSliderFragmentProvider
-import com.thebrodyaga.vkurse.screen.main.MainActivity
-import com.thebrodyaga.vkurse.screen.main.MainProvider
+import com.thebrodyaga.vkurse.screen.activities.main.MainActivity
+import com.thebrodyaga.vkurse.screen.activities.main.MainProvider
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 

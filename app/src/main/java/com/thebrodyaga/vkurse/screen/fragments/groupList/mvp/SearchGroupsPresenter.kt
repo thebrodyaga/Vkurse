@@ -1,6 +1,5 @@
-package com.thebrodyaga.vkurse.screen.groupList.mvp
+package com.thebrodyaga.vkurse.screen.fragments.groupList.mvp
 
-import android.os.Handler
 import android.util.Log
 import com.arellomobile.mvp.InjectViewState
 import com.thebrodyaga.vkurse.application.di.Injector
@@ -22,19 +21,6 @@ class SearchGroupsPresenter @Inject constructor(private val groupRepository: Gro
 
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
     private var mainInteractor: MainInteractor = Injector.plusMainComponent().getMainInteractor()
-    private val searchHandler = Handler()
-
-    override fun onFirstViewAttach() {
-        subscribeOnSearch()
-    }
-
-    private fun subscribeOnSearch() {
-        compositeDisposable.add(mainInteractor.searchObservable
-                .subscribe({
-                    if (it.isNotBlank()) startSearch(it)
-                    else stopSearch()
-                }))
-    }
 
     private fun newSearchGroups(query: String) {
         unSubscribeOnDestroy(groupRepository.newSearchGroups(query)
@@ -67,19 +53,17 @@ class SearchGroupsPresenter @Inject constructor(private val groupRepository: Gro
                 }))
     }
 
-    private fun startSearch(query: String) {
+    fun startSearch(query: String) {
         clearDisposable()
-        searchHandler.removeCallbacksAndMessages(null)
         viewState.clearSearchList()
         viewState.showProgressHeader()
-        searchHandler.postDelayed({ newSearchGroups(query) }, 1000)
+        newSearchGroups(query)
     }
 
-    private fun stopSearch() {
+    fun stopSearch() {
         groupRepository.setCurrentState("", null)
         clearDisposable()
         viewState.clearSearchList()
-        searchHandler.removeCallbacksAndMessages(null)
     }
 
     override fun onDestroy() {

@@ -75,11 +75,11 @@ abstract class BaseAdapter<T>(private val onLoadMoreListener: OnLoadMoreListener
         val linearLayoutManager = recyclerView.layoutManager as? LinearLayoutManager ?: return
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             //TODO спамит подгрузку если сервак отвалился, поискать как сделать по-красоте
-            override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 if (dy <= 0 || isLoading || contentList.isEmpty()) return
                 if (linearLayoutManager.itemCount
                         == linearLayoutManager.findLastVisibleItemPosition() + visibleThreshold)
-                    recyclerView?.post { onLoadMoreListener.onLoadMore() }
+                    recyclerView.post { onLoadMoreListener.onLoadMore() }
             }
         })
     }

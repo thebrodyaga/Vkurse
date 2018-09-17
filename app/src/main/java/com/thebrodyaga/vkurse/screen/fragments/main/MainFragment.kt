@@ -11,11 +11,11 @@ import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationAdapter
 import com.thebrodyaga.vkurse.R
 import com.thebrodyaga.vkurse.screen.base.BaseFragment
-import com.thebrodyaga.vkurse.screen.chat.ChatFragment
+import com.thebrodyaga.vkurse.screen.fragments.chat.ChatFragment
 import com.thebrodyaga.vkurse.screen.fragments.main.mvp.MainPresenter
 import com.thebrodyaga.vkurse.screen.fragments.main.mvp.MainView
-import com.thebrodyaga.vkurse.screen.groupList.VkListGroupsFragment
-import com.thebrodyaga.vkurse.screen.postList.VkListPostsFragment
+import com.thebrodyaga.vkurse.screen.fragments.groupList.VkListGroupsFragment
+import com.thebrodyaga.vkurse.screen.fragments.postList.VkListPostsFragment
 import kotlinx.android.synthetic.main.fragment_main.*
 import javax.inject.Inject
 

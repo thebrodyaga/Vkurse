@@ -1,4 +1,4 @@
-package com.thebrodyaga.vkurse.screen.postList.mvp
+package com.thebrodyaga.vkurse.screen.fragments.postList.mvp
 
 import com.arellomobile.mvp.MvpView
 import com.arellomobile.mvp.viewstate.strategy.*

@@ -1,4 +1,4 @@
-package com.thebrodyaga.vkurse.screen.chat
+package com.thebrodyaga.vkurse.screen.fragments.chat
 
 
 import android.os.Bundle
