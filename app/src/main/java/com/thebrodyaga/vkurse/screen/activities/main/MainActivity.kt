@@ -91,18 +91,18 @@ class MainActivity : BaseActivity()/*, MainView, SearchView.OnQueryTextListener,
 
     //<editor-fold desc="Presenter">
     override fun showListPostsFragment() {
-        Log.d(DEBUG_TAG, "showListPostsFragment")
+        debugLogging( "showListPostsFragment")
         if (searchItem?.isActionViewExpanded == true) searchItem?.collapseActionView()
         managingFragment(VkListPostsFragment.FragmentTAG)
     }
 
     override fun showListGroupsFragment() {
-        Log.d(DEBUG_TAG, "showListGroupsFragment")
+        debugLogging( "showListGroupsFragment")
         managingFragment(VkListGroupsFragment.FragmentTAG)
     }
 
     override fun showChatFragment() {
-        Log.d(DEBUG_TAG, "showChatFragment")
+        debugLogging( "showChatFragment")
         if (searchItem?.isActionViewExpanded == true) searchItem?.collapseActionView()
         managingFragment(ChatFragment.FragmentTAG)
     }
@@ -112,13 +112,13 @@ class MainActivity : BaseActivity()/*, MainView, SearchView.OnQueryTextListener,
     }
 
     override fun toggleSearchIcon(isVisible: Boolean) {
-        Log.i(DEBUG_TAG, "toggleSearchIcon isVisible = $isVisible")
+        debugLogging( "toggleSearchIcon isVisible = $isVisible")
         searchItem?.isVisible = isVisible
         isSearchItemVisible = isVisible
     }
 
     override fun scrollTop() {
-        Log.d(DEBUG_TAG, "scrollTop MainActivity")
+        debugLogging( "scrollTop MainActivity")
         myAppBar.setExpanded(true)
     }
     //</editor-fold>

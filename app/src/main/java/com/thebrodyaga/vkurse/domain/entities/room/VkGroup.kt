@@ -1,4 +1,4 @@
-package com.thebrodyaga.vkurse.models.room
+package com.thebrodyaga.vkurse.domain.entities.room
 
 import android.arch.persistence.room.Entity
 import android.arch.persistence.room.Ignore

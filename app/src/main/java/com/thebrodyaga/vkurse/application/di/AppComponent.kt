@@ -3,6 +3,8 @@ package com.thebrodyaga.vkurse.application.di
 import android.app.Application
 import com.squareup.picasso.Picasso
 import com.thebrodyaga.vkurse.application.App
+import com.thebrodyaga.vkurse.application.di.modules.OkHttpClientModule
+import com.thebrodyaga.vkurse.application.di.modules.VkurseApiModule
 import com.thebrodyaga.vkurse.data.db.RoomDatabase
 import com.thebrodyaga.vkurse.data.net.VkService
 import com.thebrodyaga.vkurse.screen.fragments.main.di.MainComponent
@@ -18,7 +20,8 @@ import javax.inject.Singleton
  *         on 16.02.2018.
  */
 @Singleton
-@Component(modules = [AndroidSupportInjectionModule::class, AppModule::class, ActivityBuilder::class])
+@Component(modules = [AndroidSupportInjectionModule::class, AppModule::class,
+    ActivityBuilder::class, OkHttpClientModule::class, VkurseApiModule::class])
 interface AppComponent : AndroidInjector<App> {
     @Component.Builder
     interface Builder {
@@ -29,7 +32,5 @@ interface AppComponent : AndroidInjector<App> {
     }
 
     fun getPicasso(): Picasso
-    fun getVkService(): VkService
-    fun getRoom(): RoomDatabase
     fun plusMainComponent(): MainComponent
 }

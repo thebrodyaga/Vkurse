@@ -1,7 +1,7 @@
 package com.thebrodyaga.vkurse.data.db
 
 import android.arch.persistence.room.*
-import com.thebrodyaga.vkurse.models.room.VkGroup
+import com.thebrodyaga.vkurse.domain.entities.room.VkGroup
 import io.reactivex.Flowable
 import io.reactivex.Single
 

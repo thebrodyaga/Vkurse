@@ -29,20 +29,26 @@ class VkurseApiModule {
 
     @Provides
     @Singleton
-    fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
+    fun provideRetrofit(converterFactory: Converter.Factory, okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
                 .client(okHttpClient)
                 .baseUrl(BuildConfig.SERVER_URL)
-                .addConverterFactory(provideConverterFactory())
+                .addConverterFactory(converterFactory)
                 .build()
     }
 
-    private fun provideConverterFactory(): Converter.Factory {
-        return GsonConverterFactory.create(provideGson())
+    @Provides
+    @Singleton
+    fun provideConverterFactory(gson: Gson): Converter.Factory {
+        return GsonConverterFactory.create(gson)
     }
 
-    private fun provideGson(): Gson {
-        return GsonBuilder().create()
+    @Provides
+    @Singleton
+    fun provideGson(/*boolIntTypeAdapter: BoolIntTypeAdapter*/): Gson {
+        return GsonBuilder()
+//                .registerTypeAdapter(BoolIntTypeAdapter::class.java, boolIntTypeAdapter)
+                .create()
     }
 }

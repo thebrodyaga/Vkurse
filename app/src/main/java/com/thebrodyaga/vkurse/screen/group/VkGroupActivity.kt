@@ -5,7 +5,7 @@ import android.util.Log
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.thebrodyaga.vkurse.R
-import com.thebrodyaga.vkurse.common.DEBUG_TAG
+import com.thebrodyaga.vkurse.common.debugLogging
 import com.thebrodyaga.vkurse.screen.base.BaseActivity
 import com.thebrodyaga.vkurse.screen.group.mvp.VkGroupPresenter
 import com.thebrodyaga.vkurse.screen.group.mvp.VkGroupView
@@ -32,7 +32,7 @@ class VkGroupActivity : BaseActivity(), VkGroupView {
     }
 
     override fun errorFinish() {
-        Log.d(DEBUG_TAG, "errorFinish")
+        debugLogging( "errorFinish")
         finish()
     }
 

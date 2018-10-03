@@ -4,7 +4,7 @@ import android.util.Log
 import com.arellomobile.mvp.InjectViewState
 import com.thebrodyaga.vkurse.R
 import com.thebrodyaga.vkurse.application.di.Injector
-import com.thebrodyaga.vkurse.common.DEBUG_TAG
+import com.thebrodyaga.vkurse.common.debugLogging
 import com.thebrodyaga.vkurse.screen.base.BasePresenter
 import ru.terrakok.cicerone.Router
 import javax.inject.Inject
@@ -18,7 +18,7 @@ class MainPresenter @Inject constructor(private val router: Router) : BasePresen
     private var mainInteractor: MainInteractor = Injector.plusMainComponent().getMainInteractor()
 
     override fun onFirstViewAttach() {
-        Log.d(DEBUG_TAG, "onFirstViewAttach MainPresenter")
+        debugLogging( "onFirstViewAttach MainPresenter")
     }
 
     fun onBottomBarReClick(menuPosition: Int): Boolean {

@@ -3,7 +3,7 @@ package com.thebrodyaga.vkurse.data.db
 import android.arch.persistence.room.Database
 import android.arch.persistence.room.RoomDatabase
 import com.thebrodyaga.vkurse.common.DATABASE_VERSION
-import com.thebrodyaga.vkurse.models.room.VkGroup
+import com.thebrodyaga.vkurse.domain.entities.room.VkGroup
 
 /**
  * Created by Win10

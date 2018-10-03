@@ -1,13 +1,20 @@
 package com.thebrodyaga.vkurse.repository
 
+import com.thebrodyaga.vkobjects.groups.GroupFull
+import com.thebrodyaga.vkobjects.users.UserFull
 import com.thebrodyaga.vkurse.common.timeStep
 import com.thebrodyaga.vkurse.data.db.RoomDatabase
 import com.thebrodyaga.vkurse.data.net.VkService
-import com.thebrodyaga.vkurse.models.gson.OwnerInfo
-import com.thebrodyaga.vkurse.models.gson.VkWallBody
-import com.thebrodyaga.vkurse.models.gson.VkWallResponse
-import com.thebrodyaga.vkurse.models.room.VkGroup
+import com.thebrodyaga.vkurse.domain.entities.VkPost
+import com.thebrodyaga.vkurse.domain.entities.gson.OwnerInfo
+import com.thebrodyaga.vkurse.domain.entities.gson.VkWallBody
+import com.thebrodyaga.vkurse.domain.entities.gson.VkWallResponse
+import com.thebrodyaga.vkurse.domain.entities.gson.testOwnerInfoList
+import com.thebrodyaga.vkurse.domain.entities.room.VkGroup
 import io.reactivex.Observable
+import io.reactivex.Scheduler
+import io.reactivex.Single
+import io.reactivex.schedulers.Schedulers
 import java.util.ArrayList
 import javax.inject.Singleton
 
@@ -20,18 +27,45 @@ import javax.inject.Singleton
 class PostRepository(vkService: VkService,
                      roomDatabase: RoomDatabase) : BaseRepository(vkService, roomDatabase) {
 
-    private val currentState = VkWallBody(timeStep = timeStep, ownerInfoList = listOf())
+    private val currentState = VkWallBody(timeStep = timeStep, ownerInfoList = testOwnerInfoList/*listOf()*/)
+    private val groupsCash = mutableMapOf<Int, GroupFull>()
+    private val profilesCash = mutableMapOf<Int, UserFull>()
+    private val postsList = mutableListOf<VkPost>()
 
-    fun loadFirstWall(): Observable<VkWallResponse> {
+    fun loadFirstWall(): Single<List<VkPost>> {
         return vkService.getFirstList(currentState)
+                .observeOn(Schedulers.computation())
+                .doOnSuccess {
+                    setCurrentState(it, first = it.wallPostList.firstOrNull()?.date,
+                            last = it.wallPostList.lastOrNull()?.date)
+                }.flatMap {
+                    val vkPosts = processedPostResult(it)
+                    postsList.clear()
+                    postsList.addAll(vkPosts)
+                    Single.just(postsList)
+                }
     }
 
-    fun loadAfterLast(): Observable<VkWallResponse> {
+    fun loadAfterLast(): Single<List<VkPost>> {
         return vkService.getListAfterLast(currentState)
+                .observeOn(Schedulers.computation())
+                .doAfterSuccess { setCurrentState(it, last = it.wallPostList.lastOrNull()?.date) }
+                .flatMap {
+                    val vkPosts = processedPostResult(it)
+                    postsList.addAll(vkPosts)
+                    Single.just(postsList)
+                }
     }
 
-    fun loadNewWall(): Observable<VkWallResponse> {
+    fun loadNewWall(): Single<List<VkPost>> {
         return vkService.getNewWall(currentState)
+                .observeOn(Schedulers.computation())
+                .doOnSuccess { setCurrentState(it, first = it.wallPostList.firstOrNull()?.date) }
+                .flatMap {
+                    val vkPosts = processedPostResult(it)
+                    postsList.addAll(0, vkPosts)
+                    Single.just(postsList)
+                }
     }
 
     fun newCurrentState(groupsList: List<VkGroup>) {
@@ -42,11 +76,22 @@ class PostRepository(vkService: VkService,
         }
     }
 
-    fun setCurrentState(it: VkWallResponse, last: Int? = null, first: Int? = null) {
+    private fun setCurrentState(it: VkWallResponse, last: Int? = null, first: Int? = null) {
         synchronized(this) {
             if (last != null) currentState.lastPostDate = last
             if (first != null) currentState.firstPostDate = first
             currentState.ownerInfoList = it.ownerInfoList
         }
+    }
+
+    /**
+     * кэшит юзеров и группы, мапит список постов с сылкой на кэш со ВСЕМИ авторами
+     */
+    private fun processedPostResult(vkWallResponse: VkWallResponse): List<VkPost> {
+        vkWallResponse.profiles.forEach { profilesCash[it.id] = it }
+        vkWallResponse.groups.forEach { groupsCash[it.id] = it }
+        val result = mutableListOf<VkPost>()
+        vkWallResponse.wallPostList.forEach { result.add(VkPost(it, profilesCash, groupsCash)) }
+        return result
     }
 }

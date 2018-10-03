@@ -39,6 +39,6 @@ class OkHttpClientModule {
 
     private fun httpLoggingInterceptor(): HttpLoggingInterceptor {
         return HttpLoggingInterceptor().setLevel(if (BuildConfig.DEBUG)
-            HttpLoggingInterceptor.Level.BASIC else HttpLoggingInterceptor.Level.NONE)
+            HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE)
     }
 }

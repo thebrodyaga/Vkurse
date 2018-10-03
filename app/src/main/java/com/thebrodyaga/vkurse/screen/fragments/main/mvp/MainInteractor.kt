@@ -3,7 +3,7 @@ package com.thebrodyaga.vkurse.screen.fragments.main.mvp
 import android.util.Log
 import com.thebrodyaga.vkurse.application.di.scopes.ActivityScope
 import com.thebrodyaga.vkurse.common.INSTANCE_TAG
-import com.thebrodyaga.vkurse.models.room.VkGroup
+import com.thebrodyaga.vkurse.domain.entities.room.VkGroup
 import com.thebrodyaga.vkurse.repository.GroupRepository
 import com.thebrodyaga.vkurse.repository.PostRepository
 import io.reactivex.Flowable

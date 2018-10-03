@@ -13,21 +13,50 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/card_view"
+    style="@style/Widget.MaterialComponents.CardView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_gravity="center">
+    app:cardUseCompatPadding="true">
 
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/relativeLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         app:layout_constraintBottom_toTopOf="@+id/post_image"
         app:layout_constraintTop_toTopOf="@+id/post_image">
+
+        <android.support.constraint.Group
+            android:id="@+id/group_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            app:constraint_referenced_ids="show_more,post_text" />
+
+        <android.support.constraint.Group
+            android:id="@+id/group_music"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            app:constraint_referenced_ids="music_subtitle,play_music_icon,music_title" />
+
+        <android.support.constraint.Group
+            android:id="@+id/group_doc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            app:constraint_referenced_ids="doc_title,doc_subtitle,doc_icon" />
+
+        <android.support.constraint.Group
+            android:id="@+id/group_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            app:constraint_referenced_ids="address_icon,address_text" />
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/profile_image"
@@ -36,34 +65,41 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:src="@drawable/d_here"
+            app:layout_constraintBottom_toTopOf="@+id/post_text"
+            app:layout_constraintEnd_toStartOf="@+id/post_title"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/title_text"
+            android:id="@+id/post_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/item_title"
-            app:layout_constraintBottom_toTopOf="@+id/subtitle_text"
-            app:layout_constraintStart_toStartOf="@+id/subtitle_text" />
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:textAppearance="@style/Text14spMediumAccent"
+            app:layout_constraintBottom_toTopOf="@+id/post_subtitle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/profile_image"
+            app:layout_constraintTop_toTopOf="@+id/profile_image"
+            app:layout_constraintVertical_chainStyle="spread_inside"
+            tools:text="Photo Film" />
 
         <TextView
-            android:id="@+id/subtitle_text"
+            android:id="@+id/post_subtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:text="@string/item_subtitle"
-            android:textSize="13sp"
+            android:layout_marginEnd="16dp"
+            android:textAppearance="@style/Text14spRegular50"
             app:layout_constraintBottom_toBottomOf="@+id/profile_image"
-            app:layout_constraintStart_toEndOf="@+id/profile_image"
-            tools:layout_editor_absoluteY="56dp" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/post_title"
+            app:layout_constraintTop_toBottomOf="@+id/post_title"
+            tools:text="@string/item_subtitle" />
 
-
-        <android.support.constraint.Group
-            android:id="@+id/group_post_header"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:constraint_referenced_ids="subtitle_text,profile_image,title_text" />
 
         <at.blogc.android.views.ExpandableTextView
             android:id="@+id/post_text"
@@ -74,99 +110,232 @@
             android:layout_marginTop="16dp"
             android:ellipsize="end"
             android:maxLines="5"
-            android:text="@string/text_post_description"
+            android:textAppearance="@style/Text14spRegular"
             app:animation_duration="1000"
+            app:layout_constraintBottom_toTopOf="@+id/show_more"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/profile_image" />
+            app:layout_constraintTop_toBottomOf="@+id/profile_image"
+            tools:text="@string/text_post_description" />
 
         <TextView
             android:id="@+id/show_more"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/show_more"
+            android:textAppearance="@style/Text14spRegular50"
+            app:layout_constraintBottom_toTopOf="@+id/post_image"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/post_text"
             app:layout_constraintTop_toBottomOf="@+id/post_text" />
 
 
-        <android.support.constraint.Group
-            android:id="@+id/group_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:constraint_referenced_ids="post_text,show_more" />
-
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/repost_profile_image"
-            android:layout_width="@dimen/card_source_image_width"
-            android:layout_height="@dimen/card_source_image_height"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:src="@drawable/d_here"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/show_more" />
-
-        <TextView
-            android:id="@+id/repost_subtitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:text="@string/repost_subhead"
-            android:textSize="13sp"
-            app:layout_constraintBottom_toBottomOf="@+id/repost_profile_image"
-            app:layout_constraintStart_toEndOf="@+id/repost_profile_image" />
-
-        <TextView
-            android:id="@+id/repost_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/repost_title"
-            app:layout_constraintBottom_toTopOf="@+id/repost_subtitle"
-            app:layout_constraintStart_toStartOf="@+id/repost_subtitle" />
-
-        <TextView
-            android:id="@+id/repost_show_more"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/show_more"
-            app:layout_constraintStart_toStartOf="@+id/repost_text"
-            app:layout_constraintTop_toBottomOf="@+id/repost_text" />
-
-        <at.blogc.android.views.ExpandableTextView
-            android:id="@+id/repost_text"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:ellipsize="end"
-            android:maxLines="5"
-            android:text="@string/text_post_description"
-            app:animation_duration="1000"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/repost_profile_image" />
-
-        <android.support.constraint.Group
-            android:id="@+id/group_repost_header"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            app:constraint_referenced_ids="repost_profile_image,repost_subtitle,repost_title,repost_show_more,repost_text" />
-
         <ImageView
             android:id="@+id/post_image"
             android:layout_width="0dp"
-            android:layout_height="200dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:scaleType="center"
             android:visibility="invisible"
+            app:layout_constraintBottom_toTopOf="@+id/play_music_icon"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/repost_show_more" />
-        <!--
-                            app:srcCompat="@mipmap/ic_error"
-            -->
+            app:layout_constraintTop_toBottomOf="@+id/show_more"
+            tools:layout_height="200dp" />
 
+        <ImageView
+            android:id="@+id/play_music_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:tint="@color/colorAccent"
+            app:layout_constraintBottom_toTopOf="@+id/doc_icon"
+            app:layout_constraintEnd_toStartOf="@+id/music_title"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/post_image"
+            app:srcCompat="@drawable/ic_play_circle_filled_40dp" />
+
+
+        <TextView
+            android:id="@+id/music_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:textAppearance="@style/Text14spMedium"
+            app:layout_constraintBottom_toTopOf="@+id/music_subtitle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/play_music_icon"
+            app:layout_constraintTop_toTopOf="@+id/play_music_icon"
+            app:layout_constraintVertical_chainStyle="spread_inside"
+            tools:text="music_title" />
+
+        <TextView
+            android:id="@+id/music_subtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:textAppearance="@style/Text14spRegular50"
+            app:layout_constraintBottom_toBottomOf="@+id/play_music_icon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/music_title"
+            app:layout_constraintTop_toBottomOf="@+id/music_title"
+            tools:text="music_subtitle" />
+
+
+        <ImageView
+            android:id="@+id/doc_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintBottom_toTopOf="@+id/address_icon"
+            app:layout_constraintEnd_toStartOf="@+id/doc_title"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/play_music_icon"
+            app:srcCompat="@drawable/ic_file" />
+
+
+        <TextView
+            android:id="@+id/doc_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:textAppearance="@style/Text14spMedium"
+            app:layout_constraintBottom_toTopOf="@+id/doc_subtitle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/doc_icon"
+            app:layout_constraintTop_toTopOf="@+id/doc_icon"
+            app:layout_constraintVertical_chainStyle="spread_inside"
+            tools:text="doc_title" />
+
+        <TextView
+            android:id="@+id/doc_subtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:textAppearance="@style/Text14spRegular50"
+            app:layout_constraintBottom_toBottomOf="@+id/doc_icon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/doc_title"
+            app:layout_constraintTop_toBottomOf="@+id/doc_title"
+            tools:text="doc_subtitle" />
+
+        <ImageView
+            android:id="@+id/address_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:tint="@color/colorAccent"
+            app:layout_constraintBottom_toTopOf="@+id/like_image"
+            app:layout_constraintEnd_toStartOf="@+id/address_text"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/doc_icon"
+            app:srcCompat="@drawable/ic_place" />
+
+        <TextView
+            android:id="@+id/address_text"
+            style="@style/SingleLineTextWithDot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:textAppearance="@style/Text14spRegularAccent"
+            app:layout_constraintBottom_toBottomOf="@+id/address_icon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/address_icon"
+            app:layout_constraintTop_toTopOf="@+id/address_icon"
+            tools:text="address_text" />
+
+        <ImageView
+            android:id="@+id/like_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/like_count"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/address_icon"
+            app:srcCompat="@drawable/ic_favorite_false" />
+
+        <TextView
+            android:id="@+id/like_count"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/like_image"
+            app:layout_constraintEnd_toStartOf="@+id/comment_image"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/like_image"
+            app:layout_constraintTop_toTopOf="@+id/like_image"
+            tools:text="567K" />
+
+        <ImageView
+            android:id="@+id/comment_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/like_count"
+            app:layout_constraintEnd_toStartOf="@+id/comment_count"
+            app:layout_constraintStart_toEndOf="@+id/like_count"
+            app:layout_constraintTop_toTopOf="@+id/like_count"
+            app:srcCompat="@drawable/ic_comment" />
+
+        <ImageView
+            android:id="@+id/view_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/comment_count"
+            app:layout_constraintEnd_toStartOf="@+id/view_count"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/comment_count"
+            app:layout_constraintTop_toTopOf="@+id/comment_count"
+            app:srcCompat="@drawable/ic_eye" />
+
+        <TextView
+            android:id="@+id/view_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/view_image"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/view_image"
+            app:layout_constraintTop_toTopOf="@+id/view_image"
+            tools:text="24sK" />
+
+        <TextView
+            android:id="@+id/comment_count"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/comment_image"
+            app:layout_constraintEnd_toStartOf="@+id/view_image"
+            app:layout_constraintStart_toEndOf="@+id/comment_image"
+            app:layout_constraintTop_toTopOf="@+id/comment_image"
+            tools:text="345K" />
 
     </android.support.constraint.ConstraintLayout>
-</android.support.v7.widget.CardView>
+</android.support.design.card.MaterialCardView>

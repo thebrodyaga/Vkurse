@@ -15,7 +15,7 @@
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/primaryColor"
-        app:accentColor="@color/secondaryColor"
-        app:inactiveColor="@android:color/white" />
+        android:background="@android:color/white"
+        app:accentColor="@color/colorAccent"
+        app:inactiveColor="@color/colorGray" />
 </LinearLayout>

@@ -2,7 +2,7 @@ package com.thebrodyaga.vkurse.screen.fragments.postList.mvp
 
 import com.arellomobile.mvp.MvpView
 import com.arellomobile.mvp.viewstate.strategy.*
-import com.thebrodyaga.vkobjects.wall.WallPostFull
+import com.thebrodyaga.vkurse.domain.entities.VkPost
 
 
 /**
@@ -28,11 +28,11 @@ interface VkListPostsView : MvpView {
     fun scrollTop()
 
     @StateStrategyType(SingleStateStrategy::class)
-    fun setFirstData(wallPostList: List<WallPostFull>)
+    fun setFirstData(wallPostList: List<VkPost>)
 
     @StateStrategyType(AddToEndStrategy::class)
-    fun setNewData(wallPostList: List<WallPostFull>)
+    fun setNewData(wallPostList: List<VkPost>)
 
     @StateStrategyType(AddToEndStrategy::class)
-    fun setAfterLastData(wallPostList: List<WallPostFull>)
+    fun setAfterLastData(wallPostList: List<VkPost>)
 }

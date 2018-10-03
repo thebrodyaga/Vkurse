@@ -1,15 +1,15 @@
 package com.thebrodyaga.vkurse.screen.fragments.postList.mvp
 
-import android.util.Log
 import com.arellomobile.mvp.InjectViewState
 import com.thebrodyaga.vkurse.application.di.Injector
-import com.thebrodyaga.vkurse.common.DEBUG_TAG
+import com.thebrodyaga.vkurse.common.debugLogging
 import com.thebrodyaga.vkurse.repository.PostRepository
 import com.thebrodyaga.vkurse.screen.base.BasePresenter
 import com.thebrodyaga.vkurse.screen.fragments.main.mvp.MainInteractor
 import com.thebrodyaga.vkurse.screen.fragments.main.mvp.MainPresenter.Companion.ListPostsFragmentPosition
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
 import javax.inject.Inject
 
 /**
@@ -22,6 +22,7 @@ class VkListPostsPresenter @Inject constructor(private val postRepository: PostR
 
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
     private val mainInteractor: MainInteractor = Injector.plusMainComponent().getMainInteractor()
+    private var loadAfterLastDisposable: Disposable? = null
 
     private var isVisible = false
     private var isNeedReload = false
@@ -29,8 +30,10 @@ class VkListPostsPresenter @Inject constructor(private val postRepository: PostR
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
         viewState.choiceForegroundView(PROGRESS_VIEW_FLAG)
+        viewState.tootleProgressItem(false)
         subscribeOnScroll()
-        subscribeOnGroups()
+//        subscribeOnGroups()
+        loadFirstWall()
         subscribeOnVisible()
     }
 
@@ -40,56 +43,55 @@ class VkListPostsPresenter @Inject constructor(private val postRepository: PostR
     }
 
     fun loadNewWall() {
-        unSubscribeOnDestroy(postRepository.loadNewWall()
+        compositeDisposable.add(postRepository.loadNewWall()
                 .observeOn(AndroidSchedulers.mainThread())
                 .doFinally { viewState.hideRefreshing() }
                 .subscribe({
-                    Log.d(DEBUG_TAG, "loadNewWall successful")
-                    postRepository.setCurrentState(it, first = it.wallPostList.firstOrNull()?.date)
-                    viewState.setNewData(it.wallPostList)
+                    debugLogging("loadNewWall successful")
+                    viewState.setNewData(it)
                 }, {
-                    Log.e(DEBUG_TAG, "loadFirstWall error: " + it.message)
+                    debugLogging("loadFirstWall error: " + it.message)
                     viewState.showErrorToast()
                 }))
     }
 
     fun loadAfterLast() {
-        viewState.tootleProgressItem(true)
-        unSubscribeOnDestroy(postRepository.loadAfterLast()
+        if (loadAfterLastDisposable?.isDisposed == false) return
+        loadAfterLastDisposable = (postRepository.loadAfterLast()
                 .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe { viewState.tootleProgressItem(true) }
                 .doFinally { viewState.tootleProgressItem(false) }
                 .subscribe({
-                    Log.d(DEBUG_TAG, "loadWallAfterLast successful")
-                    viewState.setAfterLastData(it.wallPostList)
+                    debugLogging("loadWallAfterLast successful")
+                    viewState.setAfterLastData(it)
                 }, {
-                    Log.e(DEBUG_TAG, "loadWallAfterLast error: " + it.message)
+                    debugLogging("loadWallAfterLast error: " + it.message)
                     viewState.showErrorToast()
                 }))
     }
 
     private fun loadFirstWall() {
         isNeedReload = false
-        unSubscribeOnDestroy(postRepository.loadFirstWall()
+        compositeDisposable.add(postRepository.loadFirstWall()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    Log.d(DEBUG_TAG, "loadFirstWall successful")
-                    postRepository.setCurrentState(it, first = it.wallPostList.first().date,
-                            last = it.wallPostList.last().date)
-                    viewState.setFirstData(it.wallPostList)
+                    debugLogging("loadFirstWall successful")
+                    viewState.setFirstData(it)
                     viewState.choiceForegroundView(DATA_VIEW_FLAG)
                 }, {
-                    Log.e(DEBUG_TAG, "loadFirstWall error: " + it.message)
+                    debugLogging("loadFirstWall error: " + it.message)
+                    it.printStackTrace()
                     viewState.choiceForegroundView(ERROR_VIEW_FLAG)
                 }))
     }
 
     private fun subscribeOnScroll() {
-        compositeDisposable.add(mainInteractor.scrollObservable
+        unSubscribeOnDestroy(mainInteractor.scrollObservable
                 .subscribe { if (it == ListPostsFragmentPosition) viewState.scrollTop() })
     }
 
     private fun subscribeOnGroups() {
-        compositeDisposable.add(mainInteractor.getFavoriteGroups()
+        unSubscribeOnDestroy(mainInteractor.getFavoriteGroups()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe {
                     clearDisposable()
@@ -100,12 +102,17 @@ class VkListPostsPresenter @Inject constructor(private val postRepository: PostR
                             loadFirstWall()
                         else isNeedReload = true
                     } else viewState.choiceForegroundView(EMPTY_VIEW_FLAG)
-                    Log.i(DEBUG_TAG, "Favorite group update")
+                    debugLogging("Favorite group update")
                 })
     }
 
+    private fun clearDisposable() {
+        loadAfterLastDisposable?.dispose()
+        compositeDisposable.clear()
+    }
+
     private fun subscribeOnVisible() {
-        compositeDisposable.add(mainInteractor.visibleObservable
+        unSubscribeOnDestroy(mainInteractor.visibleObservable
                 .subscribe {
                     if (it == ListPostsFragmentPosition) {
                         isVisible = true
@@ -116,7 +123,7 @@ class VkListPostsPresenter @Inject constructor(private val postRepository: PostR
 
     override fun onDestroy() {
         super.onDestroy()
-        compositeDisposable.clear()
+        clearDisposable()
     }
 
     companion object {

@@ -1,24 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!--<color name="primaryColor">#0ebc82</color>
-    <color name="primaryLightColor">#5defb2</color>
-    <color name="primaryDarkColor">#008b55</color>
+    <color name="primaryColor">#5853a8</color>
+    <color name="primaryLightColor">#897fda</color>
+    <color name="primaryDarkColor">#252a78</color>
 
-    <color name="secondaryColor">#0ebc82</color>
-    <color name="secondaryLightColor">#5defb2</color>
-    <color name="secondaryDarkColor">#008b55</color>
+    <color name="colorAccent">@color/primaryColor</color>
 
-    <color name="primaryTextColor">#ffffff</color>
-    <color name="secondaryTextColor">#ffffff</color>-->
+    <color name="textColorPrimary">#ffffff</color>
+    <color name="textColorSecondary">#000000</color>
 
-    <color name="primaryColor">#344955</color>
-    <color name="primaryLightColor">#5f7481</color>
-    <color name="primaryDarkColor">#0b222c</color>
+    <color name="textColor">#242143</color>
+    <color name="textColor50">#80242143</color>
 
-    <color name="secondaryColor">#f9aa33</color>
-    <color name="secondaryLightColor">#ffdc65</color>
-    <color name="secondaryDarkColor">#c17b00</color>
+    <color name="colorBackground">#F2F3F5</color>
+    <color name="colorSeparator">@color/colorBackground</color>
+    <color name="colorGray">#9E9E9E</color>
 
-    <color name="primaryTextColor">#ffffff</color>
-    <color name="secondaryTextColor">#000000</color>
+    <!--100% — FF   95% — F2    90% — E6    85% — D9    80% — CC    75% — BF    70% — B3
+        65% — A6    60% — 99    55% — 8C    50% — 80    45% — 73    40% — 66    35% — 59
+        30% — 4D    25% — 40    20% — 33    15% — 26    10% — 1A    5%  — 0D    0%  — 00 -->
 </resources>

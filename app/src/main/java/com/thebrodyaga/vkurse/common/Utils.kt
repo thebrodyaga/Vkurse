@@ -1,6 +1,7 @@
 package com.thebrodyaga.vkurse.common
 
 import android.text.format.DateUtils
+import android.util.Log
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -29,4 +30,8 @@ fun /*DateUtils.*/isYesterday(milli: Long)
  */
 fun isDeltaHour(milli: Long, delta: Long): Boolean {
     return milli > System.currentTimeMillis() - delta
+}
+
+fun debugLogging(message: String) {
+    Log.d(DEBUG_TAG, message)
 }

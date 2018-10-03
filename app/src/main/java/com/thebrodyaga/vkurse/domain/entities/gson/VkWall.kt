@@ -1,5 +1,7 @@
-package com.thebrodyaga.vkurse.models.gson
+package com.thebrodyaga.vkurse.domain.entities.gson
 
+import com.thebrodyaga.vkobjects.groups.GroupFull
+import com.thebrodyaga.vkobjects.users.UserFull
 import com.thebrodyaga.vkobjects.wall.WallPostFull
 
 
@@ -9,7 +11,9 @@ import com.thebrodyaga.vkobjects.wall.WallPostFull
  */
 
 data class VkWallResponse(val wallPostList: List<WallPostFull>,
-                          val ownerInfoList: List<OwnerInfo>)
+                          val ownerInfoList: List<OwnerInfo>,
+                          val profiles: Set<UserFull>,
+                          val groups: Set<GroupFull>)
 
 data class OwnerInfo(val ownerId: Int,
                      val offset: Int = 0,

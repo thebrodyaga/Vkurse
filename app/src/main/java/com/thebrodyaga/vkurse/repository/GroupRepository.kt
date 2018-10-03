@@ -4,7 +4,7 @@ import com.thebrodyaga.vkobjects.groups.GroupFull
 import com.thebrodyaga.vkobjects.groups.responses.SearchResponse
 import com.thebrodyaga.vkurse.data.db.RoomDatabase
 import com.thebrodyaga.vkurse.data.net.VkService
-import com.thebrodyaga.vkurse.models.room.VkGroup
+import com.thebrodyaga.vkurse.domain.entities.room.VkGroup
 import io.reactivex.Flowable
 import io.reactivex.Observable
 import io.reactivex.Single
@@ -22,11 +22,11 @@ class GroupRepository(vkService: VkService,
     private var currentOffset = 0
     private var currentQuery = ""
 
-    fun newSearchGroups(query: String): Observable<SearchResponse> {
+    fun newSearchGroups(query: String): Single<SearchResponse> {
         return vkService.searchGroups(query)
     }
 
-    fun offsetSearchGroups(): Observable<SearchResponse> {
+    fun offsetSearchGroups(): Single<SearchResponse> {
         return vkService.searchGroups(currentQuery, currentOffset)
     }
 

@@ -4,7 +4,8 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/primaryColor</item>
         <item name="colorPrimaryDark">@color/primaryDarkColor</item>
-        <item name="colorAccent">@color/secondaryColor</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:colorBackground">@color/colorBackground</item>
     </style>
 
     <style name="SlidingTheme" parent="AppTheme">
@@ -17,13 +18,13 @@
 
     <style name="Toolbar" parent="ThemeOverlay.AppCompat.ActionBar">
         <!-- Used to for the title of the Toolbar -->
-        <item name="android:textColorPrimary">@color/primaryTextColor</item>
+        <item name="android:textColorPrimary">@color/textColorPrimary</item>
         <!-- Used to for the title of the Toolbar when parent is Theme.AppCompat.Light -->
-        <item name="android:textColorPrimaryInverse">@color/secondaryTextColor</item>
+        <item name="android:textColorPrimaryInverse">@color/textColorSecondary</item>
         <!-- Used to color the text of the action menu icons -->
-        <item name="android:textColorSecondary">@color/primaryTextColor</item>
+        <item name="android:textColorSecondary">@color/textColorPrimary</item>
         <!-- Used to color the overflow menu icon -->
-        <item name="actionMenuTextColor">@color/primaryTextColor</item>
+        <item name="actionMenuTextColor">@color/textColorPrimary</item>
         <!-- Color of the Toolbar -->
         <item name="android:background">@color/primaryColor</item>
         <!--Цвет подсказки в searchView-->
@@ -43,16 +44,45 @@
 
     </style>
 
-    <style name="SubHeadersText" parent="android:Widget.TextView">
-        <!--<item name="android:textColor">#8C000000</item>
-        <item name="android:fontFamily">sans-serif-medium</item>
-        <item name="android:textSize">14sp</item>-->
+    <style name="SingleLineTextWithDot" parent="android:Widget.TextView">
+        <item name="android:ellipsize">end</item>
+        <item name="android:maxLines">1</item>
     </style>
 
-    <style name="ItemSingleLineText" parent="android:Widget.TextView">
-        <!--<item name="android:textColor">#E6000000</item>
-        <item name="android:fontFamily">sans-serif</item>
-        <item name="android:textSize">16sp</item>-->
+    <style name="Text14sp" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">@color/textColor</item>
+        <item name="android:textSize">14sp</item>
     </style>
 
+    <style name="Text14spMedium" parent="Text14sp">
+        <item name="android:fontFamily">@font/roboto_medium</item>
+    </style>
+
+    <style name="Text14spMediumAccent" parent="Text14spMedium">
+        <item name="android:textColor">@color/colorAccent</item>
+    </style>
+
+    <style name="Text14spMedium50" parent="Text14spMedium">
+        <item name="android:textColor">@color/textColor50</item>
+    </style>
+
+    <style name="Text14spRegular" parent="Text14sp">
+        <item name="android:fontFamily">@font/roboto_regular</item>
+    </style>
+
+    <style name="Text14spRegularAccent" parent="Text14spRegular">
+        <item name="android:textColor">@color/colorAccent</item>
+    </style>
+
+    <style name="Text14spRegular50" parent="Text14spRegular">
+        <item name="android:textColor">@color/textColor50</item>
+    </style>
+
+    <style name="HorizontalProgressBar" parent="Widget.AppCompat.ProgressBar.Horizontal">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginBottom">-7dp</item>
+        <item name="android:layout_marginTop">-7dp</item>
+        <item name="android:indeterminate">true</item>
+    </style>
 </resources>

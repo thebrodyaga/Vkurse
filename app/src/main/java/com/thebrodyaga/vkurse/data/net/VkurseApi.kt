@@ -2,9 +2,10 @@ package com.thebrodyaga.vkurse.data.net
 
 import com.thebrodyaga.vkobjects.groups.GroupFull
 import com.thebrodyaga.vkobjects.groups.responses.SearchResponse
-import com.thebrodyaga.vkurse.models.gson.VkWallBody
-import com.thebrodyaga.vkurse.models.gson.VkWallResponse
+import com.thebrodyaga.vkurse.domain.entities.gson.VkWallBody
+import com.thebrodyaga.vkurse.domain.entities.gson.VkWallResponse
 import io.reactivex.Observable
+import io.reactivex.Single
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -17,24 +18,24 @@ import retrofit2.http.Query
 
 interface VkurseApi {
     @POST("vk/firstWall")
-    fun getFirstWall(@Body vkWallBody: VkWallBody): Observable<VkWallResponse>
+    fun getFirstWall(@Body vkWallBody: VkWallBody): Single<VkWallResponse>
 
     @POST("vk/wallAfterLast")
-    fun getWallAfterLast(@Body vkWallBody: VkWallBody): Observable<VkWallResponse>
+    fun getWallAfterLast(@Body vkWallBody: VkWallBody): Single<VkWallResponse>
 
     @POST("vk/newWall")
-    fun getNewWall(@Body vkWallBody: VkWallBody): Observable<VkWallResponse>
+    fun getNewWall(@Body vkWallBody: VkWallBody): Single<VkWallResponse>
 
     @GET("vk/searchGroups")
     fun searchGroups(@Query("q") query: String,
-                     @Query("offset") offset: Int?): Observable<SearchResponse>
+                     @Query("offset") offset: Int?): Single<SearchResponse>
 
     /**
      * один из параметров обязательный
      */
     @GET("vk/getGroupsById")
     fun getGroupsById(@Query("groupId") groupId: Int?,
-                      @Query("groupIds") vararg groupIds: Int?): Observable<List<GroupFull>>
+                      @Query("groupIds") vararg groupIds: Int?): Single<List<GroupFull>>
 
     /**
      * информация об одной группе

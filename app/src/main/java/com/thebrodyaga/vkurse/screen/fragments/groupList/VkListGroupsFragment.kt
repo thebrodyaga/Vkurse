@@ -13,7 +13,7 @@ import com.jakewharton.rxbinding2.support.v7.widget.RxSearchView
 import com.thebrodyaga.vkobjects.groups.Group
 import com.thebrodyaga.vkobjects.groups.responses.SearchResponse
 import com.thebrodyaga.vkurse.R
-import com.thebrodyaga.vkurse.common.DEBUG_TAG
+import com.thebrodyaga.vkurse.common.debugLogging
 import com.thebrodyaga.vkurse.screen.base.BaseAdapter
 import com.thebrodyaga.vkurse.screen.base.BaseFragment
 import com.thebrodyaga.vkurse.screen.fragments.groupList.mvp.SearchGroupsPresenter
@@ -91,17 +91,17 @@ class VkListGroupsFragment : BaseFragment(), VkListGroupsView,
 
     //<editor-fold desc="VkListGroupsView">
     override fun showFilteredGroupsList(filteredList: List<Group>) {
-        Log.i(DEBUG_TAG, "showFilteredGroupsList")
+        debugLogging( "showFilteredGroupsList")
         adapter.showFilteredList(filteredList)
     }
 
     override fun showFullGroupsList(fullList: List<Group>) {
-        Log.i(DEBUG_TAG, "showFullGroupsList")
+        debugLogging( "showFullGroupsList")
         adapter.showFullList(fullList)
     }
 
     override fun scrollTop() {
-        Log.d(DEBUG_TAG, "scrollTop VkListGroupsFragment")
+        debugLogging( "scrollTop VkListGroupsFragment")
         recyclerView?.scrollToPosition(0)
     }
     //</editor-fold>
@@ -123,7 +123,7 @@ class VkListGroupsFragment : BaseFragment(), VkListGroupsView,
     }
 
     override fun tootleProgressItem(isVisible: Boolean) {
-        Log.i(DEBUG_TAG, "tootleProgressItem isVisible = $isVisible")
+        debugLogging( "tootleProgressItem isVisible = $isVisible")
         if (isVisible) adapter.insertProgressItem()
         else adapter.removedProgressItem()
     }
@@ -145,7 +145,7 @@ class VkListGroupsFragment : BaseFragment(), VkListGroupsView,
     }
 
     override fun showErrorToast() {
-        Log.i(DEBUG_TAG, "showErrorToast")
+        debugLogging( "showErrorToast")
         showToast(getString(R.string.error_toast))
     }
     //</editor-fold>
@@ -155,7 +155,7 @@ class VkListGroupsFragment : BaseFragment(), VkListGroupsView,
     }
 
     override fun onListItemClick(view: View, position: Int) {
-        Log.d(DEBUG_TAG, "onListItemClick")
+        debugLogging( "onListItemClick")
     }
 
     companion object {

@@ -43,8 +43,6 @@ class MainFragment : BaseFragment(), MainView {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         AHBottomNavigationAdapter(activity, R.menu.main_bottom_bar).setupWithBottomNavigation(bottom_navigation)
-        bottom_navigation.isBehaviorTranslationEnabled = false
-        bottom_navigation.defaultBackgroundColor = ContextCompat.getColor(view.context, R.color.primaryColor)
         bottom_navigation.setOnTabSelectedListener { position, wasSelected ->
             if (wasSelected) presenter.onBottomBarReClick(position)
             else presenter.onBottomBarClick(position)

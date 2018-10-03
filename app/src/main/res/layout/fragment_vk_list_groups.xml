@@ -24,13 +24,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:listitem="@layout/group_item" />
+        tools:listitem="@layout/group_item" >
 
-    <!--<fragment
-        android:id="@+id/searchGroupsFragment"
-        android:name="com.thebrodyaga.vkurse.ui.fragments.VkListSearchGroupsFragment"
+    </android.support.v7.widget.RecyclerView>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="@style/HorizontalProgressBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:layout="@layout/fragment_vk_list_search_groups" />-->
+        android:layout_gravity="bottom" />
 </android.support.design.widget.CoordinatorLayout>
 

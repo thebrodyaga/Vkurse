@@ -2,8 +2,8 @@ package com.thebrodyaga.vkurse.data.net
 
 import com.thebrodyaga.vkobjects.groups.GroupFull
 import com.thebrodyaga.vkobjects.groups.responses.SearchResponse
-import com.thebrodyaga.vkurse.models.gson.VkWallBody
-import com.thebrodyaga.vkurse.models.gson.VkWallResponse
+import com.thebrodyaga.vkurse.domain.entities.gson.VkWallBody
+import com.thebrodyaga.vkurse.domain.entities.gson.VkWallResponse
 import io.reactivex.Observable
 import io.reactivex.Single
 import javax.inject.Singleton
@@ -16,23 +16,23 @@ import javax.inject.Singleton
 @Singleton
 class VkService(private var vkurseApi: VkurseApi) {
 
-    fun getFirstList(vkWallBody: VkWallBody): Observable<VkWallResponse> {
+    fun getFirstList(vkWallBody: VkWallBody): Single<VkWallResponse> {
         return vkurseApi.getFirstWall(vkWallBody)
     }
 
-    fun getListAfterLast(vkWallBody: VkWallBody): Observable<VkWallResponse> {
+    fun getListAfterLast(vkWallBody: VkWallBody): Single<VkWallResponse> {
         return vkurseApi.getWallAfterLast(vkWallBody)
     }
 
-    fun getNewWall(vkWallBody: VkWallBody): Observable<VkWallResponse> {
+    fun getNewWall(vkWallBody: VkWallBody): Single<VkWallResponse> {
         return vkurseApi.getNewWall(vkWallBody)
     }
 
-    fun searchGroups(query: String, offset: Int = 0): Observable<SearchResponse> {
+    fun searchGroups(query: String, offset: Int = 0): Single<SearchResponse> {
         return vkurseApi.searchGroups(query, offset)
     }
 
-    fun getGroupsById(groupId: Int?, vararg groupIds: Int?): Observable<List<GroupFull>> {
+    fun getGroupsById(groupId: Int?, vararg groupIds: Int?): Single<List<GroupFull>> {
         return vkurseApi.getGroupsById(groupId, *groupIds)
     }
 
