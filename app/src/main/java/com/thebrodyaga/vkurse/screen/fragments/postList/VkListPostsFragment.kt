@@ -3,6 +3,7 @@ package com.thebrodyaga.vkurse.screen.fragments.postList
 
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,16 +12,23 @@ import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.thebrodyaga.vkurse.R
 import com.thebrodyaga.vkurse.common.debugLogging
 import com.thebrodyaga.vkurse.common.toggleVisible
-import com.thebrodyaga.vkurse.domain.entities.VkPost
+import com.thebrodyaga.vkurse.domain.entities.ui.ItemModel
+import com.thebrodyaga.vkurse.domain.entities.ui.postList.ItemsForPostList
+import com.thebrodyaga.vkurse.screen.adapters.VkPostsAdapter
 import com.thebrodyaga.vkurse.screen.base.BaseFragment
 import com.thebrodyaga.vkurse.screen.fragments.postList.mvp.VkListPostsPresenter
 import com.thebrodyaga.vkurse.screen.fragments.postList.mvp.VkListPostsView
 import com.thebrodyaga.vkurse.screen.utils.EndlessRecyclerOnScrollListener
+import com.thebrodyaga.vkurse.screen.utils.VerticalOffsetItemDecoration
 import kotlinx.android.synthetic.main.fragment_vk_list_posts.*
 import javax.inject.Inject
 
 
 class VkListPostsFragment : BaseFragment(), VkListPostsView {
+    override fun updateList(searchResponse: List<ItemModel<ItemsForPostList>>) {
+        debugLogging("updateList")
+        adapter.submitList(ArrayList(searchResponse))
+    }
 
     @Inject
     @InjectPresenter()
@@ -38,33 +46,19 @@ class VkListPostsFragment : BaseFragment(), VkListPostsView {
         super.onViewCreated(view, savedInstanceState)
         errorButton.setOnClickListener { presenter.onErrorButtonClick() }
         swipeRefresh.setOnRefreshListener { presenter.loadNewWall() }
-        val layoutManager = LinearLayoutManager(view.context)
+        bindRecyclerView(recyclerView)
+    }
+
+    private fun bindRecyclerView(recyclerView: RecyclerView) {
+        debugLogging("setupRecyclerView")
+        val layoutManager = LinearLayoutManager(recyclerView.context)
         recyclerView.layoutManager = layoutManager
         recyclerView.adapter = adapter
-        val scrollListener=EndlessRecyclerOnScrollListener(layoutManager)
+        val scrollListener = EndlessRecyclerOnScrollListener(layoutManager)
         scrollListener.setOnLoadMore { presenter.loadAfterLast() }
         recyclerView.addOnScrollListener(scrollListener)
+        recyclerView.addItemDecoration(VerticalOffsetItemDecoration())
         adapter.setOnListItemClickListener { item, position, _ -> }
-    }
-
-    override fun setFirstData(wallPostList: List<VkPost>) {
-        debugLogging("setFirstData VkListPostsFragment")
-        adapter.submitList(ArrayList(wallPostList))
-    }
-
-    override fun setNewData(wallPostList: List<VkPost>) {
-        debugLogging("setNewData VkListPostsFragment")
-        adapter.submitList(ArrayList(wallPostList))
-    }
-
-    override fun setAfterLastData(wallPostList: List<VkPost>) {
-        debugLogging("setAfterLastData VkListPostsFragment")
-        adapter.submitList(ArrayList(wallPostList))
-    }
-
-    override fun tootleProgressItem(isVisible: Boolean) {
-        debugLogging("tootleProgressItem VkListPostsFragment isVisible = $isVisible")
-        horizontalProgressBar.toggleVisible(isVisible)
     }
 
     override fun hideRefreshing() {

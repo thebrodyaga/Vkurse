@@ -2,7 +2,8 @@ package com.thebrodyaga.vkurse.screen.fragments.postList.mvp
 
 import com.arellomobile.mvp.MvpView
 import com.arellomobile.mvp.viewstate.strategy.*
-import com.thebrodyaga.vkurse.domain.entities.VkPost
+import com.thebrodyaga.vkurse.domain.entities.ui.ItemModel
+import com.thebrodyaga.vkurse.domain.entities.ui.postList.ItemsForPostList
 
 
 /**
@@ -18,21 +19,12 @@ interface VkListPostsView : MvpView {
     @StateStrategyType(OneExecutionStateStrategy::class)
     fun hideRefreshing()
 
-    @StateStrategyType(AddToEndSingleStrategy::class)
-    fun tootleProgressItem(isVisible: Boolean)
-
     @StateStrategyType(OneExecutionStateStrategy::class)
     fun showErrorToast()
 
     @StateStrategyType(OneExecutionStateStrategy::class)
     fun scrollTop()
 
-    @StateStrategyType(SingleStateStrategy::class)
-    fun setFirstData(wallPostList: List<VkPost>)
-
-    @StateStrategyType(AddToEndStrategy::class)
-    fun setNewData(wallPostList: List<VkPost>)
-
-    @StateStrategyType(AddToEndStrategy::class)
-    fun setAfterLastData(wallPostList: List<VkPost>)
+    @StateStrategyType(AddToEndSingleStrategy::class)
+    fun updateList(searchResponse: List<ItemModel<ItemsForPostList>>)
 }

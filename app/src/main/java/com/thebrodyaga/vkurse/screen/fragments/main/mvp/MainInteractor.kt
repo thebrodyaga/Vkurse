@@ -4,8 +4,8 @@ import android.util.Log
 import com.thebrodyaga.vkurse.application.di.scopes.ActivityScope
 import com.thebrodyaga.vkurse.common.INSTANCE_TAG
 import com.thebrodyaga.vkurse.domain.entities.room.VkGroup
-import com.thebrodyaga.vkurse.repository.GroupRepository
 import com.thebrodyaga.vkurse.repository.PostRepository
+import com.thebrodyaga.vkurse.repository.imp.GroupRepository
 import io.reactivex.Flowable
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject

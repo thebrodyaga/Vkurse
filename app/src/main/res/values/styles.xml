@@ -26,7 +26,7 @@
         <!-- Used to color the overflow menu icon -->
         <item name="actionMenuTextColor">@color/textColorPrimary</item>
         <!-- Color of the Toolbar -->
-        <item name="android:background">@color/primaryColor</item>
+        <!--<item name="android:background">@color/primaryColor</item>-->
         <!--Цвет подсказки в searchView-->
         <item name="android:textColorHint">#808080</item>
     </style>

@@ -2,7 +2,14 @@ package com.thebrodyaga.vkurse.screen.fragments.postList.mvp
 
 import com.arellomobile.mvp.InjectViewState
 import com.thebrodyaga.vkurse.application.di.Injector
+import com.thebrodyaga.vkurse.common.clearAndAddAll
 import com.thebrodyaga.vkurse.common.debugLogging
+import com.thebrodyaga.vkurse.domain.entities.ui.ItemModel
+import com.thebrodyaga.vkurse.domain.entities.ui.VkPost
+import com.thebrodyaga.vkurse.domain.entities.ui.groupsList.ItemsForGroupsList
+import com.thebrodyaga.vkurse.domain.entities.ui.postList.ItemsForPostList
+import com.thebrodyaga.vkurse.domain.entities.ui.postList.ProgressItem
+import com.thebrodyaga.vkurse.domain.entities.ui.postList.VkPostItem
 import com.thebrodyaga.vkurse.repository.PostRepository
 import com.thebrodyaga.vkurse.screen.base.BasePresenter
 import com.thebrodyaga.vkurse.screen.fragments.main.mvp.MainInteractor
@@ -27,10 +34,11 @@ class VkListPostsPresenter @Inject constructor(private val postRepository: PostR
     private var isVisible = false
     private var isNeedReload = false
 
+    private val adapterList = mutableListOf<ItemModel<ItemsForPostList>>()
+
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
         viewState.choiceForegroundView(PROGRESS_VIEW_FLAG)
-        viewState.tootleProgressItem(false)
         subscribeOnScroll()
 //        subscribeOnGroups()
         loadFirstWall()
@@ -48,9 +56,9 @@ class VkListPostsPresenter @Inject constructor(private val postRepository: PostR
                 .doFinally { viewState.hideRefreshing() }
                 .subscribe({
                     debugLogging("loadNewWall successful")
-                    viewState.setNewData(it)
+                    viewState.updateList(buildAdapterList(it))
                 }, {
-                    debugLogging("loadFirstWall error: " + it.message)
+                    it.printStackTrace()
                     viewState.showErrorToast()
                 }))
     }
@@ -59,14 +67,15 @@ class VkListPostsPresenter @Inject constructor(private val postRepository: PostR
         if (loadAfterLastDisposable?.isDisposed == false) return
         loadAfterLastDisposable = (postRepository.loadAfterLast()
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe { viewState.tootleProgressItem(true) }
-                .doFinally { viewState.tootleProgressItem(false) }
+                .doOnSubscribe { viewState.updateList(adapterList.apply { add(ProgressItem()) }) }
                 .subscribe({
                     debugLogging("loadWallAfterLast successful")
-                    viewState.setAfterLastData(it)
+                    viewState.updateList(buildAdapterList(it))
                 }, {
-                    debugLogging("loadWallAfterLast error: " + it.message)
+                    it.printStackTrace()
                     viewState.showErrorToast()
+                    viewState.updateList(adapterList.apply { removeAt(adapterList.lastIndex) })
+
                 }))
     }
 
@@ -76,10 +85,9 @@ class VkListPostsPresenter @Inject constructor(private val postRepository: PostR
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
                     debugLogging("loadFirstWall successful")
-                    viewState.setFirstData(it)
+                    viewState.updateList(buildAdapterList(it))
                     viewState.choiceForegroundView(DATA_VIEW_FLAG)
                 }, {
-                    debugLogging("loadFirstWall error: " + it.message)
                     it.printStackTrace()
                     viewState.choiceForegroundView(ERROR_VIEW_FLAG)
                 }))
@@ -97,7 +105,7 @@ class VkListPostsPresenter @Inject constructor(private val postRepository: PostR
                     clearDisposable()
                     if (it.isNotEmpty()) {
                         viewState.choiceForegroundView(PROGRESS_VIEW_FLAG)
-                        postRepository.newCurrentState(it)
+                        postRepository.resetCurrentState(it)
                         if (isVisible)
                             loadFirstWall()
                         else isNeedReload = true
@@ -124,6 +132,13 @@ class VkListPostsPresenter @Inject constructor(private val postRepository: PostR
     override fun onDestroy() {
         super.onDestroy()
         clearDisposable()
+    }
+
+    private fun buildAdapterList(searchResult: List<VkPost>): List<ItemModel<ItemsForPostList>> {
+        val result = mutableListOf<ItemModel<ItemsForPostList>>()
+        searchResult.forEach { result.add(VkPostItem(it)) }
+        adapterList.clearAndAddAll(result)
+        return adapterList
     }
 
     companion object {

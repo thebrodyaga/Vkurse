@@ -1,7 +1,7 @@
 package com.thebrodyaga.vkurse.screen.group.di
 
 import com.thebrodyaga.vkurse.application.di.scopes.ActivityScope
-import com.thebrodyaga.vkurse.repository.GroupRepository
+import com.thebrodyaga.vkurse.repository.imp.GroupRepository
 import com.thebrodyaga.vkurse.screen.group.mvp.VkGroupInteractor
 import com.thebrodyaga.vkurse.screen.group.mvp.VkGroupPresenter
 import dagger.Module

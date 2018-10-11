@@ -2,14 +2,13 @@ package com.thebrodyaga.vkurse.application.di
 
 import android.app.Application
 import android.content.Context
-import com.thebrodyaga.vkobjects.groups.Group
 import com.thebrodyaga.vkurse.application.di.modules.*
 import com.thebrodyaga.vkurse.data.db.RoomDatabase
 import com.thebrodyaga.vkurse.data.net.VkService
 import com.thebrodyaga.vkurse.data.net.VkurseApi
-import com.thebrodyaga.vkurse.repository.GroupRepository
 import com.thebrodyaga.vkurse.repository.PostRepository
-import dagger.Binds
+import com.thebrodyaga.vkurse.repository.imp.GroupRepository
+import com.thebrodyaga.vkurse.repository.imp.PostRepositoryImp
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -25,7 +24,7 @@ class AppModule {
     @Provides
     @Singleton
     fun providePostRepository(vkService: VkService, roomDatabase: RoomDatabase): PostRepository {
-        return PostRepository(vkService, roomDatabase)
+        return PostRepositoryImp(vkService, roomDatabase)
     }
 
     @Provides

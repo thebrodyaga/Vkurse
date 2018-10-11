@@ -1,7 +1,10 @@
 package com.thebrodyaga.vkurse.common
 
+import android.app.Activity
+import android.support.v4.app.Fragment
 import android.text.format.DateUtils
 import android.util.Log
+import android.view.inputmethod.InputMethodManager
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -34,4 +37,12 @@ fun isDeltaHour(milli: Long, delta: Long): Boolean {
 
 fun debugLogging(message: String) {
     Log.d(DEBUG_TAG, message)
+}
+
+fun hideKeyboardFrom(fragment: Fragment) {
+    val context = fragment.context ?: return
+    val view = fragment.activity?.currentFocus ?: return
+    val imm = context.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+    imm.hideSoftInputFromWindow(view.windowToken, 0)
+    view.clearFocus()
 }

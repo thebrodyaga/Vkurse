@@ -1,23 +1,25 @@
 package com.thebrodyaga.vkurse.screen.fragments.groupList.mvp
 
 import com.arellomobile.mvp.MvpView
-import com.arellomobile.mvp.viewstate.strategy.OneExecutionStateStrategy
-import com.arellomobile.mvp.viewstate.strategy.SingleStateStrategy
-import com.arellomobile.mvp.viewstate.strategy.StateStrategyType
-import com.thebrodyaga.vkobjects.groups.Group
+import com.arellomobile.mvp.viewstate.strategy.*
+import com.thebrodyaga.vkurse.domain.entities.ui.ItemModel
+import com.thebrodyaga.vkurse.domain.entities.ui.groupsList.ItemsForGroupsList
 
 /**
  * Created by Emelyanov.N4
- *         on 28.03.2018
+ *         on 27.03.2018
  */
-
 interface VkListGroupsView : MvpView {
-    @StateStrategyType(SingleStateStrategy::class)
-    fun showFilteredGroupsList(filteredList: List<Group>)
 
-    @StateStrategyType(SingleStateStrategy::class)
-    fun showFullGroupsList(fullList: List<Group>)
+    @StateStrategyType(AddToEndSingleStrategy::class)
+    fun updateList(searchResponse: List<ItemModel<ItemsForGroupsList>>)
+
+    @StateStrategyType(OneExecutionStateStrategy::class)
+    fun showErrorToast()
 
     @StateStrategyType(OneExecutionStateStrategy::class)
     fun scrollTop()
+
+    @StateStrategyType(AddToEndSingleStrategy::class)
+    fun setSearchText(query: String?)
 }

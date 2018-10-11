@@ -2,7 +2,7 @@ package com.thebrodyaga.vkurse.screen.group.mvp
 
 import com.thebrodyaga.vkobjects.groups.GroupFull
 import com.thebrodyaga.vkurse.application.di.scopes.ActivityScope
-import com.thebrodyaga.vkurse.repository.GroupRepository
+import com.thebrodyaga.vkurse.repository.imp.GroupRepository
 import io.reactivex.Single
 import javax.inject.Inject
 

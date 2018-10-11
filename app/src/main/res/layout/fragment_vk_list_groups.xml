@@ -13,6 +13,7 @@
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
+            android:focusableInTouchMode="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_scrollFlags="scroll|enterAlways"
@@ -24,15 +25,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:listitem="@layout/group_item" >
+        tools:listitem="@layout/item_group" >
 
     </android.support.v7.widget.RecyclerView>
-
-    <ProgressBar
-        android:id="@+id/progressBar"
-        style="@style/HorizontalProgressBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom" />
 </android.support.design.widget.CoordinatorLayout>
 

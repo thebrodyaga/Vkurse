@@ -16,3 +16,15 @@ fun ContentLoadingProgressBar.toggleVisible(isVisible: Boolean) {
     if (isVisible) this.show()
     else hide()
 }
+
+fun <E> MutableCollection<E>.clearAndAddAll(replace: Collection<E>) {
+    clear()
+    addAll(replace)
+}
+
+/**
+ * чтоб [IllegalArgumentException] не падал при Enum.valueOf()
+ */
+inline fun <reified T : Enum<T>> enumValueOfOrNull(name: String): T? {
+    return enumValues<T>().find { it.name == name }
+}

@@ -26,13 +26,13 @@ class MainActivity : BaseActivity()/*, MainView, SearchView.OnQueryTextListener,
     private val currentFragment
         get() = supportFragmentManager.findFragmentById(R.id.fragmentContainer) as BaseFragment?
 
+    private var isSearchItemVisible = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        if (savedInstanceState == null) {
+        if (savedInstanceState == null)
             navigator.applyCommands(arrayOf<Command>(Replace(Screens.MAIN_FRAGMENT.toString(), null)))
-        }
     }
 
     private val navigator = object : SupportFragmentNavigator(supportFragmentManager, R.id.fragmentContainer) {
@@ -200,9 +200,7 @@ class MainActivity : BaseActivity()/*, MainView, SearchView.OnQueryTextListener,
         searchView?.setOnQueryTextListener(null)    //при повороте с клавиатурой происходит утечка
         searchItem?.setOnActionExpandListener(null)
         searchItem?.collapseActionView()
-    }
-
-    companion object {
-        const val CURRENT_QUERY_REQUEST_FLAG = "currentQueryRequestFlag"
     }*/
+
+
 }

@@ -4,6 +4,8 @@ import android.support.v7.recyclerview.extensions.ListAdapter
 import android.support.v7.util.DiffUtil
 import android.support.v7.widget.RecyclerView
 import android.view.View
+import com.squareup.picasso.Picasso
+import com.thebrodyaga.vkurse.application.App
 
 /**
  * Created by admin

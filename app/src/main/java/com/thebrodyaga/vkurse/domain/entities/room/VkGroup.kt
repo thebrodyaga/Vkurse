@@ -1,9 +1,10 @@
 package com.thebrodyaga.vkurse.domain.entities.room
 
 import android.arch.persistence.room.Entity
-import android.arch.persistence.room.Ignore
 import android.arch.persistence.room.PrimaryKey
 import com.thebrodyaga.vkobjects.groups.Group
+import com.thebrodyaga.vkobjects.groups.GroupIsClosed
+import com.thebrodyaga.vkobjects.groups.GroupType
 
 /**
  * Created by Win10
@@ -11,29 +12,21 @@ import com.thebrodyaga.vkobjects.groups.Group
  */
 
 @Entity(tableName = VkGroup.tableName)
-data class VkGroup(@Ignore private val group: Group) {
-    constructor() : this(Group())
-
-    @PrimaryKey
-    var id: Int = group.id ?: 0
-    var name: String? = group.name
-    var screenName: String? = group.screenName
-    var type: String? = group.type?.toString() //GroupType enum
-    var photo50: String? = group.photo50
-    var photo100: String? = group.photo100
-    var photo200: String? = group.photo200
-
-    /*(
-        @PrimaryKey
-        var id: Int,
-        var name: String? = null,
-        var screenName: String? = null,
-        var type: String? = null,  //GroupType enum
-        var photo50: String? = null,
-        var photo100: String? = null,
-        var photo200: String? = null)*/
+data class VkGroup(@PrimaryKey
+                   val id: Int,
+                   val name: String,
+                   val screenName: String,
+                   val isClosed: GroupIsClosed,
+                   val type: GroupType,
+                   val photo50: String,
+                   val photo100: String,
+                   val photo200: String,
+                   val deactivated: String? = null) {
 
     companion object {
         const val tableName = "VkGroup"
+        fun newInstance(group: Group): VkGroup =
+                group.run { VkGroup(id, name, screenName, isClosed, type, photo50, photo100, photo200, deactivated) }
+
     }
 }
