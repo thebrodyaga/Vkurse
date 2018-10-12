@@ -14,7 +14,7 @@ class VkGroupPresenter(private val vkGroupInteractor: VkGroupInteractor)
 
     var currentGroup: Int = 0
         set(value) {
-            if (currentGroup == 0) viewState.errorFinish()
+            if (value == 0) viewState.errorFinish()
         }
 
     override fun onFirstViewAttach() {

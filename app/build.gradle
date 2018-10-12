@@ -22,7 +22,7 @@ android {
         }
 
         debug {
-            buildConfigField "String", "SERVER_URL", '"http://172.17.55.60:8080/api/"'
+            buildConfigField "String", "SERVER_URL", '"http://172.17.55.56:8080/api/"'
         }
     }
 }
@@ -100,6 +100,8 @@ dependencies {
 
     //"Показать полностью..." TextView
     implementation 'at.blogc:expandabletextview:1.0.5'
+    //hash-tag
+    implementation 'com.github.danylovolokh:hashtag-helper:1.1.0'
 
     //bottom navigation
     implementation 'com.aurelhubert:ahbottomnavigation:2.1.0'

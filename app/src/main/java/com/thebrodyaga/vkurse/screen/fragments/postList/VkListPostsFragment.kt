@@ -11,7 +11,6 @@ import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.thebrodyaga.vkurse.R
 import com.thebrodyaga.vkurse.common.debugLogging
-import com.thebrodyaga.vkurse.common.toggleVisible
 import com.thebrodyaga.vkurse.domain.entities.ui.ItemModel
 import com.thebrodyaga.vkurse.domain.entities.ui.postList.ItemsForPostList
 import com.thebrodyaga.vkurse.screen.adapters.VkPostsAdapter
@@ -19,15 +18,16 @@ import com.thebrodyaga.vkurse.screen.base.BaseFragment
 import com.thebrodyaga.vkurse.screen.fragments.postList.mvp.VkListPostsPresenter
 import com.thebrodyaga.vkurse.screen.fragments.postList.mvp.VkListPostsView
 import com.thebrodyaga.vkurse.screen.utils.EndlessRecyclerOnScrollListener
-import com.thebrodyaga.vkurse.screen.utils.VerticalOffsetItemDecoration
+import com.thebrodyaga.vkurse.screen.utils.decorations.VerticalOffsetItemDecoration
 import kotlinx.android.synthetic.main.fragment_vk_list_posts.*
 import javax.inject.Inject
 
 
 class VkListPostsFragment : BaseFragment(), VkListPostsView {
-    override fun updateList(searchResponse: List<ItemModel<ItemsForPostList>>) {
+    override fun updateList(searchResponse: List<ItemModel<ItemsForPostList>>, isScrollToTop: Boolean) {
         debugLogging("updateList")
         adapter.submitList(ArrayList(searchResponse))
+        if (isScrollToTop && searchResponse.isNotEmpty()) recyclerView.smoothScrollToPosition(0)
     }
 
     @Inject

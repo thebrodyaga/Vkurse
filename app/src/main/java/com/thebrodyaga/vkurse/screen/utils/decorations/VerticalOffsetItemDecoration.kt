@@ -1,4 +1,4 @@
-package com.thebrodyaga.vkurse.screen.utils
+package com.thebrodyaga.vkurse.screen.utils.decorations
 
 import android.graphics.Rect
 import android.support.v7.widget.RecyclerView

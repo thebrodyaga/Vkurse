@@ -16,7 +16,6 @@ class MainModule {
 
     @ActivityScope
     @Provides
-    fun provideMainInteractor(postRepository: PostRepository,
-                              groupRepository: GroupRepository)
-            : MainInteractor = MainInteractor(postRepository, groupRepository)
+    fun provideMainInteractor(groupRepository: GroupRepository)
+            : MainInteractor = MainInteractor(groupRepository)
 }

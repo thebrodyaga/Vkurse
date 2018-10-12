@@ -2,6 +2,8 @@ package com.thebrodyaga.vkurse.repository.imp
 
 import com.thebrodyaga.vkobjects.groups.GroupFull
 import com.thebrodyaga.vkobjects.users.UserFull
+import com.thebrodyaga.vkurse.application.di.scopes.SecondFragment
+import com.thebrodyaga.vkurse.common.debugLogging
 import com.thebrodyaga.vkurse.common.timeStep
 import com.thebrodyaga.vkurse.data.db.RoomDatabase
 import com.thebrodyaga.vkurse.data.net.VkService
@@ -22,27 +24,27 @@ import javax.inject.Singleton
  *         on 09.05.2018.
  */
 
-@Singleton
+@SecondFragment
 class PostRepositoryImp(vkService: VkService,
                         roomDatabase: RoomDatabase)
     : BaseRepository(vkService, roomDatabase), PostRepository {
+    init {
+        debugLogging("PostRepositoryImp init")
+    }
 
-    private val currentState = VkWallBody(timeStep = timeStep, ownerInfoList = testOwnerInfoList/*listOf()*/)
+    private var currentState = VkWallBody(timeStep = timeStep, ownerInfoList = testOwnerInfoList/*listOf()*/)
     private val groupsCash = mutableMapOf<Int, GroupFull>()
     private val profilesCash = mutableMapOf<Int, UserFull>()
     private val postsList = mutableListOf<VkPost>()
-//    private var isHaveNewData = true
 
     override fun loadFirstWall(): Single<List<VkPost>> {
         return vkService.getFirstList(currentState)
                 .observeOn(Schedulers.computation())
                 .doOnSuccess {
-//                    isHaveNewData = true
                     updateCurrentState(it, first = it.wallPostList.firstOrNull()?.date,
                             last = it.wallPostList.lastOrNull()?.date)
                 }.flatMap {
                     val vkPosts = processedPostResult(it)
-//                    isHaveNewData = it.wallPostList.isNotEmpty()
                     postsList.clear()
                     postsList.addAll(vkPosts)
                     Single.just(postsList)
@@ -50,17 +52,14 @@ class PostRepositoryImp(vkService: VkService,
     }
 
     override fun loadAfterLast(): Single<List<VkPost>> =
-//            if (isHaveNewData)
-                vkService.getListAfterLast(currentState)
-                        .observeOn(Schedulers.computation())
-                        .doAfterSuccess { updateCurrentState(it, last = it.wallPostList.lastOrNull()?.date) }
-                        .flatMap {
-                            val vkPosts = processedPostResult(it)
-                            postsList.addAll(vkPosts)
-//                            isHaveNewData = it.wallPostList.isNotEmpty()
-                            Single.just(postsList)
-                        }
-//            else Single.just(postsList)
+            vkService.getListAfterLast(currentState)
+                    .observeOn(Schedulers.computation())
+                    .doAfterSuccess { updateCurrentState(it, last = it.wallPostList.lastOrNull()?.date) }
+                    .flatMap {
+                        val vkPosts = processedPostResult(it)
+                        postsList.addAll(vkPosts)
+                        Single.just(postsList)
+                    }
 
 
     override fun loadNewWall(): Single<List<VkPost>> {

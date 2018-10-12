@@ -34,16 +34,16 @@ abstract class BaseActivity : MvpAppCompatActivity(), HasSupportFragmentInjector
     //<editor-fold desc="Lifecycle">
     companion object {
         private fun fragmentLifecycleLog(fragment: Fragment, bundle: Bundle?) {
-            Log.d(FRAGMENT_LIVECYCLE_CALLBACKS, "Fragment: ${if (fragment!=null)fragment.javaClass.simpleName +
-                    ", Id: "+ System.identityHashCode(fragment) else "null"}"  +
+            Log.d(FRAGMENT_LIVECYCLE_CALLBACKS, "Fragment: ${fragment.javaClass.simpleName +
+                    ", Id: "+ System.identityHashCode(fragment)}"  +
                     ", MethodName: ${trace(Thread.currentThread().stackTrace,"access\$fragmentLifecycleLog")}, " +
                     "Bundle: ${if (bundle != null) bundle.javaClass.simpleName +
                             ", Id: " + System.identityHashCode(bundle) else "null"}")
         }
 
         private fun fragmentLifecycleLog(fragment: Fragment) {
-            Log.d(FRAGMENT_LIVECYCLE_CALLBACKS, ("Fragment:  ${if (fragment!=null)fragment.javaClass.simpleName +
-                    ", Id: "+ System.identityHashCode(fragment) else "null"}"  +
+            Log.d(FRAGMENT_LIVECYCLE_CALLBACKS, ("Fragment:  ${fragment.javaClass.simpleName +
+                    ", Id: "+ System.identityHashCode(fragment)}"  +
                     ", MethodName: " + trace(Thread.currentThread().stackTrace,"access\$fragmentLifecycleLog")))
         }
     }

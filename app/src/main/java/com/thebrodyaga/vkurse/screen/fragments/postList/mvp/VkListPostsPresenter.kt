@@ -6,7 +6,6 @@ import com.thebrodyaga.vkurse.common.clearAndAddAll
 import com.thebrodyaga.vkurse.common.debugLogging
 import com.thebrodyaga.vkurse.domain.entities.ui.ItemModel
 import com.thebrodyaga.vkurse.domain.entities.ui.VkPost
-import com.thebrodyaga.vkurse.domain.entities.ui.groupsList.ItemsForGroupsList
 import com.thebrodyaga.vkurse.domain.entities.ui.postList.ItemsForPostList
 import com.thebrodyaga.vkurse.domain.entities.ui.postList.ProgressItem
 import com.thebrodyaga.vkurse.domain.entities.ui.postList.VkPostItem
@@ -56,7 +55,7 @@ class VkListPostsPresenter @Inject constructor(private val postRepository: PostR
                 .doFinally { viewState.hideRefreshing() }
                 .subscribe({
                     debugLogging("loadNewWall successful")
-                    viewState.updateList(buildAdapterList(it))
+                    viewState.updateList(buildAdapterList(it), true)
                 }, {
                     it.printStackTrace()
                     viewState.showErrorToast()
@@ -85,7 +84,7 @@ class VkListPostsPresenter @Inject constructor(private val postRepository: PostR
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
                     debugLogging("loadFirstWall successful")
-                    viewState.updateList(buildAdapterList(it))
+                    viewState.updateList(buildAdapterList(it), true)
                     viewState.choiceForegroundView(DATA_VIEW_FLAG)
                 }, {
                     it.printStackTrace()

@@ -15,8 +15,7 @@ import io.reactivex.subjects.PublishSubject
  *         on 17.04.2018.
  */
 @ActivityScope
-class MainInteractor(private val postRepository: PostRepository,
-                     private val groupRepository: GroupRepository) {
+class MainInteractor(private val groupRepository: GroupRepository) {
     init {
         Log.d(INSTANCE_TAG, "${this.javaClass.simpleName} id: ${System.identityHashCode(this)}")
     }

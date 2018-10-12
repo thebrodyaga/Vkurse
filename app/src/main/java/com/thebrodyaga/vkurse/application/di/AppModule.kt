@@ -23,12 +23,6 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun providePostRepository(vkService: VkService, roomDatabase: RoomDatabase): PostRepository {
-        return PostRepositoryImp(vkService, roomDatabase)
-    }
-
-    @Provides
-    @Singleton
     fun provideGroupRepository(vkService: VkService, roomDatabase: RoomDatabase): GroupRepository {
         return GroupRepository(vkService, roomDatabase)
     }

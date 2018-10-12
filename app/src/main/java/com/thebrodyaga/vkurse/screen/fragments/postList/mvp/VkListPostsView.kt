@@ -26,5 +26,5 @@ interface VkListPostsView : MvpView {
     fun scrollTop()
 
     @StateStrategyType(AddToEndSingleStrategy::class)
-    fun updateList(searchResponse: List<ItemModel<ItemsForPostList>>)
+    fun updateList(searchResponse: List<ItemModel<ItemsForPostList>>, isScrollToTop: Boolean = false)
 }
