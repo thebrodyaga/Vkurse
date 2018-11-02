@@ -23,9 +23,11 @@ import com.thebrodyaga.vkobjects.video.Video
 import com.thebrodyaga.vkobjects.wall.AttachedNote
 import com.thebrodyaga.vkobjects.wall.WallPostFull
 import com.thebrodyaga.vkobjects.wall.WallpostAttachmentType
+import com.thebrodyaga.vkurse.BuildConfig
 import com.thebrodyaga.vkurse.R
 import com.thebrodyaga.vkurse.application.App
 import com.thebrodyaga.vkurse.common.getDate
+import com.thebrodyaga.vkurse.domain.entities.ui.ImageDto
 import com.thebrodyaga.vkurse.domain.entities.ui.ItemModel
 import com.thebrodyaga.vkurse.domain.entities.ui.postList.ItemsForPostList
 import com.thebrodyaga.vkurse.domain.entities.ui.postList.VkPostItem
@@ -35,6 +37,7 @@ import com.thebrodyaga.vkurse.screen.utils.countToText
 import com.thebrodyaga.vkurse.screen.utils.visibleOrGone
 import com.volokh.danylo.hashtaghelper.HashTagHelper
 import kotlinx.android.synthetic.main.item_post.view.*
+import java.util.*
 
 
 /**
@@ -44,16 +47,21 @@ import kotlinx.android.synthetic.main.item_post.view.*
 class VkPostsAdapter : BaseListAdapter<ItemModel<ItemsForPostList>>(VkPostDiffCallback()) {
     //  first id source, second id post
     private val expandedViews = mutableSetOf<Pair<Int, Int>>()
+    private var itemWidth: Int? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
             when (viewType) {
                 ItemsForPostList.POST.viewType -> PostHolder(LayoutInflater.from(parent.context)
-                        .inflate(R.layout.item_post, parent, false)).apply { itemView.post_text.setCollapseInterpolator { 1.0F } }
+                        .inflate(R.layout.item_post, parent, false), itemWidth).apply { itemView.post_text.setCollapseInterpolator { 1.0F } }
                 ItemsForPostList.PROGRESS.viewType -> BaseAdapter.ProgressHolder(LayoutInflater.from(parent.context)
                         .inflate(R.layout.middle_progress_bar, parent, false))
                 else -> throw RuntimeException("Not valid viewType")
             }
 
+    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
+        super.onAttachedToRecyclerView(recyclerView)
+        recyclerView.post { itemWidth = recyclerView.rootView.width }
+    }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
@@ -65,11 +73,11 @@ class VkPostsAdapter : BaseListAdapter<ItemModel<ItemsForPostList>>(VkPostDiffCa
             getItem(position).getItemType().viewType
 
 
-    class PostHolder(containerView: View) : RecyclerView.ViewHolder(containerView) {
+    class PostHolder(containerView: View, private val itemWidth: Int?) : RecyclerView.ViewHolder(containerView) {
         fun bind(vkPostItem: VkPostItem,
                  onListItemClick: ((item: ItemModel<ItemsForPostList>, position: Int, view: View) -> Unit)?,
                  expandedViews: MutableSet<Pair<Int, Int>>) = with(itemView) {
-
+            debug_text.text = ""
             setOnClickListener { onListItemClick?.invoke(vkPostItem, adapterPosition, it) }
             val post = vkPostItem.vkPost.wallPostFull
             val groups = vkPostItem.vkPost.groups
@@ -81,8 +89,9 @@ class VkPostsAdapter : BaseListAdapter<ItemModel<ItemsForPostList>>(VkPostDiffCa
             like_count.text = post.likes.count.countToText()
             comment_count.text = post.comments.count.countToText()
             view_count.text = (post.views?.count ?: 0).countToText()
-
-            buildTextView(post_text, show_more, post, expandedViews)
+            if (BuildConfig.DEBUG)
+                debug_text.text = "${debug_text.text} ownerId: ${post.ownerId} postId: ${post.id}"
+            debug_text.visibleOrGone(BuildConfig.DEBUG)
 
             val photoList = mutableListOf<Photo>()
             val videoList = mutableListOf<Video>()
@@ -97,12 +106,16 @@ class VkPostsAdapter : BaseListAdapter<ItemModel<ItemsForPostList>>(VkPostDiffCa
             val marketAlbum = mutableListOf<MarketAlbum>()
             val marketItem: MarketItem? = null
 
+
+            buildTextView(post_text, show_more, post, expandedViews)
+
+            val imageForGrid = mutableListOf<ImageDto>()
             post.attachments?.forEach {
                 when (it.type ?: return@forEach) {
-                    WallpostAttachmentType.PHOTO -> photoList.add(it.photo)
+                    WallpostAttachmentType.PHOTO -> imageForGrid.add(ImageDto.newInstance(it.photo))
                     WallpostAttachmentType.POSTED_PHOTO -> TODO()   //для записей раньше 2013
                     WallpostAttachmentType.AUDIO -> audioFull = it.audio
-                    WallpostAttachmentType.VIDEO -> videoList.add(it.video)
+                    WallpostAttachmentType.VIDEO -> imageForGrid.add(ImageDto.newInstance(it.video))
                     WallpostAttachmentType.DOC -> doc = it.doc
                     WallpostAttachmentType.LINK -> link = it.link
                     WallpostAttachmentType.GRAFFITI -> TODO()   //для записей раньше 2013
@@ -110,12 +123,35 @@ class VkPostsAdapter : BaseListAdapter<ItemModel<ItemsForPostList>>(VkPostDiffCa
                     WallpostAttachmentType.APP -> TODO()    //для записей раньше 2013
                     WallpostAttachmentType.POLL -> it.poll
                     WallpostAttachmentType.PAGE -> wikiPageFull = it.page
-                    WallpostAttachmentType.ALBUM -> photoAlbumList.add(it.album)
+                    WallpostAttachmentType.ALBUM -> imageForGrid.add(ImageDto.newInstance(it.album))
                     WallpostAttachmentType.PHOTOS_LIST -> photosList = it.photosList
                     WallpostAttachmentType.MARKET_MARKET_ALBUM -> it.marketMarketAlbum
                     WallpostAttachmentType.MARKET -> it.market
                 }
             }
+            val gridContent = mutableListOf<Any>().apply {
+                addAll(photoList)
+                addAll(videoList)
+                addAll(photoAlbumList)
+            }
+
+            fun generateImageList(): List<ImageDto> {
+                val result = mutableListOf<ImageDto>()
+                val count = (1..10)
+                        .run { return@run Random().nextInt((endInclusive + 1) - start) + start }
+                for (i in 1..2) {
+                    result.add(ImageDto("https://pp.userapi.com/c845217/v845217470/62f26/FuK6-ncQik4.jpg", 1920, 2560, i))
+                }
+                return result
+            }
+            /*val list = listOf(
+                    ImageDto("https://pp.userapi.com/c845217/v845217470/62f26/FuK6-ncQik4.jpg", 1920, 2560),
+                    ImageDto("https://pp.userapi.com/c845522/v845522576/6241a/b38OuFKWTjQ.jpg", 2160, 1620),
+                    ImageDto("https://pp.userapi.com/c845217/v845217470/62f58/wtcB52CCCkM.jpg", 1920, 2560)
+            )*/
+            val list = generateImageList()
+            debug_text.text = debug_text.text.toString() + " ImageList size = ${list.size}"
+            post_image.setImages(list)
         }
 
         private fun buildTextView(post_text: ExpandableTextView, show_more: TextView,
@@ -142,7 +178,6 @@ class VkPostsAdapter : BaseListAdapter<ItemModel<ItemsForPostList>>(VkPostDiffCa
                     .handle(post_text)
             Linkify.addLinks(post_text, Linkify.WEB_URLS)
         }
-
     }
 
     private class VkPostDiffCallback : DiffUtil.ItemCallback<ItemModel<ItemsForPostList>>() {
@@ -168,6 +203,39 @@ class VkPostsAdapter : BaseListAdapter<ItemModel<ItemsForPostList>>(VkPostDiffCa
                 oldType == newType -> true
                 else -> false
             }
+        }
+    }
+
+    companion object {
+
+        private fun gcd(aa: Int, bb: Int): Int {
+            var a = aa
+            var b = bb
+            while (b > 0) {
+                val temp = b
+                b = a % b // % is remainder
+                a = temp
+            }
+            return a
+        }
+
+        private fun lcm(a: Int, b: Int): Int {
+            return a * (b / gcd(a, b))
+        }
+
+        //НОК
+        private fun lcm(vararg input: Int): Int {
+            var result = input[0]
+            for (i in 1 until input.size) result = lcm(result, input[i])
+            return result
+        }
+
+
+        //НОД
+        private fun gcd(vararg input: Int): Int {
+            var result = input[0]
+            for (i in 1 until input.size) result = gcd(result, input[i])
+            return result
         }
     }
 }

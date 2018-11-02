@@ -46,3 +46,33 @@ fun hideKeyboardFrom(fragment: Fragment) {
     imm.hideSoftInputFromWindow(view.windowToken, 0)
     view.clearFocus()
 }
+
+fun gcd(aa: Int, bb: Int): Int {
+    var a = aa
+    var b = bb
+    while (b > 0) {
+        val temp = b
+        b = a % b // % is remainder
+        a = temp
+    }
+    return a
+}
+
+fun lcm(a: Int, b: Int): Int {
+    return a * (b / gcd(a, b))
+}
+
+//НОК
+fun lcm(vararg input: Int): Int {
+    var result = input[0]
+    for (i in 1 until input.size) result = lcm(result, input[i])
+    return result
+}
+
+
+//НОД
+fun gcd(vararg input: Int): Int {
+    var result = input[0]
+    for (i in 1 until input.size) result = gcd(result, input[i])
+    return result
+}

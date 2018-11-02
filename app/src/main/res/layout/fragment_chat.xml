@@ -1,36 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".screen.fragments.chat.ChatFragment">
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/ImageView2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/ic_android"
+        android:text="ImageView"
+        app:layout_constraintBottom_toTopOf="@+id/barrier"
+        app:layout_constraintDimensionRatio="4:3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/ImageView4"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/ic_android"
+        android:text="ImageView"
+        app:layout_constraintBottom_toBottomOf="@+id/ImageView2"
+        app:layout_constraintDimensionRatio="4:3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/ImageView2"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
-    <at.blogc.android.views.ExpandableTextView
-        android:id="@+id/post_text"
-        android:layout_width="352dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:ellipsize="end"
-        android:maxLines="5"
-        android:textAppearance="@style/Text14spRegular"
-        app:animation_duration="1000"
-        app:layout_constraintBottom_toTopOf="@+id/show_more"
+    <android.support.constraint.Barrier
+        android:id="@+id/barrier"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        app:layout_constraintBottom_toTopOf="@+id/ImageView5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_chainStyle="packed"
-        tools:text="@string/text_post_description" />
+        app:layout_constraintTop_toBottomOf="@+id/ImageView2" />
 
-    <TextView
-        android:id="@+id/show_more"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/show_more"
-        android:textAppearance="@style/Text14spMediumAccent"
+    <ImageView
+        android:id="@+id/ImageView5"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="16dp"
+        android:src="@drawable/ic_android"
+        android:text="ImageView"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/post_text"
-        app:layout_constraintTop_toBottomOf="@+id/post_text" />
+        app:layout_constraintDimensionRatio="4:3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/barrier" />
+
+    <ImageView
+        android:id="@+id/ImageView6"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:src="@drawable/ic_android"
+        android:text="ImageView"
+        app:layout_constraintBottom_toBottomOf="@+id/ImageView5"
+        app:layout_constraintDimensionRatio="4:3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/ImageView5"
+        app:layout_constraintTop_toBottomOf="@+id/barrier"
+        />
+
 </android.support.constraint.ConstraintLayout>

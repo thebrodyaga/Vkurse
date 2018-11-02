@@ -21,8 +21,6 @@ class ChatFragment : MvpAppCompatFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        post_text.text = /*post.text*/"\nsfdvd".repeat(10)
-        post_text.toggleShowMore(show_more)
     }
 
     companion object {

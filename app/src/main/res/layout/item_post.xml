@@ -62,7 +62,7 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/debug_text" />
 
         <TextView
             android:id="@+id/post_title"
@@ -127,18 +127,49 @@
             app:layout_constraintTop_toBottomOf="@+id/post_text"
             tools:visibility="visible" />
 
-
-        <ImageView
+        <com.thebrodyaga.vkurse.screen.view.imageContainer.ImageContainer
             android:id="@+id/post_image"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            tools:layout_height="50dp"
             android:layout_marginTop="16dp"
             app:layout_constraintBottom_toTopOf="@+id/play_music_icon"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/show_more"
-            tools:layout_height="200dp" />
+            app:layout_constraintTop_toBottomOf="@+id/show_more"/>
+<!--
+
+        <LinearLayout
+            android:id="@+id/post_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toTopOf="@+id/play_music_icon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/show_more">
+
+            <ImageView
+                android:id="@+id/first"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+
+            <ImageView
+                android:id="@+id/second"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+
+
+            <ImageView
+                android:id="@+id/third"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+
+        </LinearLayout>
+-->
 
         <ImageView
             android:id="@+id/play_music_icon"
@@ -330,6 +361,20 @@
             app:layout_constraintStart_toEndOf="@+id/comment_image"
             app:layout_constraintTop_toTopOf="@+id/comment_image"
             tools:text="345K" />
+
+        <TextView
+            android:id="@+id/debug_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:text="debug_text"
+            android:textAppearance="@style/Text14spRegular"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="visible" />
 
     </android.support.constraint.ConstraintLayout>
 </android.support.design.card.MaterialCardView>
