@@ -3,66 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
-    <ImageView
-        android:id="@+id/ImageView2"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:scaleType="centerInside"
-        android:src="@drawable/ic_android"
-        android:text="ImageView"
-        app:layout_constraintBottom_toTopOf="@+id/barrier"
-        app:layout_constraintDimensionRatio="4:3"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/ImageView4"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:scaleType="centerInside"
-        android:src="@drawable/ic_android"
-        android:text="ImageView"
-        app:layout_constraintBottom_toBottomOf="@+id/ImageView2"
-        app:layout_constraintDimensionRatio="4:3"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/ImageView2"
-        app:layout_constraintTop_toTopOf="parent" />
+    android:layout_height="match_parent">
 
 
-    <android.support.constraint.Barrier
-        android:id="@+id/barrier"
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        app:layout_constraintBottom_toTopOf="@+id/ImageView5"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ImageView2" />
-
-    <ImageView
-        android:id="@+id/ImageView5"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="16dp"
-        android:src="@drawable/ic_android"
-        android:text="ImageView"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/content_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintDimensionRatio="4:3"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/barrier" />
-
-    <ImageView
-        android:id="@+id/ImageView6"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:src="@drawable/ic_android"
-        android:text="ImageView"
-        app:layout_constraintBottom_toBottomOf="@+id/ImageView5"
-        app:layout_constraintDimensionRatio="4:3"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/ImageView5"
-        app:layout_constraintTop_toBottomOf="@+id/barrier"
-        />
-
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </android.support.constraint.ConstraintLayout>

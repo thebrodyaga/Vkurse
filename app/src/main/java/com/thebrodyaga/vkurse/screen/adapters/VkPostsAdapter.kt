@@ -4,12 +4,14 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.util.DiffUtil
 import android.support.v7.widget.RecyclerView
 import android.text.util.Linkify
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import at.blogc.android.views.ExpandableTextView
+import com.fivehundredpx.greedolayout.GreedoLayoutManager
 import com.thebrodyaga.vkobjects.audio.AudioFull
 import com.thebrodyaga.vkobjects.base.Link
 import com.thebrodyaga.vkobjects.docs.Doc
@@ -36,7 +38,7 @@ import com.thebrodyaga.vkurse.screen.base.BaseListAdapter
 import com.thebrodyaga.vkurse.screen.utils.countToText
 import com.thebrodyaga.vkurse.screen.utils.visibleOrGone
 import com.volokh.danylo.hashtaghelper.HashTagHelper
-import kotlinx.android.synthetic.main.item_post.view.*
+import kotlinx.android.synthetic.main.item_post_v2.view.*
 import java.util.*
 
 
@@ -47,21 +49,15 @@ import java.util.*
 class VkPostsAdapter : BaseListAdapter<ItemModel<ItemsForPostList>>(VkPostDiffCallback()) {
     //  first id source, second id post
     private val expandedViews = mutableSetOf<Pair<Int, Int>>()
-    private var itemWidth: Int? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
             when (viewType) {
                 ItemsForPostList.POST.viewType -> PostHolder(LayoutInflater.from(parent.context)
-                        .inflate(R.layout.item_post, parent, false), itemWidth).apply { itemView.post_text.setCollapseInterpolator { 1.0F } }
+                        .inflate(R.layout.item_post_v2, parent, false)).apply { itemView.post_text.setCollapseInterpolator { 1.0F } }
                 ItemsForPostList.PROGRESS.viewType -> BaseAdapter.ProgressHolder(LayoutInflater.from(parent.context)
                         .inflate(R.layout.middle_progress_bar, parent, false))
                 else -> throw RuntimeException("Not valid viewType")
             }
-
-    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
-        super.onAttachedToRecyclerView(recyclerView)
-        recyclerView.post { itemWidth = recyclerView.rootView.width }
-    }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
@@ -73,7 +69,7 @@ class VkPostsAdapter : BaseListAdapter<ItemModel<ItemsForPostList>>(VkPostDiffCa
             getItem(position).getItemType().viewType
 
 
-    class PostHolder(containerView: View, private val itemWidth: Int?) : RecyclerView.ViewHolder(containerView) {
+    class PostHolder(containerView: View) : RecyclerView.ViewHolder(containerView) {
         fun bind(vkPostItem: VkPostItem,
                  onListItemClick: ((item: ItemModel<ItemsForPostList>, position: Int, view: View) -> Unit)?,
                  expandedViews: MutableSet<Pair<Int, Int>>) = with(itemView) {
@@ -106,7 +102,6 @@ class VkPostsAdapter : BaseListAdapter<ItemModel<ItemsForPostList>>(VkPostDiffCa
             val marketAlbum = mutableListOf<MarketAlbum>()
             val marketItem: MarketItem? = null
 
-
             buildTextView(post_text, show_more, post, expandedViews)
 
             val imageForGrid = mutableListOf<ImageDto>()
@@ -129,29 +124,21 @@ class VkPostsAdapter : BaseListAdapter<ItemModel<ItemsForPostList>>(VkPostDiffCa
                     WallpostAttachmentType.MARKET -> it.market
                 }
             }
-            val gridContent = mutableListOf<Any>().apply {
-                addAll(photoList)
-                addAll(videoList)
-                addAll(photoAlbumList)
-            }
+            imageForGrid.clear()
+            val i = Random().nextInt(9)
+            for (j in 0..i) imageForGrid
+                    .add(ImageDto("https://pp.userapi.com/c845217/v845217470/62f58/wtcB52CCCkM.jpg",
+                            1920, 2560))
+            val recyclerAdapter = ImageGridAdapter(mutableListOf())
+            val layoutManager = GreedoLayoutManager(recyclerAdapter)
 
-            fun generateImageList(): List<ImageDto> {
-                val result = mutableListOf<ImageDto>()
-                val count = (1..10)
-                        .run { return@run Random().nextInt((endInclusive + 1) - start) + start }
-                for (i in 1..2) {
-                    result.add(ImageDto("https://pp.userapi.com/c845217/v845217470/62f26/FuK6-ncQik4.jpg", 1920, 2560, i))
-                }
-                return result
-            }
-            /*val list = listOf(
-                    ImageDto("https://pp.userapi.com/c845217/v845217470/62f26/FuK6-ncQik4.jpg", 1920, 2560),
-                    ImageDto("https://pp.userapi.com/c845522/v845522576/6241a/b38OuFKWTjQ.jpg", 2160, 1620),
-                    ImageDto("https://pp.userapi.com/c845217/v845217470/62f58/wtcB52CCCkM.jpg", 1920, 2560)
-            )*/
-            val list = generateImageList()
-            debug_text.text = debug_text.text.toString() + " ImageList size = ${list.size}"
-            post_image.setImages(list)
+            post_image_recycler.layoutManager = layoutManager
+            post_image_recycler.adapter = recyclerAdapter
+            recyclerAdapter.setData(imageForGrid)
+            /*post {
+                post_image_recycler.height
+                Log.d("","")
+            }*/
         }
 
         private fun buildTextView(post_text: ExpandableTextView, show_more: TextView,
@@ -203,39 +190,6 @@ class VkPostsAdapter : BaseListAdapter<ItemModel<ItemsForPostList>>(VkPostDiffCa
                 oldType == newType -> true
                 else -> false
             }
-        }
-    }
-
-    companion object {
-
-        private fun gcd(aa: Int, bb: Int): Int {
-            var a = aa
-            var b = bb
-            while (b > 0) {
-                val temp = b
-                b = a % b // % is remainder
-                a = temp
-            }
-            return a
-        }
-
-        private fun lcm(a: Int, b: Int): Int {
-            return a * (b / gcd(a, b))
-        }
-
-        //НОК
-        private fun lcm(vararg input: Int): Int {
-            var result = input[0]
-            for (i in 1 until input.size) result = lcm(result, input[i])
-            return result
-        }
-
-
-        //НОД
-        private fun gcd(vararg input: Int): Int {
-            var result = input[0]
-            for (i in 1 until input.size) result = gcd(result, input[i])
-            return result
         }
     }
 }

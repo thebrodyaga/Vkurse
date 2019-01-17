@@ -3,15 +3,16 @@ package com.thebrodyaga.vkurse.screen.view.imageContainer
 import android.content.Context
 import android.support.constraint.ConstraintLayout
 import android.support.constraint.ConstraintSet
-import android.support.constraint.solver.widgets.Barrier
 import android.util.AttributeSet
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import com.squareup.picasso.Picasso
-import com.thebrodyaga.vkurse.R
 import com.thebrodyaga.vkurse.application.App
+import com.thebrodyaga.vkurse.common.DEBUG_TAG
 import com.thebrodyaga.vkurse.common.debugLogging
 import com.thebrodyaga.vkurse.domain.entities.ui.ImageDto
+import com.thebrodyaga.vkurse.screen.utils.loadInGrid
 import org.jetbrains.anko.frameLayout
 import org.jetbrains.anko.imageView
 
@@ -31,7 +32,7 @@ class ImageContainer : ConstraintLayout {
         removeAllViewsInLayout()
         if (imageList.isEmpty()) return
         val constraintSet = ConstraintSet()
-        constraintSet.clone(this@ImageContainer)
+        constraintSet.clone(this)
         when (imageList.size) {
             1 -> addSingleImage(imageList.first(), constraintSet)
             2 -> addTwoImage(imageList, constraintSet)
@@ -286,6 +287,7 @@ class ImageContainer : ConstraintLayout {
         val thirdImage = secondLineMass[0]
         val fourImage = secondLineMass[1]
         val barrier = addBarrier(constraintSet)
+        Log.d(DEBUG_TAG, "firstImage = ${firstImage.id} secondImage = ${secondImage.id} thirdImage = ${thirdImage.id} fourImage = ${fourImage.id} ")
         constraintSet.apply {
             connect(firstImage.id, ConstraintSet.TOP, id, ConstraintSet.TOP)
             connect(firstImage.id, ConstraintSet.BOTTOM, barrier.id, ConstraintSet.TOP)
@@ -412,7 +414,6 @@ class ImageContainer : ConstraintLayout {
     }
 
     private fun addBarrier(constraintSet: ConstraintSet): View {
-        Barrier()
         val view = frameLayout {
             id = View.generateViewId()
             layoutParams = ConstraintLayout.LayoutParams(
@@ -425,14 +426,7 @@ class ImageContainer : ConstraintLayout {
         return view
     }
 
-    private fun Picasso.loadInGrid(url: String, imageView: ImageView) {
-        this.load(url)
-//                .fit()
-//                .centerCrop()
-                .into(imageView)
-    }
-
     companion object {
-        private const val GRID_SEPARATOR_SIZE = 2
+        const val GRID_SEPARATOR_SIZE = 2
     }
 }

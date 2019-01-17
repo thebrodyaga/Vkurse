@@ -1,7 +1,10 @@
 package com.thebrodyaga.vkurse.screen.utils
 
 import android.view.View
+import android.widget.ImageView
 import at.blogc.android.views.ExpandableTextView
+import com.squareup.picasso.Picasso
+import com.thebrodyaga.vkurse.application.App
 
 /**
  * Created by admin
@@ -33,4 +36,15 @@ fun View.visibleOrInvisible(isVisible: Boolean) {
 
 fun View.visibleOrGone(isVisible: Boolean) {
     this.visibility = if (isVisible) View.VISIBLE else View.GONE
+}
+
+fun Picasso.loadInGrid(url: String, imageView: ImageView) {
+    this.load(url)
+//            .fit()
+//            .centerCrop()
+            .into(imageView)
+}
+
+fun ImageView.loadImage(url: String) {
+    App.appComponent.getPicasso().loadInGrid(url, this)
 }
